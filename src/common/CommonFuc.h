@@ -162,6 +162,8 @@ public:
     }
 };
 
+int random(const int N);
+
 };//namespace SOGOUCHAT
 
 #endif //__COMMON_FUNC_H__

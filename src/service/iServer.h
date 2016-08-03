@@ -77,6 +77,7 @@ public:
 	*/
 	virtual void SetDeadCheck(unsigned long sec)		= 0;
 
+
 	virtual bool	init()		= 0;
 	virtual void	uninit()	= 0;
 	virtual void	run()		= 0;

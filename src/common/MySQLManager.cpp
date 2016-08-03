@@ -18,6 +18,7 @@ int MySQLManager::insert(const std::string &sql) {
 		std::cerr << "Error Query: " << mysql_error(&m_mySQLClient) << std::endl;
 		return RUN_ERR;
 	}
+	std::cerr << "sql = " << sql << std::endl;
 	return ret;
 }
 
@@ -39,18 +40,13 @@ int MySQLManager::select(const std::string &sql, std::vector<std::vector<std::st
 	}
 	std::vector<std::string> vrow;
 	res = mysql_use_result(&m_mySQLClient);
-	if(res == NULL) {
-		std::cerr << "xxxxx" << std::endl;
-	}
-
-	std::cerr << "********" << std::endl;
 	while((row = mysql_fetch_row(res))) {
-		vrow.clear();
 		for(int i = 0; i < res->field_count; i ++) {
 			vrow.push_back(row[i]);
 		}
 		result.push_back(vrow);
 	}
+
 	mysql_free_result(res);
 	return RUN_OK;
 }

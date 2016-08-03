@@ -23,6 +23,7 @@ enum EnumError
 	signal_quit = 0,
 	socket_error,				//套接字错误
 	socket_no_active,			//连接不活跃或者是死链接
+
 };
 
 class CFrame : private Nocopyable
@@ -111,7 +112,6 @@ public:
 			params				你传递的参数
 	*/
 	virtual void OnTimer(iEventPtr& pEventHandle, void* params)		= 0;
-
 protected:
 	iTCPServerPtr	m_pServer;			//tcp服务器智能指针
 private:
