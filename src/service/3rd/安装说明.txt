@@ -1,0 +1,32 @@
+//这里说明一下这两个库的安装方式
+
+log4cpp:
+
+1. 解压缩包 命令格式：tar  -zxvf   压缩文件名.tar.gz
+1. ./configure
+2. 
+	BasicLayout.cpp(Line 18)：增加一句代码：#include <memory>
+	PatternLayout.cpp(LIne 373 附近)：minWidth：abs((float)minWidth) 
+
+3. 在文件夹目录下 make
+4. make check
+5. make install
+
+6. vim /etc/ld.so.conf  中加入一行 /usr/local/lib  保存， 在 /etc/ 目录下运行 ldconfig
+
+/*******************************************************************************************************/
+
+libevent
+1. 解压缩包  或者这样下载 wget http://www.monkey.org/~provos/libevent-1.2.tar.gz
+2. 在解压缩出来的目录下 ./configure –prefix=/usr  
+3. make
+4. make install
+5. vim /etc/ld.so.conf 中加入一行  include ld.so.conf.d/*.conf
+6. 回到 /etc/ 目录下  ldconfig 命令
+
+备注 如果上面为止都没有的话  试试最后加上这个命令 yum -y install libevent-devel， 然后重新编译和安装
+
+
+
+
+
