@@ -11,16 +11,24 @@ SET(SRC_LIST main.cpp
 	json/json_reader.cpp
 
 	common/MySQLManager.cpp
-	common/mythreadpool.cpp
-	common/socketServer.cpp
-	common/sockLinker.cpp
-	common/define.h
+//	common/mythreadpool.cpp
+//	common/socketServer.cpp
+//	common/sockLinker.cpp
+//	common/define.h
 	common/CommonFuc.cpp
 	common/MyConfig.cpp
 
 	work/GameConfig.cpp
 	work/OnlinePlayers.cpp
-	work/Player.h
+	work/Player.cpp
+	work/CardSender.cpp
+	work/define.cpp
+	work/Game.cpp
+	work/MJAlgorithm.cpp
+	work/Table.cpp
+	work/TablePlayer.cpp
+	work/Resp.h
+
 #	common/myMempool.cpp
 #	common/sockClient.cpp
 #	common/myalgorithm.cpp
