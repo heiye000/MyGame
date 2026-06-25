@@ -1,0 +1,9 @@
+{
+  "plugins": {
+    "godot-prompter-marketplace/godot-prompter": {
+      "enabled": true,
+      "gitUrl": "https://github.com/jame581/GodotPrompter",
+      "gitRef": "master"
+    }
+  }
+}
