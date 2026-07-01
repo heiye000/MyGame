@@ -7,7 +7,7 @@ var move_speed: float = 100.0
 @onready var sprite: Sprite2D = $Sprite2D
 #动画播放器
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-#行动状态机
+#玩家行动状态机
 @onready var state_machine: PlayerStateMachine = $StateMachine
 
 ## 停止移动后仍保持的朝向，用于播放对应方向的 idle 动画。
@@ -17,6 +17,7 @@ var last_direction : Vector2 = Vector2.DOWN
 func _ready() -> void:
 	#初始化状态机
 	state_machine.Initialize(self)
+	return
 
 #获取移动方向
 func get_move_direction() -> Vector2:
