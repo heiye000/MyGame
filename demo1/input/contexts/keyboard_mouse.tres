@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="GUIDEMappingContext" format=3 uid="uid://lgwcvlrp5i7n"]
+
+[ext_resource type="Script" uid="uid://cpplm41b5bt6m" path="res://addons/guide/guide_action_mapping.gd" id="1_v3yqb"]
+[ext_resource type="Resource" uid="uid://bt11g0hfjolep" path="res://input/actions/move.tres" id="2_beyde"]
+[ext_resource type="Script" uid="uid://dsa1dnifd6w32" path="res://addons/guide/guide_mapping_context.gd" id="2_pfa1y"]
+[ext_resource type="Script" uid="uid://mtx1unc2aqn7" path="res://addons/guide/guide_input_mapping.gd" id="3_1fb8i"]
+[ext_resource type="Script" uid="uid://cw71o87tvdx3q" path="res://addons/guide/inputs/guide_input_key.gd" id="4_x5gws"]
+[ext_resource type="Script" uid="uid://bl8rjl4oaldje" path="res://addons/guide/modifiers/guide_modifier.gd" id="5_u1glu"]
+[ext_resource type="Script" uid="uid://ckggy40lm0vjc" path="res://addons/guide/modifiers/guide_modifier_negate.gd" id="6_6lang"]
+[ext_resource type="Script" uid="uid://bm5gjgadon6hb" path="res://addons/guide/modifiers/guide_modifier_input_swizzle.gd" id="7_lt05c"]
+[ext_resource type="Script" uid="uid://x74mnwgr08a7" path="res://addons/guide/triggers/guide_trigger.gd" id="8_uvba7"]
+
+[sub_resource type="Resource" id="Resource_15360"]
+script = ExtResource("4_x5gws")
+key = 87
+
+[sub_resource type="Resource" id="Resource_ua1eh"]
+script = ExtResource("6_6lang")
+z = false
+
+[sub_resource type="Resource" id="Resource_rah1u"]
+script = ExtResource("7_lt05c")
+
+[sub_resource type="Resource" id="Resource_jusic"]
+script = ExtResource("3_1fb8i")
+is_remappable = true
+display_name = "up_move"
+display_category = "Movement"
+input = SubResource("Resource_15360")
+modifiers = Array[ExtResource("5_u1glu")]([SubResource("Resource_ua1eh"), SubResource("Resource_rah1u")])
+metadata/_guide_triggers_collapsed = false
+metadata/_guide_modifiers_collapsed = false
+
+[sub_resource type="Resource" id="Resource_vxxq0"]
+script = ExtResource("1_v3yqb")
+action = ExtResource("2_beyde")
+input_mappings = Array[ExtResource("3_1fb8i")]([SubResource("Resource_jusic")])
+metadata/_guide_input_mappings_collapsed = false
+
+[resource]
+script = ExtResource("2_pfa1y")
+mappings = Array[ExtResource("1_v3yqb")]([SubResource("Resource_vxxq0")])
+metadata/_custom_type_script = "uid://dsa1dnifd6w32"
+metadata/_guide_action_mappings_collapsed = false

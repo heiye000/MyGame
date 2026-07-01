@@ -16,6 +16,7 @@ func Exit() -> void:
 
 #更新状态
 func _update(_delta: float) -> void:
+	# 获取当前玩家的移动方向
 	var direction: Vector2 = agent.get_move_direction()
 	if direction == Vector2.ZERO:
 		#发出切换到待机状态事件
@@ -30,4 +31,6 @@ func _update(_delta: float) -> void:
 	agent.move_and_slide()
 	#更新动画
 	agent.update_animation(direction)
+	#更新停止移动后仍保持的朝向
+	agent.last_direction = direction
 	return
