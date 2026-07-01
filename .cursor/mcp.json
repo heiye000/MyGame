@@ -1,3 +1,7 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "godot-mcp": {
+      "url": "http://localhost:9080/mcp"
+    }
+  }
 }
