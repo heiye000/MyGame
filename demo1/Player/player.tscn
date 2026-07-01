@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://c4vvt12vm2rkd"]
 
 [ext_resource type="Texture2D" uid="uid://hgyo2xfkug8c" path="res://Player/Sprites/ExamplePlayerSprite.png" id="1_l8h54"]
+[ext_resource type="Script" uid="uid://ggt1qgnifm2u" path="res://Player/Scripts/player_state_machine.gd" id="2_4ntmi"]
+[ext_resource type="Script" uid="uid://cdut4a6y2j6k2" path="res://Player/Scripts/player.gd" id="3_player"]
+[ext_resource type="Script" path="res://Player/Scripts/state_idle.gd" id="4_idle"]
+[ext_resource type="Script" path="res://Player/Scripts/state_walk.gd" id="5_walk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
 radius = 14.0
@@ -137,6 +141,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=136024699]
+script = ExtResource("3_player")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=857918432]
 position = Vector2(-1, 17)
@@ -150,3 +155,12 @@ hframes = 21
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1124224907]
 libraries/ = SubResource("AnimationLibrary_od3ui")
 autoplay = &"idle_down"
+
+[node name="StateMachine" type="Node" parent="." unique_id=629055342]
+script = ExtResource("2_4ntmi")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=2067077312]
+script = ExtResource("4_idle")
+
+[node name="Walk" type="Node" parent="StateMachine" unique_id=1403483514]
+script = ExtResource("5_walk")
