@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://c4vvt12vm2rkd"]
 
-[ext_resource type="Texture2D" uid="uid://hgyo2xfkug8c" path="res://ui/player/ExamplePlayerSprite.png" id="1_l8h54"]
+[ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://ui/player/player.png" id="2_qjkh3"]
 [ext_resource type="Script" uid="uid://3055uvb8ke4j" path="res://player/scripts/state/player_idle.gd" id="3_gwnis"]
 [ext_resource type="Script" uid="uid://b75uwbfgeen7p" path="res://player/scripts/player.gd" id="3_player"]
 [ext_resource type="Script" uid="uid://bcslf1prntlps" path="res://player/scripts/state/player_run.gd" id="4_k53q1"]
 [ext_resource type="Script" uid="uid://ggt1qgnifm2u" path="res://player/scripts/state/player_state_machine.gd" id="5_state_machine"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
-radius = 14.0
+radius = 8.0
 
 [sub_resource type="Animation" id="Animation_l8h54"]
 length = 0.001
@@ -43,19 +43,20 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_btcbx"]
 resource_name = "idle_side"
-length = 0.4
+length = 0.6
 loop_mode = 1
+step = 0.033
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
-tracks/0/loop_wrap = true
+tracks/0/loop_wrap = false
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.33333334),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [14, 15, 16]
+"values": [0, 1, 2, 3, 4, 5]
 }
 
 [sub_resource type="Animation" id="Animation_gwnis"]
@@ -141,20 +142,20 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=136024699]
+motion_mode = 1
 script = ExtResource("3_player")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=857918432]
-position = Vector2(-1, 17)
+position = Vector2(-1, 8)
 shape = SubResource("CircleShape2D_wvhbo")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1200512467]
 texture_filter = 1
-texture = ExtResource("1_l8h54")
-hframes = 21
+texture = ExtResource("2_qjkh3")
+hframes = 60
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1124224907]
 libraries/ = SubResource("AnimationLibrary_od3ui")
-autoplay = &"idle_down"
 
 [node name="StateMachine" type="Node" parent="." unique_id=2133280345]
 script = ExtResource("5_state_machine")
