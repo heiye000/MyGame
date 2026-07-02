@@ -15,17 +15,18 @@ var last_direction : Vector2 = Vector2.DOWN
 
 
 func _ready() -> void:
+	#初始化输入方案
+	InputMappingScheme.switch_to(InputMappingScheme.Type.KEYBOARD_MOUSE)
 	#初始化状态机
 	state_machine.Initialize(self)
 	return
 
 #获取移动方向
 func get_move_direction() -> Vector2:
-	var direction := Vector2.ZERO
-	direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
-	direction.y = Input.get_action_strength("down") - Input.get_action_strength("up")
-	return direction
+	var move_action = PlayerActionType.get_action(PlayerActionType.Type.MOVE)
+	return move_action.value_axis_2d
 
+	
 #
 #更新动画
 func update_animation(direction: Vector2) -> void:

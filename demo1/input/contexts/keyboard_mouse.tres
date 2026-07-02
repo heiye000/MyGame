@@ -10,31 +10,62 @@
 [ext_resource type="Script" uid="uid://bm5gjgadon6hb" path="res://addons/guide/modifiers/guide_modifier_input_swizzle.gd" id="7_lt05c"]
 [ext_resource type="Script" uid="uid://x74mnwgr08a7" path="res://addons/guide/triggers/guide_trigger.gd" id="8_uvba7"]
 
-[sub_resource type="Resource" id="Resource_15360"]
+[sub_resource type="Resource" id="Resource_beyde"]
 script = ExtResource("4_x5gws")
-key = 87
-
-[sub_resource type="Resource" id="Resource_ua1eh"]
-script = ExtResource("6_6lang")
-z = false
-
-[sub_resource type="Resource" id="Resource_rah1u"]
-script = ExtResource("7_lt05c")
+key = 68
 
 [sub_resource type="Resource" id="Resource_jusic"]
 script = ExtResource("3_1fb8i")
 is_remappable = true
 display_name = "up_move"
 display_category = "Movement"
-input = SubResource("Resource_15360")
-modifiers = Array[ExtResource("5_u1glu")]([SubResource("Resource_ua1eh"), SubResource("Resource_rah1u")])
+input = SubResource("Resource_beyde")
 metadata/_guide_triggers_collapsed = false
 metadata/_guide_modifiers_collapsed = false
+
+[sub_resource type="Resource" id="Resource_1fb8i"]
+script = ExtResource("4_x5gws")
+key = 65
+
+[sub_resource type="Resource" id="Resource_x5gws"]
+script = ExtResource("6_6lang")
+
+[sub_resource type="Resource" id="Resource_u1glu"]
+script = ExtResource("3_1fb8i")
+input = SubResource("Resource_1fb8i")
+modifiers = Array[ExtResource("5_u1glu")]([SubResource("Resource_x5gws")])
+
+[sub_resource type="Resource" id="Resource_6lang"]
+script = ExtResource("4_x5gws")
+key = 83
+
+[sub_resource type="Resource" id="Resource_lt05c"]
+script = ExtResource("7_lt05c")
+
+[sub_resource type="Resource" id="Resource_uvba7"]
+script = ExtResource("3_1fb8i")
+input = SubResource("Resource_6lang")
+modifiers = Array[ExtResource("5_u1glu")]([SubResource("Resource_lt05c")])
+
+[sub_resource type="Resource" id="Resource_15360"]
+script = ExtResource("4_x5gws")
+key = 87
+
+[sub_resource type="Resource" id="Resource_ua1eh"]
+script = ExtResource("6_6lang")
+
+[sub_resource type="Resource" id="Resource_rah1u"]
+script = ExtResource("7_lt05c")
+
+[sub_resource type="Resource" id="Resource_yc6ms"]
+script = ExtResource("3_1fb8i")
+input = SubResource("Resource_15360")
+modifiers = Array[ExtResource("5_u1glu")]([SubResource("Resource_ua1eh"), SubResource("Resource_rah1u")])
 
 [sub_resource type="Resource" id="Resource_vxxq0"]
 script = ExtResource("1_v3yqb")
 action = ExtResource("2_beyde")
-input_mappings = Array[ExtResource("3_1fb8i")]([SubResource("Resource_jusic")])
+input_mappings = Array[ExtResource("3_1fb8i")]([SubResource("Resource_jusic"), SubResource("Resource_u1glu"), SubResource("Resource_uvba7"), SubResource("Resource_yc6ms")])
 metadata/_guide_input_mappings_collapsed = false
 
 [resource]
