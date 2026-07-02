@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="GUIDEAction" format=3 uid="uid://dmi17qodn3ftr"]
+
+[ext_resource type="Script" uid="uid://cluhc11vixkf1" path="res://addons/guide/guide_action.gd" id="1_xahe5"]
+
+[resource]
+script = ExtResource("1_xahe5")
+name = &"roll"
+action_value_type = 2
+is_remappable = true
+display_name = "roll"
+display_category = "Roll"
+metadata/_custom_type_script = "uid://cluhc11vixkf1"
