@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://c4vvt12vm2rkd"]
 
 [ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://ui/player/player.png" id="2_qjkh3"]
-[ext_resource type="Script" uid="uid://3055uvb8ke4j" path="res://player/scripts/state/player_idle.gd" id="3_gwnis"]
-[ext_resource type="Script" uid="uid://b75uwbfgeen7p" path="res://player/scripts/player.gd" id="3_player"]
-[ext_resource type="Script" uid="uid://bcslf1prntlps" path="res://player/scripts/state/player_run.gd" id="4_k53q1"]
-[ext_resource type="Script" uid="uid://ggt1qgnifm2u" path="res://player/scripts/state/player_state_machine.gd" id="5_state_machine"]
+[ext_resource type="Script" uid="uid://3055uvb8ke4j" path="res://state_machine/state/idle.gd" id="3_gwnis"]
+[ext_resource type="Script" uid="uid://b75uwbfgeen7p" path="res://player/player.gd" id="3_player"]
+[ext_resource type="Script" uid="uid://bcslf1prntlps" path="res://state_machine/state/run.gd" id="4_k53q1"]
+[ext_resource type="Script" uid="uid://ggt1qgnifm2u" path="res://state_machine/player_state_machine.gd" id="5_state_machine"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
 radius = 8.0
