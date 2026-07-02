@@ -23,7 +23,7 @@ var current_move_direction: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	#初始化输入方案
 	InputMappingScheme.switch_to(InputMappingScheme.Type.KEYBOARD_MOUSE)
-	# TODO qth 初始化状态机 Limbo状态机
+	# 初始化状态机 Limbo状态机
 	#state_machine.Initialize(self)
 	return
 
@@ -35,8 +35,7 @@ func _physics_process(_delta: float) -> void:
 	if current_move_direction != Vector2.ZERO:
 		#方向传入到idle和run动画的参数中需要将y轴翻转一下，因为AnimationTree混合树中y轴是反的
 		var flipped_direction = Vector2(current_move_direction.x, -current_move_direction.y)
-		animation_tree.set("parameters/StateMachine/MoveMachine/idle/blend_position", flipped_direction)
-		animation_tree.set("parameters/StateMachine/MoveMachine/run/blend_position", flipped_direction)
+		update_animation(flipped_direction)
 
 
 	velocity = current_move_direction * move_speed
@@ -48,9 +47,15 @@ func get_move_direction() -> Vector2:
 	var move_action = PlayerActionType.get_action(PlayerActionType.Type.MOVE)
 	return move_action.value_axis_2d
 
-	
-#
-#更新动画
+#更新动画 AnimationTree版本
+func update_animation(direction: Vector2) -> void:
+	animation_tree.set("parameters/StateMachine/MoveMachine/idle/blend_position", direction)
+	animation_tree.set("parameters/StateMachine/MoveMachine/run/blend_position", direction)
+	return
+
+
+
+#更新动画 手动实现状态机
 #func update_animation(direction: Vector2) -> void:
 	## 移动时用当前方向；静止时用上次朝向，避免停下后动画跳回默认方向。
 	#var facing := direction if direction != Vector2.ZERO else last_direction
