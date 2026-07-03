@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="GUIDEAction" format=3 uid="uid://daj1w2vl1lu73"]
 
-[ext_resource type="Script" uid="uid://cluhc11vixkf1" path="res://addons/guide/guide_action.gd" id="1_p0px3"]
+[ext_resource type="Script" uid="uid://cluhc11vixkf1" path="res://addons/guide/guide_action.gd" id="1_2o1s2"]
 
 [resource]
-script = ExtResource("1_p0px3")
-name = &"attack_left"
+script = ExtResource("1_2o1s2")
+name = &"attack_L"
 action_value_type = 2
 is_remappable = true
-display_name = "attack_left"
+display_name = "attack_L"
 display_category = "Attack"
 metadata/_custom_type_script = "uid://cluhc11vixkf1"
