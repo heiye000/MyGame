@@ -1,10 +1,8 @@
 [gd_scene format=3 uid="uid://c4vvt12vm2rkd"]
 
+[ext_resource type="Texture2D" uid="uid://bww3xk070qvj2" path="res://ui/shadows/small_shadow.png" id="2_g1dw6"]
 [ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://ui/player/player.png" id="2_qjkh3"]
 [ext_resource type="Script" uid="uid://b75uwbfgeen7p" path="res://player/player.gd" id="3_player"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
-radius = 8.0
 
 [sub_resource type="Animation" id="Animation_rkbax"]
 length = 0.001
@@ -534,13 +532,18 @@ nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_pnw6m")
 nodes/StateMachine/position = Vector2(340, 180)
 node_connections = [&"output", 0, &"StateMachine"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
+radius = 7.0
+
 [node name="Player" type="CharacterBody2D" unique_id=136024699]
+position = Vector2(7, 3)
 motion_mode = 1
 script = ExtResource("3_player")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=857918432]
-position = Vector2(-1, 8)
-shape = SubResource("CircleShape2D_wvhbo")
+[node name="Sprite2D_shadow" type="Sprite2D" parent="." unique_id=1423802050]
+position = Vector2(-0.7499995, 11.25)
+scale = Vector2(1.7500001, 1.5625001)
+texture = ExtResource("2_g1dw6")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1200512467]
 texture_filter = 1
@@ -559,3 +562,10 @@ parameters/StateMachine/AttackMachine/attack_L/blend_position = Vector2(0, 0)
 parameters/StateMachine/MoveMachine/idle/blend_position = Vector2(0, 0)
 parameters/StateMachine/MoveMachine/run/blend_position = Vector2(0, 0)
 parameters/StateMachine/RollMachine/roll/blend_position = Vector2(0, 0)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=370223124]
+process_callback = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=857918432]
+position = Vector2(1, 7)
+shape = SubResource("CircleShape2D_wvhbo")

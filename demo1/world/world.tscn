@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dpubkgruwbkte"]
+
+[ext_resource type="Texture2D" uid="uid://muqv83p3nuo6" path="res://ui/world/grass_background.png" id="1_6xmxd"]
+[ext_resource type="PackedScene" uid="uid://c4vvt12vm2rkd" path="res://player/player.tscn" id="1_4717r"]
+[ext_resource type="PackedScene" uid="uid://codh7p5b1vnrn" path="res://world/bush.tscn" id="2_tcf2h"]
+[ext_resource type="PackedScene" uid="uid://crva72ntpmedn" path="res://world/tree.tscn" id="4_h5o24"]
+
+[node name="World" type="Node2D" unique_id=839361168]
+y_sort_enabled = true
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=2077418196]
+repeat_size = Vector2(320, 192)
+
+[node name="GrassBackgroud" type="TextureRect" parent="Parallax2D" unique_id=773882302]
+offset_right = 320.0
+offset_bottom = 192.0
+texture = ExtResource("1_6xmxd")
+stretch_mode = 1
+
+[node name="Bush" parent="." unique_id=1270814548 instance=ExtResource("2_tcf2h")]
+position = Vector2(154, 106)
+
+[node name="Bush2" parent="." unique_id=1840405959 instance=ExtResource("2_tcf2h")]
+position = Vector2(210, 149)
+
+[node name="Bush3" parent="." unique_id=893081693 instance=ExtResource("2_tcf2h")]
+position = Vector2(263, 104)
+
+[node name="Tree" parent="." unique_id=1358862600 instance=ExtResource("4_h5o24")]
+position = Vector2(207, 74)
+
+[node name="Player" parent="." unique_id=136024699 instance=ExtResource("1_4717r")]
+position = Vector2(205, 113)
