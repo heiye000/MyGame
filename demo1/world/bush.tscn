@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
 
 [node name="Node2D" type="Node2D" unique_id=1270814548]
-position = Vector2(0, -1)
+position = Vector2(0, -6)
 
 [node name="Sprite2D_shadow" type="Sprite2D" parent="." unique_id=170384596]
 position = Vector2(0, 7)

@@ -536,7 +536,7 @@ node_connections = [&"output", 0, &"StateMachine"]
 radius = 7.0
 
 [node name="Player" type="CharacterBody2D" unique_id=136024699]
-position = Vector2(7, 3)
+position = Vector2(1, -11)
 motion_mode = 1
 script = ExtResource("3_player")
 
@@ -547,6 +547,7 @@ texture = ExtResource("2_g1dw6")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1200512467]
 texture_filter = 1
+position = Vector2(-1, 1)
 texture = ExtResource("2_qjkh3")
 flip_h = true
 hframes = 60
@@ -564,8 +565,9 @@ parameters/StateMachine/MoveMachine/run/blend_position = Vector2(0, 0)
 parameters/StateMachine/RollMachine/roll/blend_position = Vector2(0, 0)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=370223124]
+position = Vector2(-1, 11)
 process_callback = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=857918432]
-position = Vector2(1, 7)
+position = Vector2(-1, 11)
 shape = SubResource("CircleShape2D_wvhbo")
