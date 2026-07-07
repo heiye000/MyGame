@@ -34,6 +34,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [36, 37, 38, 39]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(18, 4, 4, 4, 4, 7, 18, 7, 19, 6), PackedVector2Array(-3, 10, -3, 30, -1, 31, 2, 31, 6, 30, 13, 25, 17, 18, 17, 12, 15, 12, 13, 15, 7, 17, 2, 18, 1, 11, 0, 9), PackedVector2Array(-20, 18, -14, 26, -3, 32, 2, 31, 6, 30, 13, 25, 17, 18, 17, 12, 15, 12, 13, 15, 7, 17, 2, 18, -1, 9, -4, 7), PackedVector2Array(-15, 16, -20, 11, -22, 8, -21, 5, -18, 3, -6, 4, -2, 4, -2, 6, -6, 7, -9, 8, -12, 8, -14, 11)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_yw30f"]
 length = 0.4
@@ -527,7 +551,7 @@ states/RollMachine/position = Vector2(356, 237)
 transitions = ["Start", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_1s1yo"), "MoveMachine", "AttackMachine", SubResource("AnimationNodeStateMachineTransition_5ejfk"), "AttackMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_jd2rm"), "MoveMachine", "RollMachine", SubResource("AnimationNodeStateMachineTransition_q28gw"), "RollMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_ge24q")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_1so5t"]
-graph_offset = Vector2(340.80957, 190.9137)
+graph_offset = Vector2(-81.74701, 213.26797)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_pnw6m")
 nodes/StateMachine/position = Vector2(340, 180)
 node_connections = [&"output", 0, &"StateMachine"]
@@ -549,7 +573,6 @@ texture = ExtResource("2_g1dw6")
 texture_filter = 1
 position = Vector2(-1, 1)
 texture = ExtResource("2_qjkh3")
-flip_h = true
 hframes = 60
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1124224907]
@@ -559,7 +582,7 @@ libraries/ = SubResource("AnimationLibrary_c35mf")
 tree_root = SubResource("AnimationNodeBlendTree_1so5t")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/StateMachine/AttackMachine/attack_L/blend_position = Vector2(0, 0)
+parameters/StateMachine/AttackMachine/attack_L/blend_position = Vector2(-0.002197802, 0.0038313866)
 parameters/StateMachine/MoveMachine/idle/blend_position = Vector2(0, 0)
 parameters/StateMachine/MoveMachine/run/blend_position = Vector2(0, 0)
 parameters/StateMachine/RollMachine/roll/blend_position = Vector2(0, 0)
@@ -571,3 +594,8 @@ process_callback = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=857918432]
 position = Vector2(-1, 11)
 shape = SubResource("CircleShape2D_wvhbo")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1522278156]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=680516133]
+polygon = PackedVector2Array(-15, 16, -20, 11, -22, 8, -21, 5, -18, 3, -6, 4, -2, 4, -2, 6, -6, 7, -9, 8, -12, 8, -14, 11)

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://1d4f5wxp8y4r"]
+
+[ext_resource type="Script" uid="uid://bs2qsph356ime" path="res://world/grass_effect.gd" id="1_pgrbv"]
+[ext_resource type="Texture2D" uid="uid://ctgc7xq4djt4q" path="res://ui/world/grass.png" id="1_yxwwq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e5m26"]
+radius = 7.0
+
+[node name="GrassEffect" type="Node2D" unique_id=1160669732]
+script = ExtResource("1_pgrbv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=755574678]
+texture = ExtResource("1_yxwwq")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=462595039]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=755592938]
+shape = SubResource("CircleShape2D_e5m26")

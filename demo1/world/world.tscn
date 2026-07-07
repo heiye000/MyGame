@@ -6,6 +6,7 @@
 [ext_resource type="TileSet" uid="uid://qraao0dqyd0a" path="res://world/cliff_tileset.tres" id="3_fn3g3"]
 [ext_resource type="PackedScene" uid="uid://crva72ntpmedn" path="res://world/tree.tscn" id="4_h5o24"]
 [ext_resource type="Texture2D" uid="uid://dbdrangqo22f3" path="res://ui/world/dirt_tileset.png" id="5_mmdvd"]
+[ext_resource type="PackedScene" uid="uid://1d4f5wxp8y4r" path="res://world/grass_effect.tscn" id="7_sc4t8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fn3g3"]
 texture = ExtResource("5_mmdvd")
@@ -382,3 +383,12 @@ position = Vector2(207, 74)
 
 [node name="Player" parent="." unique_id=136024699 instance=ExtResource("1_4717r")]
 position = Vector2(205, 113)
+
+[node name="GrassEffect" parent="." unique_id=1160669732 instance=ExtResource("7_sc4t8")]
+position = Vector2(232, 126)
+
+[node name="GrassEffect2" parent="." unique_id=1459411748 instance=ExtResource("7_sc4t8")]
+position = Vector2(269, 136)
+
+[node name="GrassEffect3" parent="." unique_id=80865606 instance=ExtResource("7_sc4t8")]
+position = Vector2(245, 158)

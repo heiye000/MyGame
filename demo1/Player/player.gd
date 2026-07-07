@@ -3,8 +3,8 @@ class_name Player extends CharacterBody2D
 
 ## 移动速度（像素/秒），需与 walk_* 动画时长配合，避免滑步感。
 var move_speed: float = 50.0
-## 翻滚速度相对移动速度的倍率：翻滚位移速度 = move_speed * 该倍率（同等时长内跑 1.5 倍距离）。
-const ROLL_SPEED_MULTIPLIER: float = 1.5
+## 翻滚速度相对移动速度的倍率：翻滚位移速度 = move_speed * 该倍率
+const ROLL_SPEED_MULTIPLIER: float = 2.0
 # 移动时的当前移动方向，停止后为ZERO
 var current_move_direction: Vector2 = Vector2.ZERO
 # 停止移动后仍保持的朝向，用于决定攻击/待机动画的方向。
