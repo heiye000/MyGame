@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://w0r8ofh64rw7"]
+
+[ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://assets/player/player.png" id="1_8afob"]
+[ext_resource type="Script" uid="uid://bgbe12n3e7abb" path="res://scenes/player/player.gd" id="1_dovo2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_evu83"]
+radius = 8.062258
+
+[sub_resource type="Animation" id="Animation_dovo2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_gmlin"]
+resource_name = "player_run_right"
+length = 0.6
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lvxji"]
+_data = {
+&"RESET": SubResource("Animation_dovo2"),
+&"player_run_right": SubResource("Animation_gmlin")
+}
+
+[node name="Player" type="Node2D" unique_id=1364196162]
+script = ExtResource("1_dovo2")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=2093211279]
+motion_mode = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=927512133]
+position = Vector2(173, 89)
+texture = ExtResource("1_8afob")
+hframes = 60
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1423240838]
+position = Vector2(172, 92)
+shape = SubResource("CircleShape2D_evu83")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=819069565]
+libraries/ = SubResource("AnimationLibrary_lvxji")
