@@ -1,18 +1,19 @@
 # === godot-sprite-anim-pipeline / Step 1: 生成 AnimationPlayer 动画 ===
 # 这不是可挂载脚本，而是给 execute_editor_script 用的代码片段。
 # 用法：把下方 MANIFEST 用用户清单填好，整段作为 execute_editor_script 的 code 执行。
-# 前置：目标场景已在编辑器打开，含 Sprite2D 与 AnimationPlayer 节点。
-# 说明：build_animations 只关心切帧，方向 blend 坐标/状态机在 Step2 处理，故此处不需要 blend_positions。
+# 前置：目标场景已在编辑器打开，含 Sprite2D 与 AnimationPlayer。
+# 说明：build_animations 只关心切帧；方向 blend / 状态机在 Step2；行动模式在 Step3（Limbo）。
 
 var MANIFEST := {
-	"sprite_node": "Sprite2D",
+	"sprite_node": "CharacterBody2D/Sprite2D",
 	"anim_player": "AnimationPlayer",
 	"fps": 10.0,
 	"mirror": {"left": "right"},
 	"actions": [
-		{"name": "idle", "loop": false, "frames": {"up": [6], "down": [18], "right": [0]}},
-		{"name": "walk", "loop": true, "frames": {"up": [6, 7, 8, 9, 10, 11], "down": [18, 19, 20, 21, 22, 23], "right": [0, 1, 2, 3, 4, 5]}},
-		{"name": "attack_L", "loop": false, "frames": {"up": [28, 29, 30, 31], "down": [36, 37, 38, 39], "left": [32, 33, 34, 35], "right": [24, 25, 26, 27]}},
+		{"name": "player_idle", "loop": false, "frames": {"up": [42], "down": [54], "right": [30]}},
+		{"name": "player_run", "loop": true, "frames": {"up": [18, 19, 20, 21, 22, 23], "down": [12, 13, 14, 15, 16, 17], "right": [0, 1, 2, 3, 4, 5]}},
+		{"name": "player_attack", "loop": false, "frames": {"up": [28, 29, 30, 31], "down": [36, 37, 38, 39], "left": [32, 33, 34, 35], "right": [24, 25, 26, 27]}},
+		{"name": "player_roll", "loop": false, "frames": {"up": [45, 46, 47, 48, 49], "down": [40, 41, 42, 43, 44], "right": [50, 51, 52, 53, 54]}},
 	],
 }
 
