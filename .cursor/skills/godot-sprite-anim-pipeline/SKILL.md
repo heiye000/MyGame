@@ -106,6 +106,7 @@ Pipeline Progress:
 | 方向混合错乱 | blend 坐标 y 轴未取反 | 模式态 `update_animation` 传入 `Vector2(dir.x, -dir.y)` |
 | left 动画不镜像 | 缺 `flip_h` 轨道 | manifest `mirror` 配 `{"left":"right"}`，Step1 自动加 flip 轨 |
 | 攻击/翻滚后卡住 | 返回 Move 无 AT_END 过渡 | 脚本用 `SWITCH_MODE_AT_END`；对应动画 `loop=false` |
+| 按住攻击键连打 | `is_*()` 读了 `value_bool`（键是否按住）而非 `is_triggered()`（Pressed 是否触发） | GUIDE 配 Pressed 时，`is_attacking()` / `is_rolling()` 返回 `action.is_triggered()` |
 | Limbo 模式不跑 | 未 `initialize` / `set_active` | `player._init_state_machine()`：`update_mode=PHYSICS`、`initial_state`、`initialize(self)`、`set_active(true)` |
 | 输入在 player 上查不到 | 旧模板把 GUIDE 放在 player | 迁移到 `PlayerAnimationTree`；模式态经 `player.animation_tree.get_move_direction()` |
 

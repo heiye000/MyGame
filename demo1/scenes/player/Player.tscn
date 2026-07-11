@@ -503,6 +503,10 @@ hframes = 60
 position = Vector2(172, 92)
 shape = SubResource("CircleShape2D_evu83")
 
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=295934824]
+position = Vector2(160, 90)
+process_callback = 0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=819069565]
 libraries/ = SubResource("AnimationLibrary_lgqa7")
 

@@ -8,9 +8,9 @@ func get_move_direction() -> Vector2:
 
 func is_attacking() -> bool:
 	var attack_action = PlayerActionType.get_action(PlayerActionType.Type.ATTACK_L)
-	return attack_action.value_bool
+	return attack_action.is_triggered()
 
 
 func is_rolling() -> bool:
 	var roll_action = PlayerActionType.get_action(PlayerActionType.Type.ROLL)
-	return roll_action.value_bool
+	return roll_action.is_triggered()

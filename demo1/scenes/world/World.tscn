@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cxhmwmmf1fdq8"]
 
 [ext_resource type="Script" uid="uid://c2618pp44th1" path="res://core/components/ysort/YSortManager.gd" id="2_ysort"]
+[ext_resource type="Texture2D" uid="uid://muqv83p3nuo6" path="res://assets/world/grass_background.png" id="3_grass"]
 [ext_resource type="PackedScene" uid="uid://lfb551b6bdcc" path="res://scenes/player/Player.tscn" id="4_player"]
 
 [node name="World" type="Node2D" unique_id=1280444436]
@@ -14,10 +15,18 @@
 [node name="YSortManager" type="Node" parent="." unique_id=434147111]
 script = ExtResource("2_ysort")
 
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=849162560]
+repeat_size = Vector2(320, 192)
+
+[node name="TextureRect" type="TextureRect" parent="Parallax2D" unique_id=1421753233]
+offset_right = 320.0
+offset_bottom = 192.0
+texture = ExtResource("3_grass")
+stretch_mode = 1
+
 [node name="Entities" type="Node2D" parent="." unique_id=1278090018]
 
 [node name="Player" parent="Entities" unique_id=1760495481 instance=ExtResource("4_player")]
-position = Vector2(160, 160)
 
 [node name="OverheadLayer" type="Node2D" parent="." unique_id=714410465 groups=["overhead_layer"]]
 z_index = 100

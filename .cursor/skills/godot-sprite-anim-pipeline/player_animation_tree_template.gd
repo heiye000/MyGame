@@ -9,11 +9,12 @@ func get_move_direction() -> Vector2:
 	return move_action.value_axis_2d
 
 
+## Pressed 触发动作须用 is_triggered()；value_bool 反映物理按键是否按住，会导致连打。
 func is_attacking() -> bool:
 	var attack_action = PlayerActionType.get_action(PlayerActionType.Type.ATTACK_L)
-	return attack_action.value_bool
+	return attack_action.is_triggered()
 
 
 func is_rolling() -> bool:
 	var roll_action = PlayerActionType.get_action(PlayerActionType.Type.ROLL)
-	return roll_action.value_bool
+	return roll_action.is_triggered()
