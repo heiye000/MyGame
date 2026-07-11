@@ -118,6 +118,44 @@ func _ready():
 ### 1.4. Consistent Naming Conventions
 Follow Godot's official style guides for GDScript and C#. Consistency is key for readability and maintainability.
 
+#### File & Directory Naming (demo1 project standard)
+
+All project-owned `.gd`, `.tscn`, and `.tres` files use **PascalCase** filenames that match their `class_name` or logical entity name. Directories use **snake_case** (lowercase with underscores).
+
+Reference example: `res://core/components/ysort/YSortable2D.gd`
+
+| Scope | Convention | Example |
+|-------|-----------|---------|
+| Directory | `snake_case` | `core/components/ysort/`, `state_machine/` |
+| Script `.gd` | `PascalCase.gd` = `class_name` | `Player.gd`, `YSortable2D.gd`, `NormalBattle.gd` |
+| Scene `.tscn` | `PascalCase.tscn` = root node / entity | `Player.tscn`, `World.tscn`, `Root.tscn` |
+| Resource `.tres` | `PascalCase.tres` = action / data name | `Move.tres`, `AttackL.tres`, `KeyboardMouse.tres` |
+
+❌ **BAD:** snake_case filenames
+```
+res://scenes/player/player.gd
+res://scenes/player/player.tscn
+res://autoload/input/actions/attack_L.tres
+res://autoload/input/contexts/keyboard_mouse.tres
+```
+
+✅ **GOOD:** PascalCase filenames with snake_case directories
+```
+res://scenes/player/Player.gd          # class_name Player
+res://scenes/player/Player.tscn
+res://core/components/ysort/YSortable2D.gd   # class_name YSortable2D
+res://autoload/input/actions/AttackL.tres
+res://autoload/input/contexts/KeyboardMouse.tres
+```
+
+Rules:
+- Filename **must** match `class_name` when the script declares one.
+- Multi-word names use PascalCase (`PlayerAnimationTree.gd`, `InputMappingScheme.gd`).
+- Enum-style suffixes collapse into PascalCase (`ATTACK_L` → `AttackL.tres`).
+- **Do not** rename third-party addon files under `res://addons/`.
+
+#### GDScript & C# Code Style
+
 *   **GDScript (PEP 8 inspired):**
     *   `class_name`: `PascalCase`
     *   Variables, functions, signals: `snake_case`

@@ -10,9 +10,9 @@ enum Type {
 }
 
 const _ACTIONS: Dictionary = {
-	Type.MOVE: preload("res://autoload/input/actions/move.tres"),
-	Type.ATTACK_L: preload("res://autoload/input/actions/attack_L.tres"),
-	Type.ROLL: preload("res://autoload/input/actions/roll.tres"),
+	Type.MOVE: preload("res://autoload/input/actions/Move.tres"),
+	Type.ATTACK_L: preload("res://autoload/input/actions/AttackL.tres"),
+	Type.ROLL: preload("res://autoload/input/actions/Roll.tres"),
 }
 
 

@@ -7,7 +7,7 @@ enum Type {
 }
 
 const _CONTEXTS: Dictionary = {
-	Type.KEYBOARD_MOUSE: preload("res://autoload/input/contexts/keyboard_mouse.tres"),
+	Type.KEYBOARD_MOUSE: preload("res://autoload/input/contexts/KeyboardMouse.tres"),
 }
 
 static var _current: Type = Type.KEYBOARD_MOUSE

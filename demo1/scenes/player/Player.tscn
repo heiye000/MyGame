@@ -1,9 +1,9 @@
-[gd_scene format=3 uid="uid://w0r8ofh64rw7"]
+[gd_scene format=3 uid="uid://lfb551b6bdcc"]
 
 [ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://assets/player/player.png" id="1_8afob"]
-[ext_resource type="Script" uid="uid://bgbe12n3e7abb" path="res://scenes/player/player.gd" id="1_dovo2"]
-[ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://scenes/player/state_machine/normal_battle.gd" id="3_gmlin"]
-[ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://scenes/player/player_animation_tree.gd" id="4_animtree"]
+[ext_resource type="Script" uid="uid://bww1f4isjl7l4" path="res://scenes/player/Player.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://scenes/player/state_machine/NormalBattle.gd" id="3_gmlin"]
+[ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://scenes/player/PlayerAnimationTree.gd" id="4_animtree"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_evu83"]
 radius = 8.062258

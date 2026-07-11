@@ -4,9 +4,9 @@
 
 [resource]
 script = ExtResource("1_2o1s2")
-name = &"attack_L"
+name = &"AttackL"
 action_value_type = 2
 is_remappable = true
-display_name = "attack_L"
+display_name = "AttackL"
 display_category = "Attack"
 metadata/_custom_type_script = "uid://cluhc11vixkf1"
