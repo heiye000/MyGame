@@ -22,6 +22,70 @@ globs: **/*
 - 不推荐与该项目形态冲突的方案（如 3D 方案、无 Chunk 的超大单场景、UI 用 Node2D 等）
 - 代码注释与 `@export` 文档面向**自己未来的独立开发维护**，简洁可调试
 
+### 代码改动原则
+
+- **最小改动**：只改任务相关的代码；不做无关重构、不顺手改其他文件；能用最简单正确 diff 解决就不扩大范围
+- **注释优先于「自解释」**：修改 GDScript 时仍须遵守下方「中文注释规范」；不因「代码看起来够清楚」而省略函数 `##` 或关键逻辑注释
+
+### 中文注释规范
+
+生成或修改 GDScript 时，按下面规则写注释（自己半年后能一眼看懂为准）：
+
+| 写什么 | 怎么写 |
+|--------|--------|
+| **成员变量** | 一行 `##` 或 `#`，说这个变量存什么、干什么用 |
+| **信号（Signal）** | 一行说明「什么时候会发、谁该听」 |
+| **函数** | 函数上方用 `##` 概括用途；参数含义不明显时顺带一句 |
+| **核心代码块** | `match` 分支、循环、关键 `if` 前用 `#` 点出「这一步在干嘛」 |
+
+**语气与用词：**
+
+- 口语化、好懂，像跟未来的自己说话；避免堆术语
+- **不要**在注释里写路径、链接、或「详见某某文件」这类对外引用
+- 注释里出现英文标识时，在旁用括号补中文，例如：`物理帧（Frame）`、`缓冲（Buffer）`、`信号（Signal）`
+- 已有 `@export` 的变量优先用 `##` 文档注释，和 Inspector 提示一致
+- 函数上方必须有 `##`；复杂逻辑、非直觉命名、编辑器专用逻辑（如 `@tool`、`configuration warnings`）、手感相关参数必须加 `#` 说明
+
+**示例：**
+
+```gdscript
+## 预输入还能存多少物理帧（Frame），Inspector 里改这个调手感。
+@export var buffer_frames: int = 15
+
+## 预输入被用掉时发出，可做音效或特效。
+signal consumed(action_type: PlayerActionType.Type)
+
+## 从输入系统读取本帧按键，该记进缓冲的就记下来。
+func capture_from_guide() -> void:
+    # 普通攻击/翻滚：recovery 期间按下先存着，能动时再执行。
+    match entry.policy:
+        Entry.BufferPolicy.BUFFERABLE:
+            _store_slot(...)
+```
+
+### 预输入（Input Buffer）架构
+
+战斗内离散动作（攻击、翻滚）使用 `core/components/input/input_buffer/` 组件，与 GUIDE、AnimationTree、Limbo 模式态分层协作。动画流水线见 skill `godot-sprite-anim-pipeline`。
+
+**职责划分：**
+
+| 脚本 | 做什么 | 不做什么 |
+|------|--------|----------|
+| `InputBuffer` | 监听 GUIDE `just_triggered`、维护单槽位、过期、调试叠层 | 不读 AnimationTree 当前状态 |
+| `PlayerAnimationTree` | `is_*()` 返回 `is_triggered() or has_buffered()` | **禁止** `consume_buffered()` |
+| `NormalBattle` 等模式态 | `_process_*_machine` **进入时** `consume_buffered()`；分路写 blend；开招用当前 WASD 锁朝向 | 不在 `_update` 公共块统一消费 |
+| `Player` | 持有 `input_buffer`；AnimationTree 设物理帧 + `advance_expression_base_node` | 不写行动 match |
+
+**常见坑：**
+
+- 过渡表达式里消费缓冲 → 第二次按键失败 → 改查 `has_buffered`，进状态再消费
+- `.tres` 用 inner class 或 `Array[ExtResource]` → TypedArray 报错 → `InputBufferProfileEntry` 独立脚本，`entries = [SubResource(...)]`
+- AnimationTree idle 帧评估 → 与 Limbo/缓冲不同步 → `callback_mode_process = PHYSICS`
+- `buffer_frames` 短于来源动作剩余时长 → 预按过期接不上 → 按动画时长加大窗口
+- 子节点 `_ready` 读父 `@onready input_buffer` 为空 → 用 `get_node("InputBuffer")`
+
+**新增可缓冲动作：** `PlayerActionType` 枚举 → GUIDE Pressed → Profile 加 Entry → `is_*()` 查询 → 模式态进入分支消费 → 按动画时长估 `buffer_frames`。
+
 ---
 
 # godot Best Practices
@@ -157,8 +221,8 @@ Reference example: `res://core/components/ysort/YSortable2D.gd`
 ```
 res://scenes/player/player.gd
 res://scenes/player/player.tscn
-res://autoload/input/actions/attack_L.tres
-res://autoload/input/contexts/keyboard_mouse.tres
+res://core/components/input/res/actions/attack_L.tres
+res://core/components/input/res/contexts/keyboard_mouse.tres
 ```
 
 ✅ **GOOD:** PascalCase filenames with snake_case directories
@@ -166,8 +230,10 @@ res://autoload/input/contexts/keyboard_mouse.tres
 res://scenes/player/Player.gd          # class_name Player
 res://scenes/player/Player.tscn
 res://core/components/ysort/YSortable2D.gd   # class_name YSortable2D
-res://autoload/input/actions/AttackL.tres
-res://autoload/input/contexts/KeyboardMouse.tres
+res://core/components/input/res/actions/AttackL.tres
+res://core/components/input/res/contexts/KeyboardMouse.tres
+res://core/components/input/res/profiles/BattleBufferProfile.tres
+res://core/components/input/input_buffer/InputBufferProfile.gd
 ```
 
 Rules:

@@ -2,8 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://assets/player/player.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://bww1f4isjl7l4" path="res://scenes/player/Player.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://dh0svc2ya38i" path="res://core/components/input/input_buffer/InputBuffer.gd" id="2_c3xxp"]
+[ext_resource type="Script" uid="uid://c87ymn8w0s6gg" path="res://core/components/input/input_buffer/InputBufferDebugOverlay.gd" id="2_overlay"]
 [ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://scenes/player/state_machine/NormalBattle.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://scenes/player/PlayerAnimationTree.gd" id="4_animtree"]
+[ext_resource type="Resource" uid="uid://dlm8rxnc5u6bm" path="res://core/components/input/res/profiles/BattleBufferProfile.tres" id="5_battle_buffer"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_evu83"]
 radius = 8.062258
@@ -481,8 +484,10 @@ states/MoveMachine/position = Vector2(438, 89)
 states/RollMachine/node = SubResource("AnimationNodeStateMachine_tffgl")
 states/RollMachine/position = Vector2(286, 284)
 transitions = ["Start", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_pk8ii"), "MoveMachine", "AttackMachine", SubResource("AnimationNodeStateMachineTransition_5mf0n"), "MoveMachine", "RollMachine", SubResource("AnimationNodeStateMachineTransition_4hvnv"), "AttackMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_bbmj2"), "RollMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_kxw46")]
+graph_offset = Vector2(-198, 48)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5q8fn"]
+graph_offset = Vector2(-9.170959, 181.47302)
 nodes/output/position = Vector2(760, 200)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_8qxvo")
 nodes/StateMachine/position = Vector2(340, 180)
@@ -490,6 +495,16 @@ node_connections = [&"output", 0, &"StateMachine"]
 
 [node name="Player" type="Node2D" unique_id=1364196162]
 script = ExtResource("1_dovo2")
+
+[node name="InputBuffer" type="Node" parent="." unique_id=2004182832]
+process_mode = 1
+script = ExtResource("2_c3xxp")
+profile = ExtResource("5_battle_buffer")
+
+[node name="DebugOverlay" type="Control" parent="InputBuffer" unique_id=2004182833]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("2_overlay")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=2093211279]
 motion_mode = 1
@@ -511,9 +526,10 @@ process_callback = 0
 libraries/ = SubResource("AnimationLibrary_lgqa7")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=699157462]
+callback_mode_process = 0
 tree_root = SubResource("AnimationNodeBlendTree_5q8fn")
 anim_player = NodePath("../AnimationPlayer")
-parameters/StateMachine/AttackMachine/attack_L/blend_position = Vector2(-0.00062072277, 0.0067796707)
+parameters/StateMachine/AttackMachine/attack_L/blend_position = Vector2(-0.22082585, 0.46118724)
 parameters/StateMachine/MoveMachine/idle/blend_position = Vector2(0.17939174, 0.40677965)
 parameters/StateMachine/MoveMachine/run/blend_position = Vector2(0.005586624, -0.37966096)
 parameters/StateMachine/RollMachine/roll/blend_position = Vector2(0, 0)

@@ -10,11 +10,11 @@ enum Type {
 }
 
 const _ACTIONS: Dictionary = {
-	Type.MOVE: preload("res://autoload/input/actions/Move.tres"),
-	Type.ATTACK_L: preload("res://autoload/input/actions/AttackL.tres"),
-	Type.ROLL: preload("res://autoload/input/actions/Roll.tres"),
+	Type.MOVE: preload("res://core/components/input/res/actions/Move.tres"),
+	Type.ATTACK_L: preload("res://core/components/input/res/actions/AttackL.tres"),
+	Type.ROLL: preload("res://core/components/input/res/actions/Roll.tres"),
 }
 
-
+#获取动作配置
 static func get_action(type: Type) -> GUIDEAction:
 	return _ACTIONS.get(type) as GUIDEAction

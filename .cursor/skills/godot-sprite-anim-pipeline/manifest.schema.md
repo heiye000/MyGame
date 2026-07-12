@@ -1,6 +1,6 @@
 # Manifest 输入契约
 
-用户每次运行流水线只需提供这份结构化清单。字段直接映射到 Step1/Step2 脚本顶部的 `MANIFEST` / `CFG`。
+用户每次运行流水线只需提供这份结构化清单。字段直接映射到 Step1/Step2 脚本顶部的 `MANIFEST` / `CFG`；`input_buffer` 段供 Step0/Step3 接线预输入。
 
 ## 字段
 
@@ -21,6 +21,7 @@
 | `machines` | Dict | AnimationTree 子状态机配置（Step2），见下 |
 | `transitions` | Dict | 顶层 / Move 内部 transition 表达式 |
 | `limbo` | Dict | 可选，LimboHSM 相关路径与模式态脚本目标 |
+| `input_buffer` | Dict | 可选，预输入 Profile / 各动作 `buffer_frames`（见下） |
 
 ### action 对象
 
@@ -31,6 +32,9 @@
 | `state` | String | 该动作在子机中的状态名；缺省用 `name`（如 `player_run` -> `run`） |
 | `loop` | bool | 是否循环（run=true，idle/attack/roll=false） |
 | `frames` | Dict | `方向 -> 帧索引数组`；未列出的方向由 `mirror` 派生 |
+| `bufferable` | bool | 可选；true 表示该动作走 InputBuffer（通常 oneshot 战斗动作） |
+| `action_type` | String | 可选；对应 `PlayerActionType` 名，如 `ATTACK_L` / `ROLL` |
+| `buffer_frames` | int | 可选；覆盖 `input_buffer.actions` 中的帧数 |
 
 ### machines（Step2）
 
@@ -40,7 +44,7 @@
 |------|------|------|
 | `kind` | String | `move`（含 idle↔run）或 `oneshot`（播完回 End，再由顶层回 Move） |
 | `states` | Dict | `状态名 -> 动画前缀`，如 `{"idle":"player_idle","run":"player_run"}` |
-| `from_move_expr` | String | 可选；非 Move 机时，MoveMachine -> 本机的 advance 表达式 |
+| `from_move_expr` | String | 可选；非 Move 机时，MoveMachine -> 本机的 advance 表达式（实现侧须含缓冲查询） |
 
 ### transitions
 
@@ -51,7 +55,7 @@
 | `move_to_attack` | `"is_attacking() == true"` | MoveMachine -> AttackMachine（也可写在 `machines.AttackMachine.from_move_expr`） |
 | `move_to_roll` | `"is_rolling() == true"` | MoveMachine -> RollMachine |
 
-> 表达式在 **AnimationTree（PlayerAnimationTree）** 上求值（`advance_expression_base_node = NodePath(".")`），因此 `get_move_direction()` / `is_attacking()` / `is_rolling()` 必须是 AnimationTree 脚本成员，**不是** `player.gd`。
+> 表达式在 **AnimationTree（PlayerAnimationTree）** 上求值（`advance_expression_base_node = NodePath(".")`），因此 `get_move_direction()` / `is_attacking()` / `is_rolling()` 必须是 AnimationTree 脚本成员，**不是** `player.gd`。`is_*` 实现为 `is_triggered() or has_buffered()`，**禁止**在表达式路径上消费缓冲。
 
 ### limbo（Step3 可选）
 
@@ -59,7 +63,29 @@
 |------|------|
 | `hsm_node` | 默认 `LimboHSM` |
 | `initial_mode` | 默认 `NormalBattle`（相对 HSM 的子节点名） |
-| `mode_script` | 模式态脚本路径，如 `res://scenes/player/state_machine/normal_battle.gd` |
+| `mode_script` | 模式态脚本路径，如 `res://scenes/player/state_machine/NormalBattle.gd` |
+
+### input_buffer（Step0 / Step3 可选）
+
+| 字段 | 说明 |
+|------|------|
+| `node` | 默认 `InputBuffer` |
+| `profile` | Profile 资源路径，如 `res://core/components/input/res/profiles/BattleBufferProfile.tres` |
+| `debug_overlay` | 是否挂 DebugOverlay，默认 `true` |
+| `physics_fps` | 默认 `60`；用于估算 `buffer_frames` |
+| `actions[]` | 可缓冲动作列表，见下 |
+
+#### input_buffer.actions[] 项
+
+| 字段 | 说明 |
+|------|------|
+| `action_type` | `PlayerActionType` 名：`ATTACK_L` / `ROLL` / … |
+| `policy` | 默认 `BUFFERABLE`；弹反类用 `WINDOW_GATED` |
+| `buffer_frames` | 普通预输入窗口（物理帧）。估法：`ceil(来源动画时长秒 × physics_fps) + 2～6` |
+| `pre_buffer_frames` | 仅 `WINDOW_GATED` + LENIENT |
+| `active_window_frames` | 仅 `WINDOW_GATED` 判定窗长度 |
+
+> 攻击/翻滚等常规接招只调 `buffer_frames`。窗口短于「预按时所在动作」剩余时长时，表现为「能预按攻击、难预按同动作连段」——先加帧数，不是改捕获逻辑。
 
 ## 完整示例（对齐 demo1/scenes/player 现状）
 
@@ -100,6 +126,7 @@
     },
     {
       "name": "player_attack", "machine": "AttackMachine", "state": "attack_L", "loop": false,
+      "bufferable": true, "action_type": "ATTACK_L", "buffer_frames": 24,
       "frames": {
         "up":    [28, 29, 30, 31],
         "down":  [36, 37, 38, 39],
@@ -109,6 +136,7 @@
     },
     {
       "name": "player_roll", "machine": "RollMachine", "state": "roll", "loop": false,
+      "bufferable": true, "action_type": "ROLL", "buffer_frames": 25,
       "frames": {
         "up":    [45, 46, 47, 48, 49],
         "down":  [40, 41, 42, 43, 44],
@@ -139,9 +167,19 @@
   "limbo": {
     "hsm_node": "LimboHSM",
     "initial_mode": "NormalBattle",
-    "mode_script": "res://scenes/player/state_machine/normal_battle.gd"
+    "mode_script": "res://scenes/player/state_machine/NormalBattle.gd"
+  },
+  "input_buffer": {
+    "node": "InputBuffer",
+    "profile": "res://core/components/input/res/profiles/BattleBufferProfile.tres",
+    "debug_overlay": true,
+    "physics_fps": 60,
+    "actions": [
+      { "action_type": "ATTACK_L", "policy": "BUFFERABLE", "buffer_frames": 24 },
+      { "action_type": "ROLL", "policy": "BUFFERABLE", "buffer_frames": 25 }
+    ]
   }
 }
 ```
 
-> 上表 `frames` 仅为示意；以用户当次提供的帧索引为准。`idle`/`run`/`roll` 可省略 `left`，由 `mirror` 从 `right` 派生。
+> 上表 `frames` 仅为示意；以用户当次提供的帧索引为准。`idle`/`run`/`roll` 可省略 `left`，由 `mirror` 从 `right` 派生。`buffer_frames` 可写在 action 上或集中写在 `input_buffer.actions`；冲突时以 `input_buffer.actions` 为准。

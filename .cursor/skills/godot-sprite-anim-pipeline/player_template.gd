@@ -1,9 +1,12 @@
 ## godot-sprite-anim-pipeline / Step 3 模板：Player 薄壳
-## 职责：节点引用、共享数据、初始化 LimboHSM。不写行动 match / 不写 GUIDE 查询。
+## 职责：节点引用（含 InputBuffer）、共享数据、AnimationTree 物理帧对齐、初始化 LimboHSM。
+## 不写行动 match / 不消费缓冲 / 不写 GUIDE 查询。
 ## 行动逻辑见 limbo_mode_template.gd；输入查询见 player_animation_tree_template.gd。
 class_name Player extends Node2D
 
 @onready var character: CharacterBody2D = $CharacterBody2D
+## 预输入组件，记住 recovery 期间提前按下的攻击/翻滚等。
+@onready var input_buffer: InputBuffer = $InputBuffer
 @onready var animation_tree: PlayerAnimationTree = $AnimationTree
 @onready var state_playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/StateMachine/playback")
 @onready var state_machine: LimboHSM = $LimboHSM
@@ -19,6 +22,10 @@ var last_direction: Vector2 = Vector2.DOWN
 
 func _ready() -> void:
 	InputMappingScheme.switch_to(InputMappingScheme.Type.KEYBOARD_MOUSE)
+	# 动画树与 LimboHSM / InputBuffer 同拍（物理帧）；过渡表达式在 AnimationTree 自身求值。
+	animation_tree.active = true
+	animation_tree.advance_expression_base_node = NodePath(".")
+	animation_tree.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS
 	_init_state_machine()
 
 
