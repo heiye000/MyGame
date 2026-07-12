@@ -3,11 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://assets/player/player.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://bww1f4isjl7l4" path="res://scenes/player/Player.gd" id="1_dovo2"]
 [ext_resource type="Script" uid="uid://dh0svc2ya38i" path="res://core/components/input/input_buffer/InputBuffer.gd" id="2_c3xxp"]
-[ext_resource type="Script" uid="uid://c87ymn8w0s6gg" path="res://core/components/input/input_buffer/InputBufferDebugOverlay.gd" id="2_overlay"]
+[ext_resource type="Script" uid="uid://c87ymn8w0s6gg" path="res://tools/debug/InputBufferDebugOverlay.gd" id="2_overlay"]
 [ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://scenes/player/state_machine/NormalBattle.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://scenes/player/PlayerAnimationTree.gd" id="4_animtree"]
 [ext_resource type="Resource" uid="uid://dlm8rxnc5u6bm" path="res://core/components/input/res/profiles/BattleBufferProfile.tres" id="5_battle_buffer"]
 [ext_resource type="Texture2D" uid="uid://bww3xk070qvj2" path="res://assets/shadows/small_shadow.png" id="6_v42im"]
+[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/YSortable2D.gd" id="9_pn6s4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
 radius = 7.0
@@ -509,7 +510,7 @@ script = ExtResource("2_overlay")
 motion_mode = 1
 
 [node name="Sprite2D_Shadow" type="Sprite2D" parent="CharacterBody2D" unique_id=865323301]
-position = Vector2(0, 12)
+position = Vector2(0, 12.000001)
 scale = Vector2(1.6500001, 1.3749999)
 texture = ExtResource("6_v42im")
 
@@ -521,8 +522,13 @@ hframes = 60
 process_callback = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=690995174]
-position = Vector2(0, 6)
+position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_wvhbo")
+
+[node name="YSortable2D" type="Node" parent="CharacterBody2D" unique_id=1587922942]
+script = ExtResource("9_pn6s4")
+sort_offset = Vector2(0, 12)
+metadata/_custom_type_script = "uid://dq7ysort2d001"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=819069565]
 libraries/ = SubResource("AnimationLibrary_lgqa7")
