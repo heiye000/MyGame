@@ -7,9 +7,10 @@
 [ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://scenes/player/state_machine/NormalBattle.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://scenes/player/PlayerAnimationTree.gd" id="4_animtree"]
 [ext_resource type="Resource" uid="uid://dlm8rxnc5u6bm" path="res://core/components/input/res/profiles/BattleBufferProfile.tres" id="5_battle_buffer"]
+[ext_resource type="Texture2D" uid="uid://bww3xk070qvj2" path="res://assets/shadows/small_shadow.png" id="6_v42im"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_evu83"]
-radius = 8.062258
+[sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
+radius = 7.0
 
 [sub_resource type="Animation" id="Animation_dovo2"]
 length = 0.001
@@ -501,26 +502,27 @@ process_mode = 1
 script = ExtResource("2_c3xxp")
 profile = ExtResource("5_battle_buffer")
 
-[node name="DebugOverlay" type="Control" parent="InputBuffer" unique_id=2004182833]
-layout_mode = 3
-anchors_preset = 0
+[node name="DebugOverlay" type="CanvasLayer" parent="InputBuffer" unique_id=2004182833]
 script = ExtResource("2_overlay")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=2093211279]
 motion_mode = 1
 
+[node name="Sprite2D_Shadow" type="Sprite2D" parent="CharacterBody2D" unique_id=865323301]
+position = Vector2(0, 12)
+scale = Vector2(1.6500001, 1.3749999)
+texture = ExtResource("6_v42im")
+
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=927512133]
-position = Vector2(173, 89)
 texture = ExtResource("1_8afob")
 hframes = 60
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1423240838]
-position = Vector2(172, 92)
-shape = SubResource("CircleShape2D_evu83")
-
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=295934824]
-position = Vector2(160, 90)
 process_callback = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=690995174]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_wvhbo")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=819069565]
 libraries/ = SubResource("AnimationLibrary_lgqa7")

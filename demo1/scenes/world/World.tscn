@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://c2618pp44th1" path="res://core/components/ysort/YSortManager.gd" id="2_ysort"]
 [ext_resource type="Texture2D" uid="uid://muqv83p3nuo6" path="res://assets/world/grass_background.png" id="3_grass"]
+[ext_resource type="PackedScene" uid="uid://bh3fih0vp4yeo" path="res://scenes/world/ground_deco/bush.tscn" id="4_gbddb"]
 [ext_resource type="PackedScene" uid="uid://lfb551b6bdcc" path="res://scenes/player/Player.tscn" id="4_player"]
+[ext_resource type="PackedScene" uid="uid://g5ovwwsfjb0f" path="res://scenes/world/ground_deco/tree.tscn" id="5_qxiha"]
 
 [node name="World" type="Node2D" unique_id=1280444436]
 
@@ -27,6 +29,45 @@ stretch_mode = 1
 [node name="Entities" type="Node2D" parent="." unique_id=1278090018]
 
 [node name="Player" parent="Entities" unique_id=1760495481 instance=ExtResource("4_player")]
+
+[node name="StaticBody2D" parent="Entities" unique_id=525876211 instance=ExtResource("4_gbddb")]
+position = Vector2(-18, 23)
+
+[node name="StaticBody2D2" parent="Entities" unique_id=1210316889 instance=ExtResource("4_gbddb")]
+position = Vector2(63, 25)
+
+[node name="StaticBody2D3" parent="Entities" unique_id=1784845873 instance=ExtResource("4_gbddb")]
+position = Vector2(23, -37)
+
+[node name="StaticBody2D4" parent="Entities" unique_id=285724282 instance=ExtResource("4_gbddb")]
+position = Vector2(-107, -51)
+
+[node name="StaticBody2D5" parent="Entities" unique_id=1384109029 instance=ExtResource("4_gbddb")]
+position = Vector2(144, 76)
+
+[node name="StaticBody2D8" parent="Entities" unique_id=1749038910 instance=ExtResource("4_gbddb")]
+position = Vector2(144, 76)
+
+[node name="StaticBody2D6" parent="Entities" unique_id=1971185671 instance=ExtResource("4_gbddb")]
+position = Vector2(-84, 79)
+
+[node name="StaticBody2D7" parent="Entities" unique_id=2030073226 instance=ExtResource("4_gbddb")]
+position = Vector2(-147, 72)
+
+[node name="StaticBody2D9" parent="Entities" unique_id=1051557031 instance=ExtResource("5_qxiha")]
+position = Vector2(15, 48)
+
+[node name="StaticBody2D10" parent="Entities" unique_id=703999996 instance=ExtResource("5_qxiha")]
+position = Vector2(-149, -72)
+
+[node name="StaticBody2D13" parent="Entities" unique_id=639259192 instance=ExtResource("5_qxiha")]
+position = Vector2(140, -70)
+
+[node name="StaticBody2D11" parent="Entities" unique_id=942200862 instance=ExtResource("5_qxiha")]
+position = Vector2(116, -20)
+
+[node name="StaticBody2D12" parent="Entities" unique_id=2126678412 instance=ExtResource("5_qxiha")]
+position = Vector2(116, -20)
 
 [node name="OverheadLayer" type="Node2D" parent="." unique_id=714410465 groups=["overhead_layer"]]
 z_index = 100

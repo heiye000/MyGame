@@ -1,6 +1,7 @@
-## 预输入调试叠层：左上角显示每个动作还剩多少帧预输入，方便调手感。
+## 预输入调试叠层：镜头画面左上角显示每个动作还剩多少帧预输入，方便调手感。
+## 用 CanvasLayer，这样不跟着世界坐标跑，始终贴在 Camera2D 画面左上角。
 class_name InputBufferDebugOverlay
-extends Control
+extends CanvasLayer
 
 ## 正常剩余时间用的绿色。
 const COLOR_OK := "#66f280"
@@ -13,18 +14,26 @@ const COLOR_GATE := "#73bfff"
 
 ## 要显示数据的预输入组件。
 var _buffer: InputBuffer
+## 屏幕空间容器，锚在镜头左上角。
+var _root: Control
 ## 显示文字的标签。
 var _label: RichTextLabel
 
 
 func _ready() -> void:
-	# 不挡鼠标点击，固定在左上角。
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	set_anchors_preset(Control.PRESET_TOP_LEFT)
-	offset_left = 6.0
-	offset_top = 6.0
-	offset_right = 220.0
-	offset_bottom = 140.0
+	# 叠在游戏画面之上；不跟随视口变换，始终是屏幕坐标。
+	layer = 100
+	follow_viewport_enabled = false
+
+	_root = Control.new()
+	_root.name = "Root"
+	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_root.offset_left = 6.0
+	_root.offset_top = 6.0
+	_root.offset_right = 220.0
+	_root.offset_bottom = 140.0
+	add_child(_root)
 
 	_label = RichTextLabel.new()
 	_label.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -33,7 +42,7 @@ func _ready() -> void:
 	_label.scroll_active = false
 	_label.add_theme_font_size_override("normal_font_size", 8)
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_label)
+	_root.add_child(_label)
 
 
 ## 绑定预输入组件，开始显示调试信息。
