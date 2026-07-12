@@ -6,7 +6,6 @@ enum Type {
 	MOVE, 	#移动
 	ATTACK_L, #攻击-左
 	ROLL, #翻滚
-
 }
 
 const _ACTIONS: Dictionary = {

@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bh3fih0vp4yeo" path="res://scenes/world/ground_deco/bush.tscn" id="4_gbddb"]
 [ext_resource type="PackedScene" uid="uid://lfb551b6bdcc" path="res://scenes/player/Player.tscn" id="4_player"]
 [ext_resource type="PackedScene" uid="uid://g5ovwwsfjb0f" path="res://scenes/world/ground_deco/tree.tscn" id="5_qxiha"]
-[ext_resource type="Script" uid="uid://cn3f2r741xfni" path="res://tools/debug/YSortDebugOverlay.gd" id="6_debug"]
+[ext_resource type="Script" uid="uid://cn3f2r741xfni" path="res://autoload/debug/fucntion/YSortDebugOverlay.gd" id="6_debug"]
 
 [node name="World" type="Node2D" unique_id=1280444436]
 

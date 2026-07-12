@@ -1,37 +1,38 @@
-## Y 排序调试叠层：按 F3 在世界坐标中绘制每个可排序对象的排序线与 z_index。
+## Y 排序调试叠层：在世界坐标中绘制每个可排序对象的排序线与 z_index。
+## 显示由 DebugService 统一控制（总开关 F1 + FEATURE_REGISTRY）。
 ## 仅在 Debug 构建下生效，不影响正式导出包。
 class_name YSortDebugOverlay
 extends Node2D
 
-const TOGGLE_ACTION := &"debug_toggle_y_sort"
 const LINE_COLOR := Color(1.0, 0.2, 0.2, 0.9)
 const POINT_COLOR := Color(1.0, 0.85, 0.2, 1.0)
 const TEXT_COLOR := Color(1.0, 1.0, 1.0, 0.95)
 const LINE_HALF_WIDTH := 24.0
 
-var _enabled: bool = false
 var _font: Font
 
 
 func _ready() -> void:
 	if not OS.is_debug_build():
 		set_process(false)
-		set_process_input(false)
 		visible = false
 		return
 	_font = ThemeDB.fallback_font
 	z_index = 200
 	z_as_relative = false
-	set_process_input(true)
-	set_process(false)
-	visible = false
+	DebugService.overlay_visibility_changed.connect(_sync_visibility)
+	DebugService.master_toggled.connect(_on_master_toggled)
+	_sync_visibility()
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(TOGGLE_ACTION):
-		_enabled = not _enabled
-		visible = _enabled
-		set_process(_enabled)
+func _on_master_toggled(_enabled: bool) -> void:
+	_sync_visibility()
+
+
+func _sync_visibility() -> void:
+	var on := DebugService.is_overlay_enabled(DebugSettings.ID_Y_SORT_OVERLAY)
+	visible = on
+	set_process(on)
 
 
 func _process(_delta: float) -> void:

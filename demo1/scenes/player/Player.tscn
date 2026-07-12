@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://assets/player/player.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://bww1f4isjl7l4" path="res://scenes/player/Player.gd" id="1_dovo2"]
 [ext_resource type="Script" uid="uid://dh0svc2ya38i" path="res://core/components/input/input_buffer/InputBuffer.gd" id="2_c3xxp"]
-[ext_resource type="Script" uid="uid://c87ymn8w0s6gg" path="res://tools/debug/InputBufferDebugOverlay.gd" id="2_overlay"]
+[ext_resource type="Script" uid="uid://c87ymn8w0s6gg" path="res://autoload/debug/fucntion/InputBufferDebugOverlay.gd" id="2_overlay"]
 [ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://scenes/player/state_machine/NormalBattle.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://scenes/player/PlayerAnimationTree.gd" id="4_animtree"]
 [ext_resource type="Resource" uid="uid://dlm8rxnc5u6bm" path="res://core/components/input/res/profiles/BattleBufferProfile.tres" id="5_battle_buffer"]

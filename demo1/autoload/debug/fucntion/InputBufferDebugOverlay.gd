@@ -1,5 +1,6 @@
 ## 预输入调试叠层：镜头画面左上角显示每个动作还剩多少帧预输入，方便调手感。
 ## 用 CanvasLayer，这样不跟着世界坐标跑，始终贴在 Camera2D 画面左上角。
+## 显示由 DebugService 统一控制（总开关 F1 + FEATURE_REGISTRY）。
 class_name InputBufferDebugOverlay
 extends CanvasLayer
 
@@ -44,11 +45,27 @@ func _ready() -> void:
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(_label)
 
+	if OS.is_debug_build():
+		DebugService.overlay_visibility_changed.connect(_sync_visibility)
+		DebugService.master_toggled.connect(_on_master_toggled)
+	_sync_visibility()
+
+
+func _on_master_toggled(_enabled: bool) -> void:
+	_sync_visibility()
+
+
+func _sync_visibility() -> void:
+	var on := DebugService.is_overlay_enabled(DebugSettings.ID_INPUT_BUFFER_OVERLAY)
+	visible = on
+	if on:
+		refresh()
+
 
 ## 绑定预输入组件，开始显示调试信息。
 func setup(buffer: InputBuffer) -> void:
 	_buffer = buffer
-	visible = buffer.debug_enabled
+	_sync_visibility()
 	refresh()
 
 
@@ -57,10 +74,11 @@ func refresh() -> void:
 	if _buffer == null or _label == null:
 		return
 
-	visible = _buffer.debug_enabled
-	if not visible:
+	if not DebugService.is_overlay_enabled(DebugSettings.ID_INPUT_BUFFER_OVERLAY):
+		visible = false
 		return
 
+	visible = true
 	var lines: PackedStringArray = ["[color=%s][InputBuffer][/color]" % COLOR_IDLE]
 	var snapshot: Dictionary = _buffer.get_debug_snapshot()
 

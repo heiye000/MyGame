@@ -12,9 +12,6 @@ extends Node
 		_connect_profile_editor_signals()
 		# deferred：等 Inspector 赋值完成后再刷，避免警告图标不更新。
 		call_deferred("update_configuration_warnings")
-## 是否显示调试叠层（第四步挂 DebugOverlay 后生效）。
-@export var debug_enabled: bool = true
-
 ## 成功记下了一次预输入。
 signal captured(action_type: PlayerActionType.Type)
 ## 预输入被用掉了，动作真正触发。
@@ -116,7 +113,7 @@ func _physics_process(_delta: float) -> void:
 		return
 	_tick_expired()
 	precision_gate.tick()
-	if _overlay and debug_enabled:
+	if _overlay and DebugService.is_overlay_enabled(DebugSettings.ID_INPUT_BUFFER_OVERLAY):
 		_overlay.refresh()
 
 
