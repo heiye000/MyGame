@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bh3fih0vp4yeo"]
+[gd_scene format=3 uid="uid://bh3fih0vp4yeo"]
 
 [ext_resource type="Texture2D" uid="uid://cno3la6uby5m7" path="res://assets/world/bush.png" id="1_ku5dn"]
 [ext_resource type="Texture2D" uid="uid://dx4coxpqu843n" path="res://assets/shadows/medium_shadow.png" id="1_vimui"]
@@ -19,7 +19,7 @@ texture = ExtResource("1_ku5dn")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=644010983]
 shape = SubResource("CircleShape2D_wvhbo")
 
-[node name="YSortable2D" type="Node" parent="."]
+[node name="YSortable2D" type="Node" parent="." unique_id=1636455413]
 script = ExtResource("3_ysort")
 sort_offset = Vector2(0, 12)
 sort_priority = 3
