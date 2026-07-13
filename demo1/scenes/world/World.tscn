@@ -4,10 +4,11 @@
 [ext_resource type="Script" uid="uid://c2618pp44th1" path="res://core/components/ysort/YSortManager.gd" id="2_ysort"]
 [ext_resource type="Texture2D" uid="uid://muqv83p3nuo6" path="res://assets/world/grass_background.png" id="3_grass"]
 [ext_resource type="Texture2D" uid="uid://dvpfgsjoorafg" path="res://assets/world/cliff_tileset.png" id="3_qh0kd"]
-[ext_resource type="PackedScene" uid="uid://bh3fih0vp4yeo" path="res://scenes/world/ground_deco/bush.tscn" id="4_gbddb"]
+[ext_resource type="PackedScene" uid="uid://bh3fih0vp4yeo" path="res://scenes/world/ground_deco/Bush.tscn" id="4_gbddb"]
 [ext_resource type="PackedScene" uid="uid://lfb551b6bdcc" path="res://scenes/player/Player.tscn" id="4_player"]
-[ext_resource type="PackedScene" uid="uid://g5ovwwsfjb0f" path="res://scenes/world/ground_deco/tree.tscn" id="5_qxiha"]
+[ext_resource type="PackedScene" uid="uid://g5ovwwsfjb0f" path="res://scenes/world/ground_deco/Tree.tscn" id="5_qxiha"]
 [ext_resource type="Script" uid="uid://cn3f2r741xfni" path="res://autoload/debug/fucntion/YSortDebugOverlay.gd" id="6_debug"]
+[ext_resource type="PackedScene" uid="uid://bw4wv5uwpetdx" path="res://scenes/world/ground_deco/Grass.tscn" id="9_yr1n6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_252at"]
 texture = ExtResource("1_252at")
@@ -805,6 +806,18 @@ position = Vector2(-38, -33)
 
 [node name="StaticBody2D12" parent="Entities" unique_id=2126678412 instance=ExtResource("5_qxiha")]
 position = Vector2(145, 62)
+
+[node name="Grass" parent="Entities" unique_id=236596218 instance=ExtResource("9_yr1n6")]
+position = Vector2(-52, 17)
+
+[node name="Grass2" parent="Entities" unique_id=2085204428 instance=ExtResource("9_yr1n6")]
+position = Vector2(-104, -82)
+
+[node name="Grass3" parent="Entities" unique_id=1408396989 instance=ExtResource("9_yr1n6")]
+position = Vector2(56, -12)
+
+[node name="Grass4" parent="Entities" unique_id=1296095527 instance=ExtResource("9_yr1n6")]
+position = Vector2(-147, -68)
 
 [node name="OverheadLayer" type="Node2D" parent="." unique_id=714410465 groups=["overhead_layer"]]
 z_index = 100
