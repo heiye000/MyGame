@@ -1,4 +1,4 @@
-## 全局调试服务：读功能注册表、监听 F1 总开关、提供通用查询 API。
+## 全局调试服务：读功能注册表、监听 F3 总开关、提供通用查询 API。
 ## 实现后一般不再因新增功能而修改本文件。
 extends Node
 
@@ -7,7 +7,7 @@ signal overlay_visibility_changed()
 
 const SETTINGS_PATH := "res://data/configs/debug/DebugSettings.tres"
 ## 总开关物理键（不走 GUIDE，由 _input 直接处理）。
-const MASTER_TOGGLE_KEY := KEY_F1
+const MASTER_TOGGLE_KEY := KEY_F3
 
 var _settings: DebugSettings
 ## 运行时总开关（F1 切换）。
