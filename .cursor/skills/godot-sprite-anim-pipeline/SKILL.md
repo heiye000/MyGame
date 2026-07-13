@@ -1,6 +1,6 @@
 ---
 name: godot-sprite-anim-pipeline
-description: Standard pipeline that turns a sprite-sheet PNG plus a structured manifest into multi-directional AnimationPlayer clips, an AnimationTree state machine, LimboHSM mode-driver code, and InputBuffer pre-input wiring, executed through the godot-mcp execute_editor_script tool. Use when the user provides a sprite sheet and asks to generate directional idle/walk/attack/roll animations, wire up an AnimationTree, integrate input buffering, or run the "动画流水线 / sprite animation pipeline / anim pipeline" workflow.
+description: Standard pipeline that turns a sprite-sheet PNG plus a structured manifest into multi-directional AnimationPlayer clips, an AnimationTree state machine, LimboHSM mode-driver code, InputBuffer pre-input wiring, and YSortable2D params from sprite-sheet annotation JSON. Use when the user provides a sprite sheet and asks to generate directional animations, wire up an AnimationTree, integrate input buffering, apply Y-sort from annotation, or run the "动画流水线 / sprite animation pipeline / anim pipeline" workflow.
 disable-model-invocation: true
 ---
 
@@ -14,7 +14,9 @@ disable-model-invocation: true
 
 ```
 Player (Node2D)
-├── CharacterBody2D / Sprite2D          # 物理与精灵
+├── CharacterBody2D
+│     ├── Sprite2D                      # 物理与精灵
+│     └── YSortable2D                   # Y 排序锚点；参数来自精灵标注 .json 的 y_sort 段
 ├── InputBuffer                        # 预输入：GUIDE just_triggered 捕获、单槽位、过期
 │     └── DebugOverlay                 # 可选：剩余缓冲帧调试叠层
 ├── AnimationPlayer                    # 切帧动画库
@@ -49,6 +51,8 @@ GUIDE Pressed → InputBuffer(just_triggered) 写入槽位
   → 同帧 _resolve_action_direction(当前 WASD，否则 last_direction)
 ```
 
+> **精灵标注 JSON**：与 `sprite_sheet` 同目录同名的 `.json`（由 `sprite-sheet-frame-annotator` 生成）可含 `grid` / `y_sort` / `animations`。流水线 Step0 优先读取其中的 `grid` 与 `y_sort`；缺标注时再用手写 manifest 或向用户确认。
+>
 > **扩展新行动模式**：在 `LimboHSM` 下新增 `LimboState`（如 `Explore`），在 `player.gd` 里注册 transition；AnimationTree 可复用或按模式换树。流水线 Step3 默认生成/修补 `NormalBattle` 这一种模式。
 >
 > **扩展新可缓冲动作**：见 [reference.md](reference.md)「预输入约定」；manifest 的 `input_buffer.actions` 声明 `buffer_frames`。
@@ -56,8 +60,9 @@ GUIDE Pressed → InputBuffer(just_triggered) 写入槽位
 ## 前置条件
 
 1. 目标场景已在 Godot 编辑器中**打开**（脚本用 `EditorInterface.get_edited_scene_root()`）。
-2. 场景节点（相对 Player 根）：
+2. 场景节点（相对实体根，玩家对齐 `demo1/scenes/player/`，敌人可精简）：
    - `CharacterBody2D/Sprite2D`（已设 `texture` 与 `hframes/vframes`）
+   - `CharacterBody2D/YSortable2D`（挂 `YSortable2D.gd`）——实体场景**建议必有**；参数见下方「Y 排序接线」
    - `AnimationPlayer`、`AnimationTree`（根直属）
    - `LimboHSM` + 至少一个模式态（如 `LimboHSM/NormalBattle`）——缺则用 godot-mcp `create_node` 补建
    - 若 manifest 声明可缓冲动作：`InputBuffer`（挂 `InputBuffer.gd` + Profile）及可选 `InputBuffer/DebugOverlay`
@@ -70,17 +75,18 @@ GUIDE Pressed → InputBuffer(just_triggered) 写入槽位
 
 ```
 Pipeline Progress:
-- [ ] Step 0: 校验 manifest、场景前置条件、InputBuffer/Profile（若有缓冲动作）
+- [ ] Step 0: 校验 manifest / 标注 JSON、场景前置条件、InputBuffer/Profile（若有缓冲动作）
 - [ ] Step 1: 生成 AnimationPlayer 动画
 - [ ] Step 2: 生成 AnimationTree 状态机
-- [ ] Step 3: 生成/修补驱动代码（Player + AnimationTree + Limbo + 预输入接线）
-- [ ] Step 4: 校验（含预输入冒烟）
+- [ ] Step 3: 生成/修补驱动代码 + 预输入接线 + YSortable2D 接线
+- [ ] Step 4: 校验（含预输入冒烟、Y 排序参数）
 ```
 
 ### Step 0 — 校验输入
+- **读取精灵标注 JSON**（若存在）：`sprite_sheet` 路径将 `.png` 换为 `.json`（例：`res://assets/enemies/bat.png` → `res://assets/enemies/bat.json`）。用其 `grid` 补全/校验 manifest 的 `hframes`/`vframes`；记录 `y_sort` 供 Step3 写入 `YSortable2D`。
 - 确认 manifest 每个 `action.frames` 的方向集合能被「显式帧 + mirror 派生」覆盖 `directions`。
 - 确认帧索引都落在 `hframes * vframes` 范围内。
-- 用 `get_scene_tree` 确认必需节点存在。缺失则停下让用户补齐，或用 `create_node` 补建 `AnimationTree` / `LimboHSM` / 模式态。
+- 用 `get_scene_tree` 确认必需节点存在。缺失则停下让用户补齐，或用 `create_node` 补建 `AnimationTree` / `LimboHSM` / 模式态 / `YSortable2D`。
 - 若存在 `input_buffer.actions`（或 oneshot 机带 `bufferable: true`）：
   - 确认 `InputBuffer` 节点存在且 `profile` 已指定（如 `BattleBufferProfile.tres`）。
   - 确认 Profile `entries` 为 `[SubResource(...), ...]`，**禁止** `Array[ExtResource(...)]` 空壳写法。
@@ -118,6 +124,41 @@ Pipeline Progress:
 场景侧（若尚未挂好）：
 - `InputBuffer` 子节点 + `profile` 引用
 - 可选 `InputBuffer/DebugOverlay`（`InputBufferDebugOverlay.gd`），子控件 `mouse_filter = Ignore`
+- **`YSortable2D` 接线**（见下）
+
+### Y 排序接线（YSortable2D）
+
+实体场景挂载 `YSortable2D` 时，**若精灵标注 JSON 含 `y_sort` 段，必须按标注设置参数**，禁止在场景中另估 `sort_offset` / `elevation`。
+
+**节点约定（demo1）：**
+- 路径：`CharacterBody2D/YSortable2D`
+- 脚本：`res://core/components/ysort/YSortable2D.gd`
+- `host` 可不设（默认父节点 `CharacterBody2D`）
+- `Sprite2D` 保持 `centered=true`，与标注 `坐标系` 一致
+
+**属性映射（标注 `y_sort` → 节点）：**
+
+| 标注键 | 节点属性 | 写法 |
+|--------|----------|------|
+| `sort_offset[0]`, `[1]` | `sort_offset` | `Vector2(x, y)` |
+| `elevation` | `elevation` | 直接赋值；缺省 `0` |
+| `sort_priority` | `sort_priority` | 直接赋值；缺省：玩家/敌人 `5`，静物 `3` |
+
+**执行时机：** Step3 场景补建阶段——创建或更新 `YSortable2D` 后，从 Step0 读到的标注写入上述属性，并 `save_scene`。
+
+**缺省与异常：**
+- 标注**无** `y_sort`：停下提示用户先跑 `sprite-sheet-frame-annotator`，或询问锚点后再补标注；勿静默猜值。
+- 场景已有 `YSortable2D` 且标注更新：以标注覆盖场景参数。
+- 动画播放**不得**改动 `sort_offset`（锚点固定，不随帧摆动）。
+
+**示例（`bat.json` → `BatEnemy.tscn`）：**
+
+```ini
+[node name="YSortable2D" type="Node" parent="CharacterBody2D"]
+script = ExtResource("...YSortable2D.gd")
+sort_offset = Vector2(0, 1)
+elevation = -8.0
+```
 
 ### Step 4 — 校验
 用 `execute_editor_script` 读回校验（见 [reference.md](reference.md)）：
@@ -126,6 +167,7 @@ Pipeline Progress:
 - `AnimationTree.active == true`；`advance_expression_base_node` 为 `.`；处理模式为 PHYSICS。
 - `LimboHSM` 已可初始化且存在初始模式态。
 - 若启用预输入：`InputBuffer.profile.entries` 非空；`PlayerAnimationTree` 的 `is_*` 含 `has_buffered`；模式态进入分支含 `consume_buffered`。
+- **Y 排序**：`YSortable2D` 存在且 `sort_offset` / `elevation` 与标注 `y_sort` 一致（有标注时）；`Sprite2D.hframes/vframes` 与标注 `grid` 一致。
 - 可选：`run_project` 冒烟——四方向 idle/run、攻击定身、翻滚位移、recovery 预按能接、开招后 Overlay 对应槽位清零。
 
 若失败，对照下方坑位表修复后重跑对应 Step。
@@ -149,7 +191,10 @@ Pipeline Progress:
 | 子节点拿不到 `input_buffer` | 子 `_ready` 早于父 `@onready` | 用 `player.get_node_or_null("InputBuffer")`，勿直接读 `@onready` 字段 |
 | 斜向移动后攻击方向「锁死」旧朝向 | 开招只用 `last_direction` | 进入子机时 `_resolve_action_direction(当前 WASD)` |
 | 攻击时跑动画方向被拧歪 | 攻击分支仍写 Move blend | 分路 `_set_move_blend` / `_set_attack_blend` / `_set_roll_blend` |
+| Y 排序遮挡不对 | `YSortable2D` 未读标注或手估 `sort_offset` | Step0 读同名 `.json` 的 `y_sort`；Step3 按标注写入，勿重算 |
+| 飞行动画播放时排序漂移 | 把翅膀最低点当锚点或动画改了 `sort_offset` | 锚点用标注的稳定躯干/脚底；`sort_offset` 仅初始化一次 |
 
 ## 资源
 - 输入清单格式与完整示例：[manifest.schema.md](manifest.schema.md)
-- blend 坐标 / transition / 预输入约定 / 扩展点 / 校验片段：[reference.md](reference.md)
+- blend 坐标 / transition / 预输入 / Y 排序约定 / 扩展点 / 校验片段：[reference.md](reference.md)
+- 精灵表标注（含 `y_sort` 测算）：`sprite-sheet-frame-annotator` 技能

@@ -9,6 +9,34 @@
 | 动画输入 | `player_animation_tree.gd` | GUIDE + `has_buffered` 查询；transition 表达式基准 |
 | 行动模式 | `state_machine/*.gd`（LimboState） | `match` 分发；**进入** Attack/Roll 时消费预输入；分路写 blend |
 | 动画图 | AnimationTree `tree_root` | Move / Attack / Roll 等子机切换 |
+| Y 排序 | `YSortable2D.gd` | 读精灵标注 `y_sort` 设 `sort_offset` / `elevation`；不参与动画驱动 |
+
+## Y 排序（YSortable2D）约定
+
+### 数据来源
+
+精灵标注 JSON（与 `sprite_sheet` 同名 `.json`）的 `y_sort` 段：
+
+```json
+"y_sort": {
+  "sort_offset": [0, 1],
+  "elevation": -8
+}
+```
+
+由 `sprite-sheet-frame-annotator` 测算；流水线 **只读取、不重算**。
+
+### 接线规则
+
+1. 节点路径：`CharacterBody2D/YSortable2D`，脚本 `res://core/components/ysort/YSortable2D.gd`。
+2. `sort_offset = Vector2(y_sort.sort_offset[0], y_sort.sort_offset[1])`。
+3. `elevation = y_sort.elevation`（缺省 `0`）；`sort_priority` 缺省：玩家/敌人 `5`，静物 `3`。
+4. 标注无 `y_sort` 时停下补标注，勿手估。
+5. 动画播放不得修改 `sort_offset`。
+
+### 与 grid 联动
+
+Step0 同时用标注 `grid.hframes` / `grid.vframes` 设置 `Sprite2D`，与动画 manifest 保持一致。
 
 ## 预输入（Input Buffer）约定
 
@@ -124,12 +152,16 @@ var ap = root.get_node("AnimationPlayer")
 var tree = root.get_node("AnimationTree")
 var hsm = root.get_node_or_null("LimboHSM")
 var buf = root.get_node_or_null("InputBuffer")
+var ysort = root.get_node_or_null("CharacterBody2D/YSortable2D")
 var names = ap.get_animation_list()
 _custom_print("anim_count=" + str(names.size()))
 _custom_print("tree_active=" + str(tree.active))
 _custom_print("expr_base=" + str(tree.advance_expression_base_node))
 _custom_print("tree_process=" + str(tree.callback_mode_process))
 _custom_print("hsm=" + str(hsm != null))
+if ysort:
+	_custom_print("ysort_offset=" + str(ysort.sort_offset))
+	_custom_print("ysort_elevation=" + str(ysort.elevation))
 if hsm:
 	_custom_print("hsm_children=" + str(hsm.get_child_count()))
 if buf:
@@ -146,4 +178,4 @@ for p in paths:
 	_custom_print(p + " = " + str(tree.get(p)))
 ```
 
-期望：`anim_count` 等于 `1 + Σ动作方向数`；`tree_active=true`；`expr_base` 为 `.`；`tree_process=0`（PHYSICS）；每个 blend_position 可取到 `Vector2`；`LimboHSM` 存在；若启用预输入则 `buffer_entries > 0`。
+期望：`anim_count` 等于 `1 + Σ动作方向数`；`tree_active=true`；`expr_base` 为 `.`；`tree_process=0`（PHYSICS）；每个 blend_position 可取到 `Vector2`；`LimboHSM` 存在；若启用预输入则 `buffer_entries > 0`；若有标注 `y_sort` 则 `ysort_offset` / `ysort_elevation` 与 JSON 一致。
