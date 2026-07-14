@@ -2,8 +2,8 @@
 extends Node2D
 @onready var area_2d: Area2D = $Area2D
 #草死亡效
-const GRASS_EFFECT = preload("res://scenes/world/ground_deco/effects/GrassDie.tscn")
-
+#const GRASS_EFFECT = preload("res://scenes/world/ground_deco/effects/GrassDie.tscn")
+@export var GRASS_EFFECT: PackedScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
