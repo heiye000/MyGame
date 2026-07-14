@@ -37,7 +37,7 @@ Player (Node2D)
 |----|------|--------|
 | `player.gd` | 节点引用（含 `input_buffer`）、LimboHSM 初始化、AnimationTree 物理帧对齐 | 不写行动 `match`、不消费缓冲 |
 | `InputBuffer` | 监听 GUIDE `just_triggered`、维护槽位/过期/DebugOverlay | 不读 AnimationTree 当前状态、不驱动位移 |
-| `player_animation_tree.gd` | `get_move_direction()` / `is_*()` = `is_triggered() or has_buffered()` | **禁止** `consume_buffered()`；不驱动位移 |
+| `player_animation_tree.gd` | `get_move_direction()` / `is_*()` = `is_triggered() or has_buffered()`；`_physics_process` 记帧起点根节点，同帧已在 Oneshot 子机则 `is_*` 返回 false | **禁止** `consume_buffered()`；不驱动位移 |
 | Limbo 模式态（如 `normal_battle.gd`） | `match state_playback`；**进入** Attack/Roll 时 `consume_buffered`；分路写 blend；开招瞬间用当前 WASD 定朝向 | 不在 `_update` 公共块统一消费；不直接读 GUIDE |
 | AnimationTree 图 | idle↔run、Move↔Attack/Roll 等切换 | 不决定「当前是战斗还是对话」 |
 
@@ -112,12 +112,12 @@ Pipeline Progress:
 | 文件 | 模板 | 要点 |
 |------|------|------|
 | `player.gd` | [player_template.gd](player_template.gd) | `@onready input_buffer`；`_ready` 设 AnimationTree active / expr base / PHYSICS；无行动 `match` |
-| `player_animation_tree.gd` | [player_animation_tree_template.gd](player_animation_tree_template.gd) | `_ready` 经父节点取 `InputBuffer`；`is_*()` = triggered **或** `has_buffered`，**不消费** |
+| `player_animation_tree.gd` | [player_animation_tree_template.gd](player_animation_tree_template.gd) | `_ready` 经父节点取 `InputBuffer`；`is_*()` = triggered **或** `has_buffered`，**不消费**；`_physics_process` 记 `_root_node_at_frame_start`，同帧已在对应 Oneshot 子机则 `is_*` 返回 false（防 looped transitions） |
 | 模式态（如 `normal_battle.gd`） | [limbo_mode_template.gd](limbo_mode_template.gd) | `_last_anim_node`；进入 Attack/Roll 时 `consume_buffered`；分路 `_set_*_blend`；开招用当前 WASD 锁朝向 |
 | Profile / ActionType | 无单独模板 | 每个可缓冲动作：枚举 + GUIDE `.tres` + Profile Entry（`BUFFERABLE` + `buffer_frames`） |
 
 新增 AnimationTree 子机（如 `DodgeMachine`）时同步：
-1. `PlayerAnimationTree.is_dodging()`（只查）
+1. `PlayerAnimationTree.is_dodging()`（只查 + 对 `DodgeMachine` 做同帧门闩）
 2. 模式态 `match` + 进入时 `consume_buffered(DODGE)` + `_set_dodge_blend`
 3. Profile Entry；`buffer_frames ≈ ceil(动画时长秒 × physics_fps) + 2～6` 余量
 
@@ -166,7 +166,7 @@ elevation = -8.0
 - 每个 `parameters/StateMachine/.../blend_position` 可 `get()` 到（非 null）。
 - `AnimationTree.active == true`；`advance_expression_base_node` 为 `.`；处理模式为 PHYSICS。
 - `LimboHSM` 已可初始化且存在初始模式态。
-- 若启用预输入：`InputBuffer.profile.entries` 非空；`PlayerAnimationTree` 的 `is_*` 含 `has_buffered`；模式态进入分支含 `consume_buffered`。
+- 若启用预输入：`InputBuffer.profile.entries` 非空；`PlayerAnimationTree` 的 `is_*` 含 `has_buffered` 与同帧门闩（`_root_node_at_frame_start`）；模式态进入分支含 `consume_buffered`。
 - **Y 排序**：`YSortable2D` 存在且 `sort_offset` / `elevation` 与标注 `y_sort` 一致（有标注时）；`Sprite2D.hframes/vframes` 与标注 `grid` 一致。
 - 可选：`run_project` 冒烟——四方向 idle/run、攻击定身、翻滚位移、recovery 预按能接、开招后 Overlay 对应槽位清零。
 
@@ -186,6 +186,7 @@ elevation = -8.0
 | Limbo 模式不跑 | 未 `initialize` / `set_active` | `update_mode=PHYSICS`、`initial_state`、`initialize(self)`、`set_active(true)` |
 | 输入在 player 上查不到 | 旧模板把 GUIDE 放在 player | 迁移到 `PlayerAnimationTree` |
 | 第二次预输入接不上 / 过渡抖动 | 在 `is_*()` 里 `consume_buffered` | 只查 `has_buffered`；进子机再消费 |
+| `looped transitions in a single frame` 告警 | Oneshot `At End` 回 Move 同帧 `is_*` 仍为 true，立刻再进形成回环 | `_physics_process` 记帧起点根节点；`is_*` 若本帧已在对应子机则返回 false（连招晚 1 帧） |
 | Overlay 有缓冲但动画不接 | 缺 `is_*` 合并缓冲，或 `buffer_frames` 短于来源动作剩余时长 | 补查询；增大 Entry 的 `buffer_frames` |
 | Profile entries 运行时为空 | `.tres` 写成 `Array[ExtResource]` | 改为 `entries = [SubResource(...), ...]`；Entry 用独立脚本 |
 | 子节点拿不到 `input_buffer` | 子 `_ready` 早于父 `@onready` | 用 `player.get_node_or_null("InputBuffer")`，勿直接读 `@onready` 字段 |

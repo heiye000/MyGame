@@ -72,13 +72,14 @@ func capture_from_guide() -> void:
 | 脚本 | 做什么 | 不做什么 |
 |------|--------|----------|
 | `InputBuffer` | 监听 GUIDE `just_triggered`、维护单槽位、过期、调试叠层 | 不读 AnimationTree 当前状态 |
-| `PlayerAnimationTree` | `is_*()` 返回 `is_triggered() or has_buffered()` | **禁止** `consume_buffered()` |
+| `PlayerAnimationTree` | `is_*()` 返回 `is_triggered() or has_buffered()`；`_physics_process` 记帧起点根节点，同帧已在 Oneshot 子机则返回 false | **禁止** `consume_buffered()` |
 | `NormalBattle` 等模式态 | `_process_*_machine` **进入时** `consume_buffered()`；分路写 blend；开招用当前 WASD 锁朝向 | 不在 `_update` 公共块统一消费 |
 | `Player` | 持有 `input_buffer`；AnimationTree 设物理帧 + `advance_expression_base_node` | 不写行动 match |
 
 **常见坑：**
 
 - 过渡表达式里消费缓冲 → 第二次按键失败 → 改查 `has_buffered`，进状态再消费
+- 连续攻击/翻滚 `looped transitions in a single frame` → Oneshot 结束同帧 `is_*` 仍 true → `_root_node_at_frame_start` 门闩（见 skill 模板）
 - `.tres` 用 inner class 或 `Array[ExtResource]` → TypedArray 报错 → `InputBufferProfileEntry` 独立脚本，`entries = [SubResource(...)]`
 - AnimationTree idle 帧评估 → 与 Limbo/缓冲不同步 → `callback_mode_process = PHYSICS`
 - `buffer_frames` 短于来源动作剩余时长 → 预按过期接不上 → 按动画时长加大窗口
