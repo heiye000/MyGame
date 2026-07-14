@@ -130,7 +130,6 @@ libraries/ = SubResource("AnimationLibrary_1wwot")
 [node name="YSortable2D" type="Node" parent="CharacterBody2D" unique_id=414500005]
 script = ExtResource("4_ysort")
 sort_offset = Vector2(0, 1)
-elevation = -8.0
 metadata/_custom_type_script = "uid://dq7ysort2d001"
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=1266535788]
