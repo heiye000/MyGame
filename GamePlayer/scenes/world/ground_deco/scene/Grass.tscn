@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bw4wv5uwpetdx"]
+
+[ext_resource type="Script" uid="uid://bctoevktb8a5l" path="res://scenes/world/ground_deco/Grass.gd" id="1_pueci"]
+[ext_resource type="Texture2D" uid="uid://bww3xk070qvj2" path="res://assets/shadows/small_shadow.png" id="2_n1a6u"]
+[ext_resource type="PackedScene" uid="uid://d1ppbkqixrahn" path="res://scenes/world/ground_deco/effects/GrassDie.tscn" id="2_t58up"]
+[ext_resource type="Texture2D" uid="uid://ctgc7xq4djt4q" path="res://assets/world/grass.png" id="3_vstam"]
+[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/YSortable2D.gd" id="4_bshtu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_evu83"]
+radius = 5.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_evu83"]
+size = Vector2(12, 11)
+
+[node name="Grass" type="Node2D" unique_id=236596218]
+script = ExtResource("1_pueci")
+GRASS_EFFECT = ExtResource("2_t58up")
+
+[node name="Sprite2D_Shadow" type="Sprite2D" parent="." unique_id=2120892065]
+position = Vector2(-0.5000007, 5)
+scale = Vector2(1.9, 1.25)
+texture = ExtResource("2_n1a6u")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=995323830]
+texture = ExtResource("3_vstam")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=997535455]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1630633817]
+shape = SubResource("CircleShape2D_evu83")
+
+[node name="YSortable2D" type="Node" parent="." unique_id=849065570]
+script = ExtResource("4_bshtu")
+sort_offset = Vector2(0, 5)
+metadata/_custom_type_script = "uid://dq7ysort2d001"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1286396436]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=881277237]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_evu83")
