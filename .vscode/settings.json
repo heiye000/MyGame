@@ -2,10 +2,12 @@
     "godotTools.editorPath.godot4": "d:\\Godot_v4.7\\Godot_v4.7-stable_win64.exe",
     "files.exclude": {
       "**/*.gd.uid": true,
-      "**/*.import": true
+      "**/*.import": true,
+      "**/*.pyc": true
     },
     "search.exclude": {
       "**/*.gd.uid": true,
-      "**/*.import": true
+      "**/*.import": true,
+      "**/*.pyc": true 
     }
   }
