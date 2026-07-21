@@ -1,15 +1,15 @@
 [gd_scene format=4 uid="uid://cxhmwmmf1fdq8"]
 
 [ext_resource type="Texture2D" uid="uid://dbdrangqo22f3" path="res://assets/sprites/world/dirt_tileset.png" id="1_252at"]
-[ext_resource type="Script" uid="uid://c2618pp44th1" path="res://core/components/ysort/YSortManager.gd" id="2_ysort"]
+[ext_resource type="Script" uid="uid://c2618pp44th1" path="res://core/components/ysort/y_sort_manager.gd" id="2_ysort"]
 [ext_resource type="Texture2D" uid="uid://muqv83p3nuo6" path="res://assets/sprites/world/grass_background.png" id="3_grass"]
 [ext_resource type="Texture2D" uid="uid://dvpfgsjoorafg" path="res://assets/sprites/world/cliff_tileset.png" id="3_qh0kd"]
 [ext_resource type="PackedScene" uid="uid://cwuigf7vs7x6q" path="res://actors/decor/forest/bush.tscn" id="4_gbddb"]
-[ext_resource type="PackedScene" uid="uid://lfb551b6bdcc" path="res://actors/player/Player.tscn" id="4_player"]
+[ext_resource type="PackedScene" uid="uid://lfb551b6bdcc" path="res://actors/player/player.tscn" id="4_player"]
 [ext_resource type="PackedScene" uid="uid://g5ovwwsfjb0f" path="res://actors/decor/forest/tree.tscn" id="5_qxiha"]
-[ext_resource type="Script" uid="uid://cn3f2r741xfni" path="res://autoload/debug/fucntion/YSortDebugOverlay.gd" id="6_debug"]
+[ext_resource type="Script" uid="uid://cn3f2r741xfni" path="res://autoload/debug/fucntion/y_sort_debug_overlay.gd" id="6_debug"]
 [ext_resource type="PackedScene" uid="uid://bw4wv5uwpetdx" path="res://actors/decor/forest/grass.tscn" id="9_yr1n6"]
-[ext_resource type="PackedScene" uid="uid://dnixsstmatax1" path="res://actors/enemy/BatEnemy.tscn" id="10_l5ull"]
+[ext_resource type="PackedScene" uid="uid://dnixsstmatax1" path="res://actors/enemy/bat_enemy.tscn" id="10_l5ull"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_252at"]
 texture = ExtResource("1_252at")

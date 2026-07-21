@@ -18,7 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GUIDE="*uid://p2jwrgjcbexr"
-DebugService="*res://autoload/debug/DebugService.gd"
+DebugService="*res://autoload/debug/debug_service.gd"
+MCPRuntimeProbe="*res://addons/godot_mcp/runtime/mcp_runtime_probe.gd"
 
 [display]
 

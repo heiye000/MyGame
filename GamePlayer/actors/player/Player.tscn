@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://lfb551b6bdcc"]
 
-[ext_resource type="Script" uid="uid://bww1f4isjl7l4" path="res://actors/player/Player.gd" id="1_pn6s4"]
-[ext_resource type="Script" uid="uid://dh0svc2ya38i" path="res://core/components/input/input_buffer/InputBuffer.gd" id="2_7oing"]
-[ext_resource type="Resource" uid="uid://dlm8rxnc5u6bm" path="res://core/components/input/res/profiles/BattleBufferProfile.tres" id="3_5stf6"]
-[ext_resource type="Script" uid="uid://c87ymn8w0s6gg" path="res://autoload/debug/fucntion/InputBufferDebugOverlay.gd" id="4_180ig"]
+[ext_resource type="Script" uid="uid://bww1f4isjl7l4" path="res://actors/player/player.gd" id="1_pn6s4"]
+[ext_resource type="Script" uid="uid://dh0svc2ya38i" path="res://core/components/input/input_buffer/input_buffer.gd" id="2_7oing"]
+[ext_resource type="Resource" uid="uid://dlm8rxnc5u6bm" path="res://core/components/input/res/profiles/battle_buffer_profile.tres" id="3_5stf6"]
+[ext_resource type="Script" uid="uid://c87ymn8w0s6gg" path="res://autoload/debug/fucntion/input_buffer_debug_overlay.gd" id="4_180ig"]
 [ext_resource type="Texture2D" uid="uid://bww3xk070qvj2" path="res://assets/sprites/shadows/small_shadow.png" id="5_20koh"]
 [ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://assets/sprites/player/player.png" id="6_ov1oi"]
-[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/YSortable2D.gd" id="7_rn7t0"]
-[ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://actors/player/PlayerAnimationTree.gd" id="8_8qjgm"]
-[ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://actors/player/state_machine/NormalBattle.gd" id="9_ejd4k"]
+[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/y_sortable_2d.gd" id="7_rn7t0"]
+[ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://actors/player/player_animation_tree.gd" id="8_8qjgm"]
+[ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://actors/player/state_machine/normal_battle.gd" id="9_ejd4k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
 radius = 7.0
@@ -578,9 +578,6 @@ texture = ExtResource("5_20koh")
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=927512133]
 texture = ExtResource("6_ov1oi")
 hframes = 60
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=295934824]
-process_callback = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=690995174]
 position = Vector2(0, 5)

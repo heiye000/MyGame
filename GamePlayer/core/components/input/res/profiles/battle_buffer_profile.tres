@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="InputBufferProfile" format=3 uid="uid://dlm8rxnc5u6bm"]
+
+[ext_resource type="Script" uid="uid://bssxix7mj0au3" path="res://core/components/input/input_buffer/input_buffer_profile_entry.gd" id="1_jd6mn"]
+[ext_resource type="Script" uid="uid://duawlprhohmnc" path="res://core/components/input/input_buffer/input_buffer_profile.gd" id="2_bjhey"]
+
+[sub_resource type="Resource" id="Entry_attack"]
+script = ExtResource("1_jd6mn")
+action_type = 1
+
+[sub_resource type="Resource" id="Entry_roll"]
+script = ExtResource("1_jd6mn")
+action_type = 2
+buffer_frames = 25
+
+[resource]
+script = ExtResource("2_bjhey")
+entries = Array[ExtResource("1_jd6mn")]([SubResource("Entry_attack"), SubResource("Entry_roll")])

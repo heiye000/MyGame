@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bw4wv5uwpetdx"]
 
-[ext_resource type="Script" uid="uid://bctoevktb8a5l" path="res://scenes/world/ground_deco/Grass.gd" id="1_pueci"]
+[ext_resource type="Script" uid="uid://bctoevktb8a5l" path="res://scenes/world/ground_deco/grass.gd" id="1_pueci"]
 [ext_resource type="Texture2D" uid="uid://bww3xk070qvj2" path="res://assets/sprites/shadows/small_shadow.png" id="2_n1a6u"]
-[ext_resource type="PackedScene" uid="uid://d1ppbkqixrahn" path="res://scenes/world/ground_deco/effects/GrassDie.tscn" id="2_t58up"]
+[ext_resource type="PackedScene" uid="uid://d1ppbkqixrahn" path="res://scenes/world/ground_deco/effects/grass_die.tscn" id="2_t58up"]
 [ext_resource type="Texture2D" uid="uid://ctgc7xq4djt4q" path="res://assets/sprites/world/grass.png" id="3_vstam"]
-[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/YSortable2D.gd" id="4_bshtu"]
+[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/y_sortable_2d.gd" id="4_bshtu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_evu83"]
 radius = 5.0

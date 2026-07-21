@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cno3la6uby5m7" path="res://assets/sprites/world/bush.png" id="1_ku5dn"]
 [ext_resource type="Texture2D" uid="uid://dx4coxpqu843n" path="res://assets/sprites/shadows/medium_shadow.png" id="1_vimui"]
-[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/YSortable2D.gd" id="3_ysort"]
+[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/y_sortable_2d.gd" id="3_ysort"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
 
