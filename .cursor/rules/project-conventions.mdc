@@ -1,0 +1,81 @@
+---
+description: 项目冻结约定——2D 物理层、渲染层、稳定身份 ID；生成/改碰撞与世界对象时必须遵守
+alwaysApply: true
+---
+
+# 项目约定（已冻结）
+
+进入正式内容制作后，下列层号、名称与 ID 语义**不得重排或改义**。  
+物理层与渲染层**相互独立**：同层号含义不同，禁止混用或对照抄名。
+
+## 2D 物理碰撞层
+
+用于 `collision_layer` / `collision_mask`。既有场景数值可分批迁移，新建必须按表。
+
+| 层 | 名称 | 作用 |
+|---:|---|---|
+| 1 | `WorldSolid` | 墙、悬崖等静态阻挡 |
+| 2 | `ActorBody` | 玩家/NPC/敌人身体体积 |
+| 3 | `PlayerHurtbox` | 玩家受击 |
+| 4 | `EnemyHurtbox` | 敌人受击 |
+| 5 | `PlayerHitbox` | 玩家攻击判定 |
+| 6 | `EnemyHitbox` | 敌人攻击判定 |
+| 7 | `Interactable` | 可交互物 |
+| 8 | `InteractionProbe` | 交互探测区 |
+| 9 | `Trigger` | 区域触发（一般不挡路） |
+| 10 | `Projectile` | 投射物碰撞 |
+| 11 | `NavigationObstacle` | 导航障碍 |
+| 12 | `Pickup` | 掉落物 |
+
+原则：
+
+- 身体碰撞与 Hurt/Hit 必须分开放，避免互相污染
+- `InteractionProbe` 只掩码 `Interactable`，不做攻击判定
+- `Trigger` 与 `WorldSolid` 职责分离
+
+## 2D 渲染可见层
+
+用于 `visibility_layer`、灯光/遮光过滤；**不**决定 Y 排序与碰撞。
+
+| 层 | 名称 | 作用 |
+|---:|---|---|
+| 1 | `Ground` | 地表 TileMap |
+| 2 | `GroundDeco` | 地面贴花 |
+| 3 | `StaticBack` | 永远在角色身后的背景 |
+| 4 | `Entities` | 角色视觉主体 |
+| 5 | `Props` | 箱子、桌子等道具外观 |
+| 6 | `ProjectilesFX` | 飞行物与拖尾视觉 |
+| 7 | `Above` | 实体上、屋顶下的中前景 |
+| 8 | `CanopyRoof` | 树冠、屋檐、屋顶 |
+| 9 | `Weather` | 雨雪雾 |
+| 10 | `WorldFX` | 受击火花、尘土等 |
+| 11 | `WorldUI` | 世界空间跳字/名字/交互提示 |
+| 12 | `Debug` | 调试叠层 |
+
+原则：
+
+- 碰撞看物理层；遮挡靠脚底 Y 排序；树冠/屋檐用 `CanopyRoof`
+- 屏幕 UI 用 `CanvasLayer`，勿占用 `WorldUI`
+- 默认可视 1～11；`Debug` 仅调试开启时可见
+
+## 稳定身份 ID
+
+世界持久对象不得仅靠场景树路径识别。
+
+| 字段 | 类型 | 含义 | 谁生成 |
+|---|---|---|---|
+| `persistent_id` | `StringName` | 世界实例永久身份 | 内容制作时手填/工具生成，之后不改 |
+| `definition_id` | `StringName` | 配置/原型身份 | 数据表或 `.tres` |
+| `runtime_id` | `int` | 本次运行临时句柄 | 运行时分配，不进存档 |
+
+命名例子：
+
+- 宝箱：`chest_forest_a01` / `chest_wood_small`
+- 门：`door_village_north` / `door_wood_single`
+- NPC：`npc_elder_rowan` / `npc_villager_elder`
+
+规则：
+
+- 会存档或随 Chunk 卸载重载的对象必须有唯一 `persistent_id`
+- 同一世界内禁止重复；Chunk 重生不得换新 `persistent_id`
+- 存档与世界状态只认 `persistent_id`，不认节点路径
