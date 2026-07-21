@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://lbgg6is3rlev"]
+
+[ext_resource type="Script" uid="uid://c2618pp44th1" path="res://core/components/ysort/YSortManager.gd" id="1_mpk58"]
+[ext_resource type="Script" uid="uid://cn3f2r741xfni" path="res://autoload/debug/fucntion/YSortDebugOverlay.gd" id="2_qsf0h"]
+[ext_resource type="PackedScene" uid="uid://cwuigf7vs7x6q" path="res://actors/decor/forest/bush.tscn" id="3_qsf0h"]
+
+[node name="TestWorld" type="Node2D" unique_id=1845482878]
+
+[node name="YSortManager" type="Node" parent="." unique_id=1213815243]
+script = ExtResource("1_mpk58")
+
+[node name="YSortDebugOverlay" type="Node2D" parent="YSortManager" unique_id=300152002]
+script = ExtResource("2_qsf0h")
+
+[node name="Bush" parent="." unique_id=525876211 instance=ExtResource("3_qsf0h")]
+position = Vector2(94, 62)

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://g5ovwwsfjb0f"]
+
+[ext_resource type="Texture2D" uid="uid://kdudrl8cjl05" path="res://assets/sprites/world/tree.png" id="1_4t15k"]
+[ext_resource type="Texture2D" uid="uid://bemckowiq4mgv" path="res://assets/sprites/shadows/large_shadow.png" id="1_ccqrg"]
+[ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/YSortable2D.gd" id="3_ysort"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
+radius = 11.0
+
+[node name="StaticBody2D" type="StaticBody2D" unique_id=1051557031]
+
+[node name="Sprite2D_Shadow" type="Sprite2D" parent="." unique_id=1178455692]
+position = Vector2(0, 21)
+texture = ExtResource("1_ccqrg")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1536832735]
+texture = ExtResource("1_4t15k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=119920101]
+position = Vector2(0, 14)
+shape = SubResource("CircleShape2D_wvhbo")
+
+[node name="YSortable2D" type="Node" parent="." unique_id=379095135]
+script = ExtResource("3_ysort")
+sort_offset = Vector2(0, 25)
+sort_priority = 3

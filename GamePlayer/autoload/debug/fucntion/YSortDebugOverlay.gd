@@ -7,7 +7,7 @@ extends Node2D
 const LINE_COLOR := Color(1.0, 0.2, 0.2, 0.9)
 const POINT_COLOR := Color(1.0, 0.85, 0.2, 1.0)
 const TEXT_COLOR := Color(1.0, 1.0, 1.0, 0.95)
-const LINE_HALF_WIDTH := 12.0
+const LINE_HALF_WIDTH := 18.0
 
 var _font: Font
 

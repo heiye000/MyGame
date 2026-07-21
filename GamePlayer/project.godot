@@ -19,16 +19,16 @@ config/icon="res://icon.svg"
 
 GUIDE="*uid://p2jwrgjcbexr"
 DebugService="*res://autoload/debug/DebugService.gd"
-MCPRuntimeProbe="*res://addons/godot_mcp/runtime/mcp_runtime_probe.gd"
 
 [display]
 
-window/size/viewport_width=320
-window/size/viewport_height=180
+window/size/viewport_width=640
+window/size/viewport_height=360
 window/size/window_width_override=1280
 window/size/window_height_override=720
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+window/stretch/scale_mode="integer"
 window/vsync/vsync_mode=0
 
 [editor_plugins]
@@ -41,8 +41,16 @@ Player="玩家角色"
 
 [layer_names]
 
-2d_render/layer_1="Player"
-2d_render/layer_5="Walls"
+2d_render/layer_1="World"
+2d_render/layer_2="PlayerBody"
+2d_render/layer_3="EnemyBody"
+2d_render/layer_4="PlayerHitBox"
+2d_render/layer_5="EnemyHitBox"
+2d_render/layer_6="HurtBox"
+2d_render/layer_7="Interaction"
+2d_render/layer_8="Projectile"
+2d_render/layer_9="Trigger"
+2d_render/layer_10="Loot"
 2d_physics/layer_1="World"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Enemy"
@@ -55,3 +63,5 @@ Player="玩家角色"
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
+renderer/rendering_method="gl_compatibility"
+textures/lossless_compression/force_png=true
