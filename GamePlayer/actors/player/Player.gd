@@ -1,12 +1,17 @@
-class_name Player extends Node2D
+class_name Player extends CharacterBody2D
 
-@onready var character: CharacterBody2D = $CharacterBody2D
+## 兼容旧代码：根节点即身体，等同 self（蝙蝠等仍可读 player.character）。
+var character: CharacterBody2D:
+	get:
+		return self
+
 ## 预输入组件，记住 recovery 期间提前按下的攻击/翻滚。
 @onready var input_buffer: InputBuffer = $InputBuffer
 @onready var animation_tree: PlayerAnimationTree = $AnimationTree
 @onready var state_playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/StateMachine/playback")
 @onready var state_machine: LimboHSM = $LimboHSM
 @onready var normal_battle: NormalBattle = $LimboHSM/NormalBattle
+@onready var camera_target: Marker2D = $CameraTarget
 
 ## 移动速度（像素/秒），需与 player_run_* 动画时长配合，避免滑步感。
 var move_speed: float = 50.0
@@ -17,6 +22,8 @@ var last_direction: Vector2 = Vector2.DOWN
 
 
 func _ready() -> void:
+	# 俯视角，关掉地面吸附。
+	motion_mode = MOTION_MODE_FLOATING
 	#初始化键鼠操控
 	InputMappingScheme.switch_to(InputMappingScheme.Type.KEYBOARD_MOUSE)
 	# 动画树与 LimboHSM 同拍（物理帧），过渡表达式在 AnimationTree 自身上的脚本求值。
@@ -26,7 +33,7 @@ func _ready() -> void:
 	_init_state_machine()
 
 
-# 通过LimboHSM状态机来控制玩家当前的行动模式
+## 通过 LimboHSM 状态机控制玩家当前行动模式。
 func _init_state_machine() -> void:
 	state_machine.update_mode = LimboHSM.PHYSICS
 	state_machine.initial_state = normal_battle

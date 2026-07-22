@@ -30,8 +30,8 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 	if move_direction != Vector2.ZERO:
 		player.last_direction = move_direction
 	_set_move_blend(player, player.last_direction)
-	player.character.velocity = move_direction * player.move_speed
-	player.character.move_and_slide()
+	player.velocity = move_direction * player.move_speed
+	player.move_and_slide()
 
 
 func _process_attack_machine(player: Player, move_direction: Vector2) -> void:
@@ -43,8 +43,8 @@ func _process_attack_machine(player: Player, move_direction: Vector2) -> void:
 		_last_anim_node = &"AttackMachine"
 
 	_set_attack_blend(player, _locked_action_dir)
-	player.character.velocity = Vector2.ZERO
-	player.character.move_and_slide()
+	player.velocity = Vector2.ZERO
+	player.move_and_slide()
 
 
 func _process_roll_machine(player: Player, move_direction: Vector2) -> void:
@@ -54,8 +54,8 @@ func _process_roll_machine(player: Player, move_direction: Vector2) -> void:
 		_last_anim_node = &"RollMachine"
 
 	_set_roll_blend(player, _locked_action_dir)
-	player.character.velocity = _locked_action_dir * player.move_speed * Player.ROLL_SPEED_MULTIPLIER
-	player.character.move_and_slide()
+	player.velocity = _locked_action_dir * player.move_speed * Player.ROLL_SPEED_MULTIPLIER
+	player.move_and_slide()
 
 
 ## 有移动输入用当前方向，否则用上次朝向；并写回 last_direction。

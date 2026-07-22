@@ -18,7 +18,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -30,7 +30,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterBody2D/Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -46,7 +46,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -58,7 +58,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterBody2D/Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -74,7 +74,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -86,7 +86,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterBody2D/Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -102,7 +102,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -114,7 +114,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterBody2D/Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -130,7 +130,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -142,7 +142,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterBody2D/Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -158,7 +158,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -174,7 +174,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -190,7 +190,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -206,7 +206,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -222,7 +222,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -238,7 +238,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -254,7 +254,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -270,7 +270,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -287,7 +287,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -304,7 +304,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -321,7 +321,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -338,7 +338,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -555,7 +555,9 @@ nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_8qxvo")
 nodes/StateMachine/position = Vector2(340, 180)
 node_connections = [&"output", 0, &"StateMachine"]
 
-[node name="Player" type="Node2D" unique_id=1364196162 groups=["Player"]]
+[node name="Player" type="CharacterBody2D" unique_id=1364196162 groups=["Player"]]
+collision_layer = 2
+motion_mode = 1
 script = ExtResource("1_pn6s4")
 
 [node name="InputBuffer" type="Node" parent="." unique_id=2004182832]
@@ -566,35 +568,29 @@ profile = ExtResource("3_5stf6")
 [node name="DebugOverlay" type="CanvasLayer" parent="InputBuffer" unique_id=2004182833]
 script = ExtResource("4_180ig")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=2093211279]
-collision_layer = 2
-motion_mode = 1
-
-[node name="Sprite2D_Shadow" type="Sprite2D" parent="CharacterBody2D" unique_id=865323301]
+[node name="Sprite2D_Shadow" type="Sprite2D" parent="." unique_id=865323301]
 position = Vector2(0, 12.000001)
 scale = Vector2(1.6500001, 1.3749999)
 texture = ExtResource("5_20koh")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=927512133]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=927512133]
 texture = ExtResource("6_ov1oi")
 hframes = 60
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=690995174]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=690995174]
 position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_wvhbo")
 
-[node name="YSortable2D" type="Node" parent="CharacterBody2D" unique_id=1587922942]
+[node name="YSortable2D" type="Node" parent="." unique_id=1587922942]
 script = ExtResource("7_rn7t0")
 sort_offset = Vector2(0, 12)
 metadata/_custom_type_script = "uid://dq7ysort2d001"
 
-[node name="Area2D" type="Area2D" parent="CharacterBody2D" unique_id=866393167]
-visible = false
+[node name="Area2D" type="Area2D" parent="." unique_id=866393167]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharacterBody2D/Area2D" unique_id=351902161]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=351902161]
 
-[node name="CameraTarget" type="Marker2D" parent="CharacterBody2D" unique_id=2002981383]
+[node name="CameraTarget" type="Marker2D" parent="." unique_id=2002981383]
 position = Vector2(0, 12)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=819069565]

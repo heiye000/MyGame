@@ -17,7 +17,7 @@ extends Node
 ## 用法：死亡淡出、临时隐藏时可关闭，管理器将跳过此对象。
 @export var enabled: bool = true
 ## 实际移动的宿主 [Node2D]；为空时自动使用父节点。
-## 用法：玩家请拖入 CharacterBody2D；树/箱子等拖入场景根 Node2D。
+## 用法：玩家宿主为自身根 CharacterBody2D；树/箱子等拖入场景根 Node2D。
 @export var host: Node2D
 
 

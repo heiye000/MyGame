@@ -62,9 +62,9 @@ func getPlayer() -> Player:
 func is_player_in_range() -> bool:
 	if _player == null or not is_instance_valid(_player):
 		return false
-	# 根节点不跟着 CharacterBody2D 动，距离必须比身体节点。
+	# 玩家根已是 CharacterBody2D，直接比身体位置。
 	var dist_sq := character.global_position.distance_squared_to(
-		_player.character.global_position
+		_player.global_position
 	)
 	var range_limit := lose_range if _is_chasing else detect_range
 	return dist_sq <= range_limit * range_limit
@@ -72,7 +72,7 @@ func is_player_in_range() -> bool:
 
 ## 朝玩家身体位置直线追，并同步朝向。
 func _chase_player() -> void:
-	var to_player := _player.character.global_position - character.global_position
+	var to_player := _player.global_position - character.global_position
 	if to_player.length_squared() < 0.0001:
 		_stop_moving()
 		return
@@ -95,8 +95,8 @@ func can_see_player() -> bool:
 	if _player == null or not is_instance_valid(_player):
 		return false
 	# 把目标点转成 RayCast 本地坐标，长度刚好到玩家身体。
-	ray_cast_2d.target_position = ray_cast_2d.to_local(_player.character.global_position)
+	ray_cast_2d.target_position = ray_cast_2d.to_local(_player.global_position)
 	ray_cast_2d.force_raycast_update()
 	if not ray_cast_2d.is_colliding():
 		return false
-	return ray_cast_2d.get_collider() == _player.character
+	return ray_cast_2d.get_collider() == _player
