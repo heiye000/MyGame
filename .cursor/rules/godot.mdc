@@ -205,43 +205,43 @@ func _ready():
 ### 1.4. Consistent Naming Conventions
 Follow Godot's official style guides for GDScript and C#. Consistency is key for readability and maintainability.
 
-#### File & Directory Naming (demo1 project standard)
+#### File & Directory Naming
 
-All project-owned `.gd`, `.tscn`, and `.tres` files use **PascalCase** filenames that match their `class_name` or logical entity name. Directories use **snake_case** (lowercase with underscores).
+项目自有资源中：**`.gd` 脚本文件名统一 `snake_case`**；目录为 `snake_case`。  
+`class_name` 仍用 `PascalCase`，与文件名不必字面相同（`class_name WorldCamera` → `world_camera.gd`）。
 
-Reference example: `res://core/components/ysort/YSortable2D.gd`
+Reference example: `res://core/components/ysort/y_sortable_2d.gd`
 
 | Scope | Convention | Example |
 |-------|-----------|---------|
 | Directory | `snake_case` | `core/components/ysort/`, `state_machine/` |
-| Script `.gd` | `PascalCase.gd` = `class_name` | `Player.gd`, `YSortable2D.gd`, `NormalBattle.gd` |
+| Script `.gd` | `snake_case.gd` | `player.gd`, `y_sortable_2d.gd`, `normal_battle.gd`, `world_camera.gd` |
 | Scene `.tscn` | `PascalCase.tscn` = root node / entity | `Player.tscn`, `World.tscn`, `Root.tscn` |
 | Resource `.tres` | `PascalCase.tres` = action / data name | `Move.tres`, `AttackL.tres`, `KeyboardMouse.tres` |
 
-❌ **BAD:** snake_case filenames
+❌ **BAD:** PascalCase 脚本文件名
 ```
-res://scenes/player/player.gd
-res://scenes/player/player.tscn
-res://core/components/input/res/actions/attack_L.tres
-res://core/components/input/res/contexts/keyboard_mouse.tres
+res://actors/player/Player.gd
+res://core/components/ysort/YSortable2D.gd
+res://core/components/camera/WorldCamera.gd
 ```
 
-✅ **GOOD:** PascalCase filenames with snake_case directories
+✅ **GOOD:** snake_case 脚本 + snake_case 目录
 ```
-res://scenes/player/Player.gd          # class_name Player
-res://scenes/player/Player.tscn
-res://core/components/ysort/YSortable2D.gd   # class_name YSortable2D
+res://actors/player/player.gd                    # class_name Player
+res://actors/player/Player.tscn
+res://core/components/ysort/y_sortable_2d.gd     # class_name YSortable2D
+res://core/components/camera/world_camera.gd     # class_name WorldCamera
 res://core/components/input/res/actions/AttackL.tres
 res://core/components/input/res/contexts/KeyboardMouse.tres
-res://core/components/input/res/profiles/BattleBufferProfile.tres
-res://core/components/input/input_buffer/InputBufferProfile.gd
+res://core/components/input/input_buffer/input_buffer_profile.gd
 ```
 
 Rules:
-- Filename **must** match `class_name` when the script declares one.
-- Multi-word names use PascalCase (`PlayerAnimationTree.gd`, `InputMappingScheme.gd`).
-- Enum-style suffixes collapse into PascalCase (`ATTACK_L` → `AttackL.tres`).
-- **Do not** rename third-party addon files under `res://addons/`.
+- **新建 / 重命名的 `.gd` 必须用 `snake_case`**（小写 + 下划线）。
+- `class_name` 保持 `PascalCase`；由类名转文件名时按词拆分并小写，例如 `PlayerAnimationTree` → `player_animation_tree.gd`，`YSortable2D` → `y_sortable_2d.gd`。
+- `.tscn` / `.tres` 仍用 `PascalCase`（与场景根节点或资源逻辑名一致）；枚举式后缀如 `ATTACK_L` → `AttackL.tres`。
+- **Do not** rename third-party addon files under `res://addons/`。
 
 #### GDScript & C# Code Style
 

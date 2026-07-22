@@ -1,5 +1,5 @@
 ---
-description: 项目冻结约定——2D 物理层、渲染层、稳定身份 ID；生成/改碰撞与世界对象时必须遵守
+description: 项目冻结约定——物理层、渲染层、稳定 ID、脚底原点、八方向、独立世界相机；生成/改碰撞与世界对象时必须遵守
 alwaysApply: true
 ---
 
@@ -79,3 +79,102 @@ alwaysApply: true
 - 会存档或随 Chunk 卸载重载的对象必须有唯一 `persistent_id`
 - 同一世界内禁止重复；Chunk 重生不得换新 `persistent_id`
 - 存档与世界状态只认 `persistent_id`，不认节点路径
+
+## 脚底原点与实体空间
+
+> 冻结于基础设施第 3 步。所有参与世界排序的对象以地面接触点为世界原点。
+
+### 规则
+
+- 物理根节点（如 `CharacterBody2D`）的 `global_position` = 脚底接地点（人物取两脚之间）
+- 视觉精灵挂在子节点上，**向上偏移**，不要把身体中心当成世界原点
+- 脚底碰撞体目标约 `12×8` px，只罩脚底附近，避免肩膀被卡住
+- 影子跟在身体下方，**不**以身体中心参与世界排序
+- Y 排序基准 = 脚底点（可用引擎 `y_sort` 或现有 `YSortable2D`，但语义必须是脚底）
+- 树冠 / 屋顶与树干 / 墙体必须拆层：底座参与脚底排序，顶盖走渲染层 `CanopyRoof`
+
+### 排序点对照
+
+| 对象 | 排序/原点取点 |
+|---|---|
+| 人物 | 两脚之间 |
+| 树木 | 树干根部 |
+| 桌子 | 桌腿接地中心 |
+| 房屋 | 门槛或指定遮挡基线 |
+| 道具 | 实际落地点 |
+
+## 八方向 Direction8
+
+> 冻结于基础设施第 4 步。显示与动画朝向统一为 8 向；命名用直白的 up/down/left/right 体系。
+
+### 方向名（唯一合法集合）
+
+```text
+up, up_right, right, down_right, down, down_left, left, up_left
+```
+
+| 名 | 含义 | 典型向量（y 向下为正） |
+|---|---|---|
+| `up` | 上 | `(0, -1)` |
+| `up_right` | 右上 | `(1, -1)` 归一化 |
+| `right` | 右 | `(1, 0)` |
+| `down_right` | 右下 | `(1, 1)` 归一化 |
+| `down` | 下 | `(0, 1)` |
+| `down_left` | 左下 | `(-1, 1)` 归一化 |
+| `left` | 左 | `(-1, 0)` |
+| `up_left` | 左上 | `(-1, -1)` 归一化 |
+
+### 动画命名
+
+`{状态}_{方向}`，例如：`idle_up`、`walk_up_right`、`run_right`、`roll_down_left`、`attack_light_1_up_left`
+
+### 原型美术
+
+- 第一阶段实绘：`up, up_right, right, down_right, down`
+- 镜像补齐：`up_left, left, down_left`
+- 禁止使用 `n/ne/e/se/s/sw/w/nw` 作为方向枚举名
+- 禁止再发明 `north` / `south` 等另一套别名
+
+### 职责
+
+- `LimboHSM`：决定处于什么状态（移动/攻击/翻滚）
+- 方向模块：决定当前是哪个 `Direction8`
+- `AnimationPlayer` / 帧事件：攻击有效帧等精确事件
+
+## 独立世界相机
+
+> 冻结于基础设施第 5 步。相机不挂在玩家节点下。实现脚本：`res://core/components/camera/world_camera.gd`。
+
+### 结构
+
+```text
+WorldRoot
+├── Player
+└── WorldCamera (Camera2D + world_camera.gd)
+```
+
+玩家场景内只保留 `CameraTarget`（`Marker2D`）作为跟随锚点，**禁止**再挂 `Camera2D`。
+
+### 第一版参数
+
+| 项 | 值 |
+|---|---|
+| 缩放 | `Vector2.ONE`（不在相机上放大像素） |
+| 构图偏移 | `Vector2(0, -18)` |
+| 前视距离 | 约 `Vector2(12, 8)` |
+| 跟随平滑速率 | `8～12` |
+| 前视平滑速率 | `6～9` |
+
+### 必须支持的能力
+
+- `set_target(node)`：切换跟随目标
+- `snap_to_target()`：传送/读档后立即吸附，不慢慢追
+- `set_limits` / `clear_limits`：区域镜头限制
+- 前视优先级：锁定目标 > 瞄准 > 移动方向 > 零向量
+- 屏幕震动只影响视觉，不改世界逻辑坐标
+
+### 禁止
+
+- 把 `Camera2D` 作为玩家子节点
+- 用相机缩放代替逻辑分辨率缩放
+- 多个 `Camera2D` 同时 `current = true`
