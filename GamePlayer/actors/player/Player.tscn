@@ -580,6 +580,7 @@ texture = ExtResource("6_ov1oi")
 hframes = 60
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=690995174]
+visible = false
 position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_wvhbo")
 
@@ -589,8 +590,12 @@ sort_offset = Vector2(0, 12)
 metadata/_custom_type_script = "uid://dq7ysort2d001"
 
 [node name="Area2D" type="Area2D" parent="CharacterBody2D" unique_id=866393167]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharacterBody2D/Area2D" unique_id=351902161]
+
+[node name="CameraTarget" type="Marker2D" parent="CharacterBody2D" unique_id=2002981383]
+position = Vector2(0, 12)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=819069565]
 libraries/ = SubResource("AnimationLibrary_lgqa7")

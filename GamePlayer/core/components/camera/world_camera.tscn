@@ -1,4 +1,7 @@
 [gd_scene format=3 uid="uid://c2tkawiaoedwj"]
 
+[ext_resource type="Script" uid="uid://ghqi1u0mhdsr" path="res://core/components/camera/world_camera.gd" id="1_np7u4"]
+
 [node name="WorldCamera" type="Camera2D" unique_id=197043680]
 process_callback = 0
+script = ExtResource("1_np7u4")
