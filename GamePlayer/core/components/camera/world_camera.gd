@@ -7,38 +7,47 @@ extends Camera2D
 @export var target: Node2D
 ## 构图偏移：让角色在画面中略偏下（像素）。
 @export var composition_offset: Vector2 = Vector2(0, -18)
-## 前视最大偏移（像素）；按方向分量缩放。
-@export var look_ahead_distance: Vector2 = Vector2(12, 8)
-## 跟随平滑速率（越大越贴）。
+## 前视最大偏移（像素）。探索默认关闭，避免眩晕。
+@export var look_ahead_distance: Vector2 = Vector2.ZERO
+## 是否平滑跟随。像素风默认关闭（硬锁），最稳；开启后勿再开 snap_2d_transforms_to_pixel。
+@export var use_smooth_follow: bool = false
+## 平滑跟随速率（仅 use_smooth_follow 时有效）。
 @export_range(1.0, 30.0, 0.1) var follow_rate: float = 10.0
 ## 前视平滑速率。
 @export_range(1.0, 30.0, 0.1) var look_ahead_rate: float = 7.0
-## 是否把最终位置吸附到整像素，减轻抖动。
-@export var snap_to_pixel: bool = true
+## 仅 snap_to_target 时整像素吸附。
+@export var snap_on_teleport: bool = true
+## 为 true 时强制 zoom=1（正式像素基准）；调试放大请关掉此项再改 Zoom。
+@export var force_pixel_zoom: bool = true
 ## 进入树时自动设为当前相机。
 @export var make_current_on_ready: bool = true
+## 调用 set_target 时是否立刻吸附（避免从旧位置飞过去）。
+@export var snap_when_retarget: bool = true
 
-## 当前用于前视的逻辑方向（已按优先级合成后的单位向量，可零）。
+## 当前用于前视的逻辑方向。
 var _look_direction: Vector2 = Vector2.ZERO
-## 锁定目标方向（最高优先）。
 var _lock_look: Vector2 = Vector2.ZERO
-## 瞄准方向（次优先）。
 var _aim_look: Vector2 = Vector2.ZERO
-## 移动方向（再次优先）。
 var _move_look: Vector2 = Vector2.ZERO
-## 平滑后的前视偏移。
 var _look_ahead_offset: Vector2 = Vector2.ZERO
-## 震动剩余时间（秒）。
+var _smoothed_position: Vector2 = Vector2.ZERO
 var _shake_time: float = 0.0
-## 震动强度（像素）。
+var _shake_duration: float = 0.0
 var _shake_strength: float = 0.0
-## 本帧震动位移（只加在显示上，不进逻辑跟随点）。
 var _shake_offset: Vector2 = Vector2.ZERO
+
+
 func _ready() -> void:
-	zoom = Vector2.ONE
+	if force_pixel_zoom:
+		zoom = Vector2.ONE
+	# 与物理同拍；priority 更大则更晚执行，确保在玩家 move_and_slide 之后跟随。
+	process_callback = CAMERA2D_PROCESS_PHYSICS
+	process_physics_priority = 100
+	set_physics_process(true)
+	set_process(false)
 	if make_current_on_ready:
 		make_current()
-	if target:
+	if _has_valid_target():
 		snap_to_target()
 
 
@@ -52,28 +61,37 @@ func _physics_process(delta: float) -> void:
 ## 切换跟随目标；传 null 表示暂停跟随。
 func set_target(new_target: Node2D) -> void:
 	target = new_target
+	if target == null:
+		return
+	if snap_when_retarget:
+		snap_to_target()
 
 
 ## 立刻吸到目标位置（含构图与当前前视），用于传送/读档。
 func snap_to_target() -> void:
-	if target == null:
+	if not _has_valid_target():
 		return
 	_update_look_direction()
 	_look_ahead_offset = _desired_look_ahead()
-	global_position = _desired_logic_position()
+	_smoothed_position = _desired_logic_position()
+	if snap_on_teleport:
+		_smoothed_position = _smoothed_position.round()
+	global_position = _smoothed_position
 	_shake_offset = Vector2.ZERO
 	offset = Vector2.ZERO
-	# 强制刷新一帧，让引擎 limit 立刻生效。
 	force_update_scroll()
+	_smoothed_position = global_position
 
 
-## 设置相机世界矩形限制（左上+尺寸）；交给 Camera2D 自带 limit 夹紧视口。
+## 设置相机世界矩形限制。
 func set_limits(world_rect: Rect2) -> void:
 	limit_left = int(world_rect.position.x)
 	limit_top = int(world_rect.position.y)
 	limit_right = int(world_rect.position.x + world_rect.size.x)
 	limit_bottom = int(world_rect.position.y + world_rect.size.y)
 	limit_enabled = true
+	force_update_scroll()
+	_smoothed_position = global_position
 
 
 ## 清除区域限制。
@@ -81,35 +99,33 @@ func clear_limits() -> void:
 	limit_enabled = false
 
 
-## 写入锁定朝向前视（最高优先）；传零向量表示清除。
 func set_lock_look(direction: Vector2) -> void:
 	_lock_look = direction.normalized() if direction != Vector2.ZERO else Vector2.ZERO
 
 
-## 写入瞄准朝向前视。
 func set_aim_look(direction: Vector2) -> void:
 	_aim_look = direction.normalized() if direction != Vector2.ZERO else Vector2.ZERO
 
 
-## 写入移动朝向前视。
 func set_move_look(direction: Vector2) -> void:
 	_move_look = direction.normalized() if direction != Vector2.ZERO else Vector2.ZERO
 
 
-## 兼容约定接口：一次性设置前视方向（等同 set_move_look，便于外部简单调用）。
 func set_look_direction(direction: Vector2) -> void:
 	set_move_look(direction)
 
 
-## 触发屏幕震动；只改显示 offset，不改 global_position 逻辑跟随。
 func shake(strength: float = 4.0, duration: float = 0.15) -> void:
 	_shake_strength = maxf(strength, 0.0)
-	_shake_time = maxf(duration, 0.0)
+	_shake_duration = maxf(duration, 0.0001)
+	_shake_time = _shake_duration
 
 
-## 按优先级合成当前前视方向。
+func _has_valid_target() -> bool:
+	return target != null and is_instance_valid(target)
+
+
 func _update_look_direction() -> void:
-	# 锁定 > 瞄准 > 移动 > 零。
 	if _lock_look != Vector2.ZERO:
 		_look_direction = _lock_look
 	elif _aim_look != Vector2.ZERO:
@@ -120,13 +136,11 @@ func _update_look_direction() -> void:
 		_look_direction = Vector2.ZERO
 
 
-## 平滑靠近目标前视偏移。
 func _update_look_ahead(delta: float) -> void:
 	var desired := _desired_look_ahead()
 	_look_ahead_offset = _look_ahead_offset.lerp(desired, 1.0 - exp(-look_ahead_rate * delta))
 
 
-## 计算理想前视像素偏移。
 func _desired_look_ahead() -> Vector2:
 	if _look_direction == Vector2.ZERO:
 		return Vector2.ZERO
@@ -136,37 +150,37 @@ func _desired_look_ahead() -> Vector2:
 	)
 
 
-## 理想逻辑位置 = 目标 + 构图偏移 + 前视（不含震动）。
 func _desired_logic_position() -> Vector2:
-	var pos := target.global_position + composition_offset + _look_ahead_offset
-	if snap_to_pixel:
-		pos = pos.round()
-	return pos
+	return target.global_position + composition_offset + _look_ahead_offset
 
 
-## 平滑跟随目标逻辑位置。
+## 跟随目标。默认硬锁：角色在屏幕上的相对位置固定，不再因 lerp+像素吸附打架而抖。
 func _follow_target(delta: float) -> void:
-	if target == null:
+	if not _has_valid_target():
+		target = null
 		offset = _shake_offset
 		return
 	var desired := _desired_logic_position()
-	global_position = global_position.lerp(desired, 1.0 - exp(-follow_rate * delta))
-	if snap_to_pixel:
-		global_position = global_position.round()
-	# 震动只写在 Camera2D.offset，不污染世界逻辑坐标。
+	if use_smooth_follow:
+		var weight := 1.0 - exp(-follow_rate * delta)
+		_smoothed_position = _smoothed_position.lerp(desired, weight)
+	else:
+		_smoothed_position = desired
+	global_position = _smoothed_position
+	if limit_enabled:
+		force_update_scroll()
+		_smoothed_position = global_position
 	offset = _shake_offset
 
 
-## 更新震动计时与随机位移。
 func _update_shake(delta: float) -> void:
 	if _shake_time <= 0.0:
 		_shake_offset = Vector2.ZERO
 		return
-	_shake_time -= delta
-	var decay := clampf(_shake_time, 0.0, 1.0)
+	_shake_time = maxf(_shake_time - delta, 0.0)
+	var t := _shake_time / _shake_duration
+	var envelope := t * t
 	_shake_offset = Vector2(
 		randf_range(-_shake_strength, _shake_strength),
 		randf_range(-_shake_strength, _shake_strength)
-	) * decay
-	if snap_to_pixel:
-		_shake_offset = _shake_offset.round()
+	) * envelope

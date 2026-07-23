@@ -9,8 +9,9 @@
 [node name="StaticBody2D" type="StaticBody2D" unique_id=525876211]
 
 [node name="Sprite2D_Shadow" type="Sprite2D" parent="." unique_id=1967162600]
-position = Vector2(0, 11.999999)
-scale = Vector2(1.5625, 1.1)
+z_index = -1
+position = Vector2(0, 12)
+scale = Vector2(2, 1)
 texture = ExtResource("1_vimui")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=846697356]

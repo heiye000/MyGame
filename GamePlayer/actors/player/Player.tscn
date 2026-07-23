@@ -10,8 +10,14 @@
 [ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://actors/player/player_animation_tree.gd" id="8_8qjgm"]
 [ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://actors/player/state_machine/normal_battle.gd" id="9_ejd4k"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
-radius = 7.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_foot"]
+size = Vector2(12, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(14, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 16.0
 
 [sub_resource type="Animation" id="Animation_dovo2"]
 length = 0.001
@@ -30,7 +36,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Hitbox/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -58,7 +64,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Hitbox/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -86,7 +92,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Hitbox/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -114,7 +120,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Hitbox/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -142,7 +148,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("Hitbox/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -569,8 +575,9 @@ profile = ExtResource("3_5stf6")
 script = ExtResource("4_180ig")
 
 [node name="Sprite2D_Shadow" type="Sprite2D" parent="." unique_id=865323301]
-position = Vector2(0, 12.000001)
-scale = Vector2(1.6500001, 1.3749999)
+z_index = -1
+position = Vector2(0, 12)
+scale = Vector2(2, 1)
 texture = ExtResource("5_20koh")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=927512133]
@@ -578,17 +585,43 @@ texture = ExtResource("6_ov1oi")
 hframes = 60
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=690995174]
-position = Vector2(0, 5)
-shape = SubResource("CircleShape2D_wvhbo")
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_foot")
 
 [node name="YSortable2D" type="Node" parent="." unique_id=1587922942]
 script = ExtResource("7_rn7t0")
 sort_offset = Vector2(0, 12)
 metadata/_custom_type_script = "uid://dq7ysort2d001"
 
-[node name="Area2D" type="Area2D" parent="." unique_id=866393167]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1461341421]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=351902161]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1237167757]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_hurtbox")
+disabled = true
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=866393167]
+collision_layer = 16
+collision_mask = 8
+monitoring = false
+monitorable = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox" unique_id=351902161]
+disabled = true
+
+[node name="InteractionProbe" type="Area2D" parent="." unique_id=1511501153]
+collision_layer = 128
+collision_mask = 64
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionProbe" unique_id=1478196848]
+position = Vector2(0, 8)
+shape = SubResource("CircleShape2D_interact")
+disabled = true
 
 [node name="CameraTarget" type="Marker2D" parent="." unique_id=2002981383]
 position = Vector2(0, 12)

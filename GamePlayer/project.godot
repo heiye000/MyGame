@@ -30,7 +30,7 @@ window/size/window_height_override=720
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/stretch/scale_mode="integer"
-window/vsync/vsync_mode=0
+window/vsync/vsync_mode=2
 
 [editor_plugins]
 
@@ -77,3 +77,5 @@ textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 textures/lossless_compression/force_png=true
+# 与平滑/浮点相机会打架导致角色抖；像素对齐改靠整数精灵坐标与硬锁相机。
+2d/snap/snap_2d_transforms_to_pixel=false

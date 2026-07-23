@@ -172,6 +172,8 @@ WorldRoot
 - `set_limits` / `clear_limits`：区域镜头限制
 - 前视优先级：锁定目标 > 瞄准 > 移动方向 > 零向量
 - 屏幕震动只影响视觉，不改世界逻辑坐标
+- 默认硬锁跟随（`use_smooth_follow=false`）；勿把 `snap_2d_transforms_to_pixel` 与平滑相机同开
+- 正式游玩 `zoom=Vector2.ONE`；调试 Zoom 会放大抖动
 
 ### 禁止
 

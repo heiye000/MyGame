@@ -29,6 +29,8 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 
 	if move_direction != Vector2.ZERO:
 		player.last_direction = move_direction
+	# 移动前视已关闭：探索时镜头前探容易晕，默认不调用 set_move_look。
+
 	_set_move_blend(player, player.last_direction)
 	player.velocity = move_direction * player.move_speed
 	player.move_and_slide()

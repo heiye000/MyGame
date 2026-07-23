@@ -12,9 +12,18 @@ var character: CharacterBody2D:
 @onready var state_machine: LimboHSM = $LimboHSM
 @onready var normal_battle: NormalBattle = $LimboHSM/NormalBattle
 @onready var camera_target: Marker2D = $CameraTarget
+## 受击盒空壳（层 PlayerHurtbox）；战斗管线接入前保持 disabled。
+@onready var hurtbox: Area2D = $Hurtbox
+## 攻击盒（层 PlayerHitbox）；动画仍驱动其子 CollisionPolygon2D。
+@onready var hitbox: Area2D = $Hitbox
+## 交互探测空壳（层 InteractionProbe，掩码 Interactable）。
+@onready var interaction_probe: Area2D = $InteractionProbe
 
-## 移动速度（像素/秒），需与 player_run_* 动画时长配合，避免滑步感。
-var move_speed: float = 50.0
+## 世界相机
+@export var world_camera: WorldCamera
+
+## 移动速度（像素/秒）；规范基准约 74，可在 Inspector 微调滑步感。
+@export var move_speed: float = 74.0
 ## 翻滚速度相对移动速度的倍率：翻滚位移速度 = move_speed * 该倍率
 const ROLL_SPEED_MULTIPLIER: float = 2.0
 ## 停止移动后仍保持的朝向，用于攻击/待机/翻滚动画方向。

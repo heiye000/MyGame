@@ -17,9 +17,11 @@ script = ExtResource("1_pueci")
 GRASS_EFFECT = ExtResource("2_t58up")
 
 [node name="Sprite2D_Shadow" type="Sprite2D" parent="." unique_id=2120892065]
-position = Vector2(-0.5000007, 5)
-scale = Vector2(1.9, 1.25)
+z_index = -1
+position = Vector2(0, 5)
+scale = Vector2(2, 1)
 texture = ExtResource("2_n1a6u")
+texture_filter = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=995323830]
 texture = ExtResource("3_vstam")

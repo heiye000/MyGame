@@ -10,8 +10,8 @@ extends Node
 ## 可排序层的 z_index 下限。应高于地面层（0），低于前景层（100）。
 ## 用法：默认 10，与 OverheadLayer 的 z_index=100 配合使用。
 @export var base_z: int = 10
-## 可排序层的 z_index 上限。必须小于前景遮挡层。
-## 用法：默认 99；同屏对象按排名均匀分配在 base_z~max_z 之间。
+## 可排序层的 z_index 上限。须低于树冠/屋顶前景（常见为 100）。
+## 用法：按脚底 Y 映射；Y 很大时会钳在上限（大地图可再调高或改相对相机映射）。
 @export var max_z: int = 99
 ## 是否只处理摄像机视野内的可排序对象。
 ## 用法：大世界建议开启以节省性能；调试遮挡时可临时关闭。
@@ -49,12 +49,12 @@ func _process(_delta: float) -> void:
 	_apply_sorting()
 
 
-## 对当前帧所有有效可排序对象执行排序。
-## 按 get_sort_key 升序排列，依次分配 z_index 并设置 z_as_relative=false。
+## 对当前帧所有有效可排序对象写入 z_index。
+## 用脚底世界 Y 直接映射，不用“名次均分”：否则玩家一走过，草丛 z 会从低档跳到高档，影子狂闪。
 func _apply_sorting() -> void:
-	var active: Array[YSortable2D] = []
 	var camera_rect := _get_camera_rect()
 	var cull := use_camera_culling and camera_rect.has_area()
+	var stride := maxf(float(sort_stride), 1.0)
 
 	for sortable in _sortables:
 		if not is_instance_valid(sortable) or not sortable.enabled:
@@ -64,26 +64,13 @@ func _apply_sorting() -> void:
 			continue
 		if cull and not camera_rect.grow(cull_margin).has_point(host.global_position):
 			continue
-		active.append(sortable)
 
-	if active.is_empty():
-		return
-
-	active.sort_custom(func(a: YSortable2D, b: YSortable2D) -> bool:
-		return a.get_sort_key() < b.get_sort_key()
-	)
-
-	var z_range := max_z - base_z
-	for i in active.size():
-		var sortable: YSortable2D = active[i]
-		var host := sortable.get_host()
-		var z := base_z
-		if active.size() > 1:
-			z = base_z + int(float(i) / float(active.size() - 1) * float(z_range))
-		else:
-			z = clampi(base_z + int(sortable.get_sort_key() / float(sort_stride)), base_z, max_z)
-		host.z_index = z
-		host.z_as_relative = false
+		# 先按整像素 Y 分档，避免亚像素来回跨线导致相邻两帧对调。
+		var y_band := int(floor(sortable.get_sort_y() / stride))
+		var z := clampi(base_z + y_band + sortable.sort_priority, base_z, max_z)
+		if host.z_index != z or host.z_as_relative:
+			host.z_index = z
+			host.z_as_relative = false
 
 
 ## 获取当前摄像机在世界中的可见矩形。
