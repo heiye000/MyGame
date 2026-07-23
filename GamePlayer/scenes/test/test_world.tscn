@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cwuigf7vs7x6q" path="res://actors/decor/forest/bush.tscn" id="3_qsf0h"]
 [ext_resource type="PackedScene" uid="uid://c2tkawiaoedwj" path="res://core/components/camera/world_camera.tscn" id="4_k3yvu"]
 [ext_resource type="PackedScene" uid="uid://1bxykxatatgk" path="res://actors/player/player.tscn" id="5_70kyo"]
+[ext_resource type="PackedScene" path="res://actors/props/test_chest.tscn" id="6_chest"]
 
 [node name="TestWorld" type="Node2D" unique_id=1845482878]
 
@@ -16,6 +17,9 @@ script = ExtResource("2_qsf0h")
 
 [node name="Bush" parent="." unique_id=525876211 instance=ExtResource("3_qsf0h")]
 position = Vector2(94, 62)
+
+[node name="TestChest" parent="." instance=ExtResource("6_chest")]
+position = Vector2(40, 40)
 
 [node name="Player" parent="." unique_id=1364196162 node_paths=PackedStringArray("world_camera") instance=ExtResource("5_70kyo")]
 world_camera = NodePath("../WorldCamera")
