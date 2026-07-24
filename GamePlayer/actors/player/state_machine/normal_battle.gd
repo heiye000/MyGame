@@ -8,6 +8,8 @@ class_name NormalBattle extends LimboState
 var _last_anim_node: StringName = &""
 ## 进入攻击/翻滚时锁定的朝向，整段动作内不再随 WASD 每帧改。
 var _locked_action_dir: Vector2 = Vector2.DOWN
+## BlendSpace 左右点用的水平朝向；纯上下移动时沿用上次左右。
+var _last_facing_x: float = -1.0
 
 
 func _update(_delta: float) -> void:
@@ -70,25 +72,32 @@ func _resolve_action_direction(player: Player, move_direction: Vector2) -> Vecto
 	return get_action_direction(base)
 
 
-func _set_move_blend(player: Player, direction: Vector2) -> void:
-	var d := Vector2(direction.x, -direction.y)
-	player.animation_tree.set("parameters/StateMachine/MoveMachine/idle/blend_position", d)
-	player.animation_tree.set("parameters/StateMachine/MoveMachine/run/blend_position", d)
-
-
-func _set_attack_blend(player: Player, direction: Vector2) -> void:
-	var d := Vector2(direction.x, -direction.y)
-	player.animation_tree.set("parameters/StateMachine/AttackMachine/attack_L/blend_position", d)
-
-
-func _set_roll_blend(player: Player, direction: Vector2) -> void:
-	var d := Vector2(direction.x, -direction.y)
-	player.animation_tree.set("parameters/StateMachine/RollMachine/roll/blend_position", d)
-
-
-## 攻击/翻滚时横轴优先的朝向规范化（BlendSpace 只有四向）。
+## 攻击/翻滚时横轴优先的朝向规范化（逻辑仍是四向，纯上下保留 y）。
 func get_action_direction(base_direction: Vector2) -> Vector2:
 	var dir := Vector2(base_direction)
 	if dir.x != 0.0:
 		dir.y = 0.0
 	return dir
+
+
+## 把逻辑方向压成左右 BlendSpace 坐标（±1, 0）。
+func _blend_from_direction(direction: Vector2) -> Vector2:
+	if direction.x != 0.0:
+		_last_facing_x = signf(direction.x)
+	return Vector2(_last_facing_x, 0.0)
+
+
+func _set_move_blend(player: Player, direction: Vector2) -> void:
+	var d := _blend_from_direction(direction)
+	player.animation_tree.set("parameters/StateMachine/MoveMachine/idle/blend_position", d)
+	player.animation_tree.set("parameters/StateMachine/MoveMachine/run/blend_position", d)
+
+
+func _set_attack_blend(player: Player, direction: Vector2) -> void:
+	var d := _blend_from_direction(direction)
+	player.animation_tree.set("parameters/StateMachine/AttackMachine/attack_L/blend_position", d)
+
+
+func _set_roll_blend(player: Player, direction: Vector2) -> void:
+	var d := _blend_from_direction(direction)
+	player.animation_tree.set("parameters/StateMachine/RollMachine/roll/blend_position", d)
