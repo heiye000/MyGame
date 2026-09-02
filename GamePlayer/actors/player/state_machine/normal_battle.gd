@@ -8,7 +8,7 @@ class_name NormalBattle extends LimboState
 var _last_anim_node: StringName = &""
 ## 进入攻击/翻滚时锁定的朝向，整段动作内不再随 WASD 每帧改。
 var _locked_action_dir: Vector2 = Vector2.DOWN
-## BlendSpace 左右点用的水平朝向；纯上下移动时沿用上次左右。
+## 纯上下移动时沿用上次左右，用来挑 left/right 或 down_left/down_right。
 var _last_facing_x: float = -1.0
 
 
@@ -72,7 +72,7 @@ func _resolve_action_direction(player: Player, move_direction: Vector2) -> Vecto
 	return get_action_direction(base)
 
 
-## 攻击/翻滚时横轴优先的朝向规范化（逻辑仍是四向，纯上下保留 y）。
+## 攻击/翻滚时横轴优先的朝向规范化（这两套动画仍只有左右）。
 func get_action_direction(base_direction: Vector2) -> Vector2:
 	var dir := Vector2(base_direction)
 	if dir.x != 0.0:
@@ -80,16 +80,42 @@ func get_action_direction(base_direction: Vector2) -> Vector2:
 	return dir
 
 
-## 把逻辑方向压成左右 BlendSpace 坐标（±1, 0）。
+## 攻击/翻滚 BlendSpace 仍只有左右点（±1, 0）。
 func _blend_from_direction(direction: Vector2) -> Vector2:
 	if direction.x != 0.0:
 		_last_facing_x = signf(direction.x)
 	return Vector2(_last_facing_x, 0.0)
 
 
+## 移动 BlendSpace：left / right / down_left / down_right（坐标已是 BlendSpace，y 向上）。
+func _move_blend_from_direction(direction: Vector2) -> Vector2:
+	if direction.x != 0.0:
+		_last_facing_x = signf(direction.x)
+	var d8: Direction8.Dir = Direction8.from_vector(direction, Direction8.Dir.LEFT)
+	match d8:
+		Direction8.Dir.LEFT, Direction8.Dir.UP_LEFT:
+			return Vector2(-1.0, 0.0)
+		Direction8.Dir.RIGHT, Direction8.Dir.UP_RIGHT:
+			return Vector2(1.0, 0.0)
+		Direction8.Dir.DOWN_LEFT:
+			return Vector2(-0.7, -0.7)
+		Direction8.Dir.DOWN_RIGHT:
+			return Vector2(0.7, -0.7)
+		Direction8.Dir.DOWN:
+			# 正下还没有专用帧，按上次左右挑斜下。
+			if _last_facing_x < 0.0:
+				return Vector2(-0.7, -0.7)
+			return Vector2(0.7, -0.7)
+		_:
+			# 正上还没有专用帧，沿用上次左右。
+			return Vector2(_last_facing_x, 0.0)
+
+
 func _set_move_blend(player: Player, direction: Vector2) -> void:
-	var d := _blend_from_direction(direction)
+	var d := _move_blend_from_direction(direction)
+	# idle / 启动跑步 / 跑步循环共用同一套移动朝向。
 	player.animation_tree.set("parameters/StateMachine/MoveMachine/idle/blend_position", d)
+	player.animation_tree.set("parameters/StateMachine/MoveMachine/run_start/blend_position", d)
 	player.animation_tree.set("parameters/StateMachine/MoveMachine/run/blend_position", d)
 
 

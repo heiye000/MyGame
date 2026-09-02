@@ -26,6 +26,8 @@
 
 由 `sprite-sheet-frame-annotator` 测算；流水线 **只读取、不重算**。
 
+标注里若有 `ai_description` / `ai_description_cn`（生成序列帧的提示词及其简体中文），流水线 **忽略**，不参与 `grid` / `y_sort` / 动画生成。
+
 ### 接线规则
 
 1. 节点路径：`CharacterBody2D/YSortable2D`，脚本 `res://core/components/ysort/YSortable2D.gd`。

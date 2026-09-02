@@ -51,7 +51,9 @@ GUIDE Pressed → InputBuffer(just_triggered) 写入槽位
   → 同帧 _resolve_action_direction(当前 WASD，否则 last_direction)
 ```
 
-> **精灵标注 JSON**：与 `sprite_sheet` 同目录同名的 `.json`（由 `sprite-sheet-frame-annotator` 生成）可含 `grid` / `y_sort` / `animations`。流水线 Step0 优先读取其中的 `grid` 与 `y_sort`；缺标注时再用手写 manifest 或向用户确认。
+> **精灵标注 JSON**：与 `sprite_sheet` 同目录同名的 `.json`（由 `sprite-sheet-frame-annotator` 生成）可含 `grid` / `y_sort` / `animations`，以及可选的 `ai_description` / `ai_description_cn`。流水线 Step0 优先读取其中的 `grid` 与 `y_sort`；缺标注时再用手写 manifest 或向用户确认。
+>
+> **忽略提示词字段**：`ai_description`、`ai_description_cn` 仅供标注存档（生成序列帧的提示词及其译文），**不是**动画数据。流水线读写标注时必须忽略这两键：不拷进 manifest、不驱动 AnimationPlayer / AnimationTree / Limbo / YSortable2D、不因缺少或为空而失败。
 >
 > **扩展新行动模式**：在 `LimboHSM` 下新增 `LimboState`（如 `Explore`），在 `player.gd` 里注册 transition；AnimationTree 可复用或按模式换树。流水线 Step3 默认生成/修补 `NormalBattle` 这一种模式。
 >
@@ -83,7 +85,7 @@ Pipeline Progress:
 ```
 
 ### Step 0 — 校验输入
-- **读取精灵标注 JSON**（若存在）：`sprite_sheet` 路径将 `.png` 换为 `.json`（例：`res://assets/enemies/bat.png` → `res://assets/enemies/bat.json`）。用其 `grid` 补全/校验 manifest 的 `hframes`/`vframes`；记录 `y_sort` 供 Step3 写入 `YSortable2D`。
+- **读取精灵标注 JSON**（若存在）：`sprite_sheet` 路径将 `.png` 换为 `.json`（例：`res://assets/enemies/bat.png` → `res://assets/enemies/bat.json`）。用其 `grid` 补全/校验 manifest 的 `hframes`/`vframes`；记录 `y_sort` 供 Step3 写入 `YSortable2D`。标注里的 `ai_description` / `ai_description_cn` **直接跳过**，不参与本步及后续任何生成。
 - 确认 manifest 每个 `action.frames` 的方向集合能被「显式帧 + mirror 派生」覆盖 `directions`。
 - 确认帧索引都落在 `hframes * vframes` 范围内。
 - 用 `get_scene_tree` 确认必需节点存在。缺失则停下让用户补齐，或用 `create_node` 补建 `AnimationTree` / `LimboHSM` / 模式态 / `YSortable2D`。
@@ -194,6 +196,7 @@ elevation = -8.0
 | 攻击时跑动画方向被拧歪 | 攻击分支仍写 Move blend | 分路 `_set_move_blend` / `_set_attack_blend` / `_set_roll_blend` |
 | Y 排序遮挡不对 | `YSortable2D` 未读标注或手估 `sort_offset` | Step0 读同名 `.json` 的 `y_sort`；Step3 按标注写入，勿重算 |
 | 飞行动画播放时排序漂移 | 把翅膀最低点当锚点或动画改了 `sort_offset` | 锚点用标注的稳定躯干/脚底；`sort_offset` 仅初始化一次 |
+| 流水线误用提示词字段 | 把 `ai_description` 当动作名/朝向/帧范围 | 跳过 `ai_description` 与 `ai_description_cn`，只读 `grid` / `y_sort` / `animations` |
 
 ## 资源
 - 输入清单格式与完整示例：[manifest.schema.md](manifest.schema.md)

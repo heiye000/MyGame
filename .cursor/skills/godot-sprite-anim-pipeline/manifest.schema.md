@@ -2,7 +2,9 @@
 
 用户每次运行流水线只需提供这份结构化清单。字段直接映射到 Step1/Step2 脚本顶部的 `MANIFEST` / `CFG`；`input_buffer` 段供 Step0/Step3 接线预输入。
 
-> **精灵标注 JSON**：与 `sprite_sheet` 同目录同名的 `.json`（`sprite-sheet-frame-annotator` 产出）可含 `grid`、`y_sort`、`animations`。Step0 优先用标注的 `grid` 校验 `hframes`/`vframes`；Step3 用 `y_sort` 写入 `YSortable2D`（见流水线 SKILL「Y 排序接线」）。
+> **精灵标注 JSON**：与 `sprite_sheet` 同目录同名的 `.json`（`sprite-sheet-frame-annotator` 产出）可含 `grid`、`y_sort`、`animations`，以及可选的 `ai_description` / `ai_description_cn`。Step0 优先用标注的 `grid` 校验 `hframes`/`vframes`；Step3 用 `y_sort` 写入 `YSortable2D`（见流水线 SKILL「Y 排序接线」）。
+>
+> **忽略**：`ai_description`、`ai_description_cn` 不是流水线输入。读标注时跳过，不要写入 `MANIFEST` / `CFG`，也不要当作动作名、帧范围或朝向。
 
 ## 字段
 

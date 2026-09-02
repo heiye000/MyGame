@@ -1,6 +1,6 @@
 ---
 name: sprite-sheet-frame-annotator
-description: Analyze a PNG sprite-sheet / frame-animation image, group frames into animations with ranges and facings, infer Y-sort anchor (YSortable2D sort_offset), and write a JSON manifest next to the PNG (same basename, .json). Use when the user hands over a sprite sheet PNG and asks to identify animations, map frame ranges, label orientations, Y-sort anchor, or "分析序列帧 / 帧动画分析 / 标注精灵表".
+description: Analyze a PNG sprite-sheet / frame-animation image, group frames into animations with ranges and facings, infer Y-sort anchor (YSortable2D sort_offset), and write a JSON manifest next to the PNG (same basename, .json). When the user supplies a generation prompt (提示词 / desc / 描述 / prompt / description), store it as ai_description plus Simplified Chinese ai_description_cn. Use when the user hands over a sprite sheet PNG and asks to identify animations, map frame ranges, label orientations, Y-sort anchor, or "分析序列帧 / 帧动画分析 / 标注精灵表".
 disable-model-invocation: true
 ---
 
@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 ## 输出格式（严格遵守）
 
-输出是一个 JSON **对象**，含 `grid`、`y_sort`、`animations` 三个顶层键。
+输出是一个 JSON **对象**，必含 `grid`、`y_sort`、`animations` 三个顶层键。用户提供了生成提示词时，再写可选顶层键 `ai_description`、`ai_description_cn`。
 
 ```json
 {
@@ -36,7 +36,9 @@ disable-model-invocation: true
       "帧范围": "0-4",
       "朝向": "正面向镜头悬停拍翅（翅膀上下扇动循环）"
     }
-  ]
+  ],
+  "ai_description": "pixel art bat hovering idle, 5 frames, wings flapping, top-down",
+  "ai_description_cn": "像素风蝙蝠悬停待机，5 帧，翅膀上下扇动，俯视"
 }
 ```
 
@@ -53,8 +55,12 @@ disable-model-invocation: true
 | `y_sort.elevation` | number | 可选，对应 `YSortable2D.elevation`；地面单位填 `0` |
 | `y_sort.抬升说明` | string | 可选，解释 elevation 用途 |
 | `animations[]` | array | 动画段列表，每段含 `动画` / `帧范围` / `朝向` |
+| `ai_description` | string | 可选。生成该序列帧的提示词原文（原样保存） |
+| `ai_description_cn` | string | 可选。`ai_description` 对应的简体中文 |
 
 `帧范围` 是 `"起-止"`（含两端，0 基）。
+
+有 `ai_description` 时必须同时写 `ai_description_cn`；用户未提供提示词时**省略**这两键，不要编造。
 
 ## 工作流
 
@@ -65,6 +71,7 @@ Annotate Progress:
 - [ ] Step 0: 定位 PNG 并读取像素尺寸
 - [ ] Step 1: 确定网格 (hframes × vframes) 与帧编号
 - [ ] Step 2: 视觉识别动画分段、帧范围、朝向
+- [ ] Step 2b: 若用户提到提示词 / desc / 描述，写入 ai_description
 - [ ] Step 3: 解析 Y 排序锚点 (sort_offset)
 - [ ] Step 4: 写出同名 .json
 - [ ] Step 5: 自检
@@ -86,6 +93,12 @@ Annotate Progress:
 - 命名 `动画`：沿用文件语义 + 朝向后缀，如 `<basename>_<direction>`（`attack_L_right`）。若图内含多动作，用动作名前缀。
 - `朝向` 用中文自然语言描述观察到的朝向/动作，示例词汇：`侧身朝右` / `侧身朝左` / `背对镜头向上挥砍` / `正面向下挥砍`。看到镜像/专用左向帧时如实注明。
 - `帧范围` 写该段的首帧-末帧（0 基，含末帧）。
+
+### Step 2b — 生成提示词（可选）
+用户消息里出现 **提示词 / desc / 描述 / prompt / description** 等词，且附带了生成该序列帧的文本时：
+- `ai_description`：把对应内容**原样**写入（不摘要、不改写）。
+- `ai_description_cn`：按英文翻译成简体中文。原文已是中文则原样写入。
+- 两键成对出现。未提到上述词语、也没有提示词正文时，不要写这两键。
 
 ### Step 3 — 解析 Y 排序锚点
 
@@ -117,7 +130,7 @@ Annotate Progress:
 
 ### Step 4 — 写出 JSON
 - 路径 = PNG 同目录、同主名、扩展名换成 `.json`。
-- 内容为 `grid` + `y_sort` + `animations` 对象；UTF-8，中文原样。
+- 内容为 `grid` + `y_sort` + `animations`；有提示词时再加 `ai_description` + `ai_description_cn`。UTF-8，中文原样。
 
 ### Step 5 — 自检
 - 各段 `帧范围` 不重叠、不超出 `hframes*vframes-1`。
@@ -125,7 +138,8 @@ Annotate Progress:
 - `animations` 每项键名严格为 `动画`/`帧范围`/`朝向`，值类型为字符串。
 - `y_sort.sort_offset` 为长度 2 的数值数组；`参考帧` 落在 `grid` 范围内。
 - `sort_offset.y` 应落在 `[-帧高/2, +帧高/2]` 附近（脚点通常在帧下半部，y 多为正小值）。
-- 向用户报告：JSON 路径 + 动画段数 + `sort_offset` 值。
+- `ai_description` 与 `ai_description_cn` 要么成对出现（均为非空字符串），要么都不写。
+- 向用户报告：JSON 路径 + 动画段数 + `sort_offset` 值；有提示词时顺带说明已写入 `ai_description`。
 
 ## 坑位
 - 帧号是 0 基还是 1 基：本技能固定 **0 基**，与 Godot `Sprite2D.frame` 对齐；勿改。
@@ -134,3 +148,4 @@ Annotate Progress:
 - 拿不准分段边界或网格：宁可询问用户，别输出错误范围。
 - Y 排序锚点：翅膀/武器下摆会随动画下移，**不要用极值帧**的最低点当脚点；固定锚在躯干/脚底。
 - `Sprite2D.centered=false` 时坐标换算不同——须在 `坐标系` 字段写明，并改用 `offset + 帧内像素` 公式。
+- 提示词只进 `ai_description` / `ai_description_cn`，不要写进 `朝向` 或动画名；没给提示词就不要编。

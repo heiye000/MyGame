@@ -26,7 +26,7 @@ var character: CharacterBody2D:
 @export var move_speed: float = 74.0
 ## 翻滚速度相对移动速度的倍率：翻滚位移速度 = move_speed * 该倍率
 const ROLL_SPEED_MULTIPLIER: float = 2.0
-## 停止移动后仍保持的朝向（逻辑四向）；动画 BlendSpace 只取左右。
+## 停止移动后仍保持的朝向；移动动画已有 left/right/down_left/down_right。
 var last_direction: Vector2 = Vector2.DOWN
 
 
