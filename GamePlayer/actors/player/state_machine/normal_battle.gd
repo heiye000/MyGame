@@ -8,7 +8,7 @@ class_name NormalBattle extends LimboState
 var _last_anim_node: StringName = &""
 ## 进入攻击/翻滚时锁定的朝向，整段动作内不再随 WASD 每帧改。
 var _locked_action_dir: Vector2 = Vector2.DOWN
-## 纯上下移动时沿用上次左右，用来挑 left/right 或 down_left/down_right。
+## 上次左右朝向；攻击/翻滚 BlendSpace 仍只有左右点。
 var _last_facing_x: float = -1.0
 
 
@@ -87,27 +87,29 @@ func _blend_from_direction(direction: Vector2) -> Vector2:
 	return Vector2(_last_facing_x, 0.0)
 
 
-## 移动 BlendSpace：left / right / down_left / down_right（坐标已是 BlendSpace，y 向上）。
+## 移动 BlendSpace：left / right / up / down / 斜下 / 斜上（坐标已是 BlendSpace，y 向上）。
 func _move_blend_from_direction(direction: Vector2) -> Vector2:
 	if direction.x != 0.0:
 		_last_facing_x = signf(direction.x)
 	var d8: Direction8.Dir = Direction8.from_vector(direction, Direction8.Dir.LEFT)
 	match d8:
-		Direction8.Dir.LEFT, Direction8.Dir.UP_LEFT:
+		Direction8.Dir.LEFT:
 			return Vector2(-1.0, 0.0)
-		Direction8.Dir.RIGHT, Direction8.Dir.UP_RIGHT:
+		Direction8.Dir.RIGHT:
 			return Vector2(1.0, 0.0)
+		Direction8.Dir.UP:
+			return Vector2(0.0, 1.0)
+		Direction8.Dir.DOWN:
+			return Vector2(0.0, -1.0)
+		Direction8.Dir.UP_LEFT:
+			return Vector2(-0.7, 0.7)
+		Direction8.Dir.UP_RIGHT:
+			return Vector2(0.7, 0.7)
 		Direction8.Dir.DOWN_LEFT:
 			return Vector2(-0.7, -0.7)
 		Direction8.Dir.DOWN_RIGHT:
 			return Vector2(0.7, -0.7)
-		Direction8.Dir.DOWN:
-			# 正下还没有专用帧，按上次左右挑斜下。
-			if _last_facing_x < 0.0:
-				return Vector2(-0.7, -0.7)
-			return Vector2(0.7, -0.7)
 		_:
-			# 正上还没有专用帧，沿用上次左右。
 			return Vector2(_last_facing_x, 0.0)
 
 
