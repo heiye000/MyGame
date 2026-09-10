@@ -8,7 +8,6 @@ var character: CharacterBody2D:
 ## 预输入组件，记住 recovery 期间提前按下的攻击/翻滚。
 @onready var input_buffer: InputBuffer = $InputBuffer
 @onready var animation_tree: PlayerAnimationTree = $AnimationTree
-@onready var state_playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/StateMachine/playback")
 @onready var state_machine: LimboHSM = $LimboHSM
 @onready var normal: PlayerNormal = $LimboHSM/Normal
 @onready var battle: PlayerBattle = $LimboHSM/Battle

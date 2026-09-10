@@ -1,9 +1,15 @@
-## 探索模式：只处理八方向移动，不管攻击和翻滚。
+## 探索模式：只处理八方向移动，动画只写 Normal 子图。
 class_name PlayerNormal
 extends LimboState
 
 ## 本态拔剑时派发的事件名，用来切到战斗。
 const EVENT_DRAW_SWORD: StringName = &"draw_sword"
+## 顶层动画状态机回放（Normal / Battle）。
+const _TOP_PLAYBACK := "parameters/StateMachine/playback"
+## 探索态自己的朝向参数，不碰战斗子图。
+const _BLEND_IDLE := "parameters/StateMachine/Normal/idle/blend_position"
+const _BLEND_RUN_START := "parameters/StateMachine/Normal/run_start/blend_position"
+const _BLEND_RUN := "parameters/StateMachine/Normal/run/blend_position"
 
 
 ## 初始化时登记「探索 → 战斗」，输入监听仍等进态再绑。
@@ -13,14 +19,14 @@ func _setup() -> void:
 	hsm.add_transition(self, battle_state, EVENT_DRAW_SWORD)
 
 
-## 切进来时立刻按当前朝向改移动动画；若还停在攻击/翻滚片段上，拉回移动。
+## 切进来时把动画树拉到 Normal 子图，并按当前朝向改探索移动动画。
 func _enter() -> void:
 	var player := agent as Player
 	if player == null:
 		return
-	# 探索态不播战斗动作，收剑时直接回到移动子机。
-	if player.state_playback.get_current_node() != &"MoveMachine":
-		player.state_playback.start(&"MoveMachine")
+	var top: AnimationNodeStateMachinePlayback = player.animation_tree.get(_TOP_PLAYBACK)
+	if top and top.get_current_node() != &"Normal":
+		top.travel(&"Normal")
 	player.input_buffer.clear(PlayerActionType.Type.ATTACK_L)
 	player.input_buffer.clear(PlayerActionType.Type.ROLL)
 	_set_move_blend(player, player.last_direction)
@@ -75,9 +81,9 @@ func _move_blend_from_direction(direction: Vector2) -> Vector2:
 	return Direction8.to_blend_position(d8)
 
 
-## 把移动朝向写进 idle / 起步 / 跑步三套 BlendSpace。
+## 只写 Normal 子图的 idle / 起步 / 跑步朝向。
 func _set_move_blend(player: Player, direction: Vector2) -> void:
 	var d := _move_blend_from_direction(direction)
-	player.animation_tree.set("parameters/StateMachine/MoveMachine/idle/blend_position", d)
-	player.animation_tree.set("parameters/StateMachine/MoveMachine/run_start/blend_position", d)
-	player.animation_tree.set("parameters/StateMachine/MoveMachine/run/blend_position", d)
+	player.animation_tree.set(_BLEND_IDLE, d)
+	player.animation_tree.set(_BLEND_RUN_START, d)
+	player.animation_tree.set(_BLEND_RUN, d)

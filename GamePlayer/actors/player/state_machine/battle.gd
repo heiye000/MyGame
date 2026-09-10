@@ -1,10 +1,20 @@
-## 战斗模式：身体仍八方向移动，移动动画只播四条斜向（左上/右上/左下/右下）。
+## 战斗模式：八方向移动，移动动画只播四斜向；攻击/翻滚只走 Battle 子图。
 class_name PlayerBattle
 extends LimboState
 
 ## 本态收剑时派发的事件名，用来切回探索。
 const EVENT_DRAW_SWORD: StringName = &"draw_sword"
-## 上一帧动画状态机节点，用来判断刚进入哪段动作。
+## 顶层动画状态机回放（Normal / Battle）。
+const _TOP_PLAYBACK := "parameters/StateMachine/playback"
+## 战斗子图回放（MoveMachine / AttackMachine / RollMachine）。
+const _BATTLE_PLAYBACK := "parameters/StateMachine/Battle/playback"
+const _BLEND_IDLE := "parameters/StateMachine/Battle/MoveMachine/idle/blend_position"
+const _BLEND_RUN_START := "parameters/StateMachine/Battle/MoveMachine/run_start/blend_position"
+const _BLEND_RUN := "parameters/StateMachine/Battle/MoveMachine/run/blend_position"
+const _BLEND_ATTACK := "parameters/StateMachine/Battle/AttackMachine/attack_L/blend_position"
+const _BLEND_ROLL := "parameters/StateMachine/Battle/RollMachine/roll/blend_position"
+
+## 上一帧战斗子图节点，用来判断刚进入哪段动作。
 var _last_anim_node: StringName = &""
 ## 进入攻击/翻滚时锁定的朝向，整段动作内不再随 WASD 每帧改。
 var _locked_action_dir: Vector2 = Vector2.DOWN
@@ -12,6 +22,8 @@ var _locked_action_dir: Vector2 = Vector2.DOWN
 var _last_facing_x: float = -1.0
 ## 上次上下朝向（世界坐标，y 向下为正）；把左右折到斜向时用。
 var _last_facing_y: float = 1.0
+## 当前正在播的动画朝向（世界坐标）；收剑时写回 last_direction，避免探索态被拧到正交方向。
+var _displayed_facing: Vector2 = Vector2.DOWN
 
 
 ## 初始化时登记「战斗 → 探索」，输入监听仍等进态再绑。
@@ -21,27 +33,35 @@ func _setup() -> void:
 	hsm.add_transition(self, normal_state, EVENT_DRAW_SWORD)
 
 
-## 切进来时立刻把当前朝向折成四斜向，免得还停在探索态的正交动画上。
+## 切进来时把动画树拉到 Battle 子图，并按四斜向改移动动画。
 func _enter() -> void:
 	var player := agent as Player
 	if player == null:
 		return
+	var top: AnimationNodeStateMachinePlayback = player.animation_tree.get(_TOP_PLAYBACK)
+	if top and top.get_current_node() != &"Battle":
+		top.travel(&"Battle")
 	_remember_facing(player.last_direction)
 	_set_move_blend(player, player.last_direction)
 	_bind_draw_sword()
 
 
-## 离态时解开收剑监听，避免探索态再收到战斗这边的回调。
+## 离态时把当前动画朝向交给探索态，再解开收剑监听。
 func _exit() -> void:
+	var player := agent as Player
+	if player:
+		player.last_direction = _displayed_facing
 	_unbind_draw_sword()
 
 
 func _update(_delta: float) -> void:
 	var player := agent as Player
 	var move_direction := player.animation_tree.get_move_direction()
+	var battle_playback: AnimationNodeStateMachinePlayback = player.animation_tree.get(_BATTLE_PLAYBACK)
+	var anim_node := battle_playback.get_current_node() if battle_playback else &"MoveMachine"
 
-	# 按动画树当前顶层子机分路：移动、攻击、翻滚各写各的速度和朝向。
-	match player.state_playback.get_current_node():
+	# 只看 Battle 子图当前节点，不读探索侧。
+	match anim_node:
 		"MoveMachine":
 			_process_move_machine(player, move_direction)
 		"AttackMachine":
@@ -119,33 +139,33 @@ func _move_blend_from_direction(direction: Vector2) -> Vector2:
 	_remember_facing(direction)
 	var d8: Direction8.Dir = Direction8.from_vector(direction, Direction8.Dir.LEFT)
 	d8 = Direction8.to_diagonal(d8, _last_facing_x, _last_facing_y)
+	_displayed_facing = Direction8.to_vector(d8)
 	return Direction8.to_blend_position(d8)
 
 
 ## 攻击/翻滚 BlendSpace 仍只有左右点（±1, 0）。
 func _blend_from_direction(direction: Vector2) -> Vector2:
 	_remember_facing(direction)
+	_displayed_facing = Vector2(_last_facing_x, 0.0)
 	return Vector2(_last_facing_x, 0.0)
 
 
-## 把四斜向写进 idle / 起步 / 跑步三套 BlendSpace。
+## 只写 Battle/MoveMachine 的 idle / 起步 / 跑步朝向。
 func _set_move_blend(player: Player, direction: Vector2) -> void:
 	var d := _move_blend_from_direction(direction)
-	player.animation_tree.set("parameters/StateMachine/MoveMachine/idle/blend_position", d)
-	player.animation_tree.set("parameters/StateMachine/MoveMachine/run_start/blend_position", d)
-	player.animation_tree.set("parameters/StateMachine/MoveMachine/run/blend_position", d)
+	player.animation_tree.set(_BLEND_IDLE, d)
+	player.animation_tree.set(_BLEND_RUN_START, d)
+	player.animation_tree.set(_BLEND_RUN, d)
 
 
-## 把攻击朝向写进左右 BlendSpace。
+## 只写 Battle 攻击朝向。
 func _set_attack_blend(player: Player, direction: Vector2) -> void:
-	var d := _blend_from_direction(direction)
-	player.animation_tree.set("parameters/StateMachine/AttackMachine/attack_L/blend_position", d)
+	player.animation_tree.set(_BLEND_ATTACK, _blend_from_direction(direction))
 
 
-## 把翻滚朝向写进左右 BlendSpace。
+## 只写 Battle 翻滚朝向。
 func _set_roll_blend(player: Player, direction: Vector2) -> void:
-	var d := _blend_from_direction(direction)
-	player.animation_tree.set("parameters/StateMachine/RollMachine/roll/blend_position", d)
+	player.animation_tree.set(_BLEND_ROLL, _blend_from_direction(direction))
 
 
 ## 战斗态按下收剑，切回探索。
