@@ -25,8 +25,10 @@ func get_move_direction() -> Vector2:
 	return move_action.value_axis_2d
 
 
-## 只查询不消费；本帧已在攻击态时返回 false，避免同帧 Attack↔Move 回环告警。
+## 探索态不认攻击；只查询不消费。本帧已在攻击态时返回 false，避免同帧回环告警。
 func is_attacking() -> bool:
+	if not _is_battle_mode():
+		return false
 	if _root_node_at_frame_start == &"AttackMachine":
 		return false
 	var attack_action = PlayerActionType.get_action(PlayerActionType.Type.ATTACK_L)
@@ -37,8 +39,10 @@ func is_attacking() -> bool:
 	return false
 
 
-## 只查询不消费；本帧已在翻滚态时返回 false，避免同帧 Roll↔Move 回环告警。
+## 探索态不认翻滚；只查询不消费。本帧已在翻滚态时返回 false，避免同帧回环告警。
 func is_rolling() -> bool:
+	if not _is_battle_mode():
+		return false
 	if _root_node_at_frame_start == &"RollMachine":
 		return false
 	var roll_action = PlayerActionType.get_action(PlayerActionType.Type.ROLL)
@@ -47,3 +51,9 @@ func is_rolling() -> bool:
 	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.Type.ROLL):
 		return true
 	return false
+
+
+## 过渡表达式在动画树自己身上求值，这里问父节点当前是不是战斗模式。
+func _is_battle_mode() -> bool:
+	var player := get_parent() as Player
+	return player != null and player.is_battle_mode()

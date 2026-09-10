@@ -10,7 +10,8 @@ var character: CharacterBody2D:
 @onready var animation_tree: PlayerAnimationTree = $AnimationTree
 @onready var state_playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/StateMachine/playback")
 @onready var state_machine: LimboHSM = $LimboHSM
-@onready var normal_battle: NormalBattle = $LimboHSM/NormalBattle
+@onready var normal: PlayerNormal = $LimboHSM/Normal
+@onready var battle: PlayerBattle = $LimboHSM/Battle
 @onready var camera_target: Marker2D = $CameraTarget
 ## 受击盒空壳（层 PlayerHurtbox）；战斗管线接入前保持 disabled。
 @onready var hurtbox: Area2D = $Hurtbox
@@ -42,9 +43,14 @@ func _ready() -> void:
 	_init_state_machine()
 
 
-## 通过 LimboHSM 状态机控制玩家当前行动模式。
+## 启动根 LimboHSM；拔剑/收剑的过渡由各模式态自己注册、自己监听。
 func _init_state_machine() -> void:
 	state_machine.update_mode = LimboHSM.PHYSICS
-	state_machine.initial_state = normal_battle
+	state_machine.initial_state = normal
 	state_machine.initialize(self)
 	state_machine.set_active(true)
+
+
+## 当前是不是战斗模式；探索态里攻击/翻滚过渡表达式会问这个。
+func is_battle_mode() -> bool:
+	return battle != null and battle.is_active()

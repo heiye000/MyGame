@@ -9,11 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://bv4xdraxj754x" path="res://assets/sprites/player/player.png" id="6_ov1oi"]
 [ext_resource type="Script" uid="uid://dq7ysort2d001" path="res://core/components/ysort/y_sortable_2d.gd" id="7_rn7t0"]
 [ext_resource type="Script" uid="uid://cy6dxulxoardt" path="res://actors/player/player_animation_tree.gd" id="8_8qjgm"]
-[ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://actors/player/state_machine/normal_battle.gd" id="9_ejd4k"]
+[ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://actors/player/state_machine/normal.gd" id="9_ejd4k"]
 [ext_resource type="Texture2D" uid="uid://def5b2qkc0egl" path="res://assets/sprites/player/running_leftdown.png" id="9_ssdk0"]
 [ext_resource type="Texture2D" uid="uid://djy3k3kgpxpek" path="res://assets/sprites/player/running_leftup.png" id="10_leftup"]
 [ext_resource type="Texture2D" uid="uid://ph6sfewjoua7" path="res://assets/sprites/player/runing_up.png" id="11_k67x5"]
 [ext_resource type="Texture2D" uid="uid://crchrdc6ulh77" path="res://assets/sprites/player/runing_down.png" id="11_rundn"]
+[ext_resource type="Script" uid="uid://dbseg02n15n8k" path="res://actors/player/state_machine/battle.gd" id="12_battle"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foot"]
 size = Vector2(12, 8)
@@ -2522,6 +2523,7 @@ states/Start/position = Vector2(201, 100)
 transitions = ["Start", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_rfvym"), "MoveMachine", "AttackMachine", SubResource("AnimationNodeStateMachineTransition_ifggu"), "MoveMachine", "RollMachine", SubResource("AnimationNodeStateMachineTransition_qnicj"), "AttackMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_m1hv5"), "RollMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_rswtf")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_mnwg7"]
+graph_offset = Vector2(-22.230011, 171.69)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_wn017")
 nodes/StateMachine/position = Vector2(340, 180)
 node_connections = [&"output", 0, &"StateMachine"]
@@ -2607,5 +2609,8 @@ script = ExtResource("8_8qjgm")
 
 [node name="LimboHSM" type="LimboHSM" parent="." unique_id=669208935]
 
-[node name="NormalBattle" type="LimboState" parent="LimboHSM" unique_id=1797315305]
+[node name="Normal" type="LimboState" parent="LimboHSM" unique_id=1797315305]
 script = ExtResource("9_ejd4k")
+
+[node name="Battle" type="LimboState" parent="LimboHSM" unique_id=1639716538]
+script = ExtResource("12_battle")

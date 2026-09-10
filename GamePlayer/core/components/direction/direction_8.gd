@@ -54,6 +54,18 @@ const VECTORS: Dictionary = {
 	Dir.UP_LEFT: Vector2(-_S2, -_S2),
 }
 
+## BlendSpace2D 坐标（y 向上，和动画树一致；世界坐标则是 y 向下）。
+const BLEND_POSITIONS: Dictionary = {
+	Dir.LEFT: Vector2(-1.0, 0.0),
+	Dir.RIGHT: Vector2(1.0, 0.0),
+	Dir.UP: Vector2(0.0, 1.0),
+	Dir.DOWN: Vector2(0.0, -1.0),
+	Dir.UP_LEFT: Vector2(-0.7, 0.7),
+	Dir.UP_RIGHT: Vector2(0.7, 0.7),
+	Dir.DOWN_LEFT: Vector2(-0.7, -0.7),
+	Dir.DOWN_RIGHT: Vector2(0.7, -0.7),
+}
+
 ## 扇区中心角度（atan2：x 右、y 下），每 45° 一格，从 UP 起逆时针按枚举序。
 ## 实际判定用角度 / 45 量化，见 from_vector。
 
@@ -93,6 +105,28 @@ static func from_vector(v: Vector2, fallback: Dir = Dir.DOWN) -> Dir:
 ## 八向转单位向量。
 static func to_vector(dir: Dir) -> Vector2:
 	return VECTORS.get(dir, Vector2.DOWN)
+
+
+## 八向转动画树 BlendSpace 坐标。
+static func to_blend_position(dir: Dir) -> Vector2:
+	return BLEND_POSITIONS.get(dir, Vector2(-1.0, 0.0))
+
+
+## 把正交方向折到四斜向。facing_x / facing_y 用世界坐标（y 向下为正）。
+static func to_diagonal(dir: Dir, facing_x: float, facing_y: float) -> Dir:
+	var face_right := facing_x >= 0.0
+	var face_down := facing_y >= 0.0
+	match dir:
+		Dir.UP:
+			return Dir.UP_RIGHT if face_right else Dir.UP_LEFT
+		Dir.DOWN:
+			return Dir.DOWN_RIGHT if face_right else Dir.DOWN_LEFT
+		Dir.LEFT:
+			return Dir.DOWN_LEFT if face_down else Dir.UP_LEFT
+		Dir.RIGHT:
+			return Dir.DOWN_RIGHT if face_down else Dir.UP_RIGHT
+		_:
+			return dir
 
 
 ## 八向转 StringName（拼动画名用）。

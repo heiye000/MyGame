@@ -6,12 +6,14 @@ enum Type {
 	MOVE, 	#移动
 	ATTACK_L, #攻击-左
 	ROLL, #翻滚
+	DRAW_SWORD, #拔剑、收剑
 }
 
 const _ACTIONS: Dictionary = {
 	Type.MOVE: preload("res://core/components/input/res/actions/move.tres"),
 	Type.ATTACK_L: preload("res://core/components/input/res/actions/attack_l.tres"),
 	Type.ROLL: preload("res://core/components/input/res/actions/roll.tres"),
+	Type.DRAW_SWORD: preload("res://core/components/input/res/actions/draw_sword.tres"),
 }
 
 #获取动作配置

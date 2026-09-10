@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://b52rqq28tuqpg" path="res://addons/guide/triggers/guide_trigger_pressed.gd" id="10_6lang"]
 [ext_resource type="Script" uid="uid://vgjlx6p007lp" path="res://addons/guide/inputs/guide_input_mouse_button.gd" id="11_lt05c"]
 [ext_resource type="Resource" uid="uid://cld6tg5kbit6q" path="res://core/components/input/res/actions/roll.tres" id="12_6lang"]
+[ext_resource type="Resource" uid="uid://b1bm51aua5mfy" path="res://core/components/input/res/actions/draw_sword.tres" id="13_1bwqn"]
 
 [sub_resource type="Resource" id="Resource_beyde"]
 script = ExtResource("4_x5gws")
@@ -130,8 +131,25 @@ script = ExtResource("1_v3yqb")
 action = ExtResource("12_6lang")
 input_mappings = Array[ExtResource("3_1fb8i")]([SubResource("Resource_oruhg"), SubResource("Resource_27lew")])
 
+[sub_resource type="Resource" id="Resource_8uxop"]
+script = ExtResource("4_x5gws")
+key = 81
+
+[sub_resource type="Resource" id="Resource_nxhw1"]
+script = ExtResource("10_6lang")
+
+[sub_resource type="Resource" id="Resource_c1ro2"]
+script = ExtResource("3_1fb8i")
+input = SubResource("Resource_8uxop")
+triggers = Array[ExtResource("8_uvba7")]([SubResource("Resource_nxhw1")])
+
+[sub_resource type="Resource" id="Resource_7fajs"]
+script = ExtResource("1_v3yqb")
+action = ExtResource("13_1bwqn")
+input_mappings = Array[ExtResource("3_1fb8i")]([SubResource("Resource_c1ro2")])
+
 [resource]
 script = ExtResource("2_pfa1y")
-mappings = Array[ExtResource("1_v3yqb")]([SubResource("Resource_vxxq0"), SubResource("Resource_b5nn0"), SubResource("Resource_nx31i")])
+mappings = Array[ExtResource("1_v3yqb")]([SubResource("Resource_vxxq0"), SubResource("Resource_b5nn0"), SubResource("Resource_nx31i"), SubResource("Resource_7fajs")])
 metadata/_custom_type_script = "uid://dsa1dnifd6w32"
 metadata/_guide_action_mappings_collapsed = false

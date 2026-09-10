@@ -8,6 +8,7 @@
     "search.exclude": {
       "**/*.gd.uid": true,
       "**/*.import": true,
-      "**/*.pyc": true 
+      "**/*.pyc": true,
+      ".cursor/*": true 
     }
   }

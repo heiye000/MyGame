@@ -281,5 +281,7 @@ func _action_label(action_type: PlayerActionType.Type) -> String:
 			return "ATTACK_L"
 		PlayerActionType.Type.ROLL:
 			return "ROLL"
+		PlayerActionType.Type.DRAW_SWORD:
+			return "DRAW_SWORD"
 		_:
 			return str(action_type)
