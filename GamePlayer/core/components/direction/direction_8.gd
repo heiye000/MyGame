@@ -129,6 +129,11 @@ static func to_diagonal(dir: Dir, facing_x: float, facing_y: float) -> Dir:
 			return dir
 
 
+## 只有左右下斜向时，按最近左右折到 down_right / down_left。
+static func to_down_diagonal(facing_x: float) -> Dir:
+	return Dir.DOWN_RIGHT if facing_x >= 0.0 else Dir.DOWN_LEFT
+
+
 ## 八向转 StringName（拼动画名用）。
 static func to_string_name(dir: Dir) -> StringName:
 	return NAMES.get(dir, &"down")

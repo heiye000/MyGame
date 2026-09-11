@@ -2,7 +2,7 @@ class_name PlayerAnimationTree extends AnimationTree
 
 ## 玩家身上的预输入组件，recovery 期间按下的键从这里查询。
 var _input_buffer: InputBuffer
-## 本帧开始时的顶层节点（Normal / Battle）。
+## 本帧开始时的顶层节点（Normal / DrawSword / Battle / SheathSword）。
 var _root_node_at_frame_start: StringName = &"Normal"
 ## 本帧开始时 Battle 子图节点；不在战斗子图时为空。
 var _battle_node_at_frame_start: StringName = &""
@@ -32,13 +32,13 @@ func get_move_direction() -> Vector2:
 	return move_action.value_axis_2d
 
 
-## 顶层：Limbo 在战斗态时，动画树从 Normal 切到 Battle。
+## 顶层：Limbo 在战斗态时，动画树从 Normal 切到 DrawSword，播完再进 Battle。
 func is_battle() -> bool:
 	var player := get_parent() as Player
 	return player != null and player.is_battle_mode()
 
 
-## 顶层：Limbo 在探索态时，动画树从 Battle 切回 Normal。
+## 顶层：Limbo 在探索态时，动画树从 Battle 切到收剑，播完再回 Normal。
 func is_normal() -> bool:
 	return not is_battle()
 
