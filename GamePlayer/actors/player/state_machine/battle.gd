@@ -10,11 +10,12 @@ const _TOP_PLAYBACK := "parameters/StateMachine/playback"
 const _BATTLE_PLAYBACK := "parameters/StateMachine/Battle/playback"
 const _BLEND_DRAW := "parameters/StateMachine/DrawSword/blend_position"
 const _BLEND_IDLE := "parameters/StateMachine/Battle/MoveMachine/idle/blend_position"
-const _BLEND_RUN_START := "parameters/StateMachine/Battle/MoveMachine/run_start/blend_position"
 const _BLEND_RUN := "parameters/StateMachine/Battle/MoveMachine/run/blend_position"
 const _BLEND_ATTACK := "parameters/StateMachine/Battle/AttackMachine/attack_L/blend_position"
 const _BLEND_ROLL := "parameters/StateMachine/Battle/RollMachine/roll/blend_position"
 const _BLEND_SHEATH := "parameters/StateMachine/SheathSword/blend_position"
+## 战斗态行走速度相对 `Player.move_speed` 的倍率；翻滚不乘这个系数。
+@export var move_speed_scale: float = 0.5
 
 ## 上一帧战斗子图节点，用来判断刚进入哪段动作。
 var _last_anim_node: StringName = &""
@@ -96,7 +97,7 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 		player.last_direction = move_direction
 
 	_set_move_blend(player, player.last_direction)
-	player.velocity = move_direction * player.move_speed
+	player.velocity = move_direction * player.move_speed * move_speed_scale
 	player.move_and_slide()
 
 
@@ -151,11 +152,10 @@ func _move_blend_from_direction(direction: Vector2) -> Vector2:
 	return Direction8.to_blend_position(d8)
 
 
-## 只写 Battle/MoveMachine 的 idle / 起步 / 跑步朝向。
+## 只写 Battle/MoveMachine 的 idle / 持剑行走朝向。
 func _set_move_blend(player: Player, direction: Vector2) -> void:
 	var d := _move_blend_from_direction(direction)
 	player.animation_tree.set(_BLEND_IDLE, d)
-	player.animation_tree.set(_BLEND_RUN_START, d)
 	player.animation_tree.set(_BLEND_RUN, d)
 
 
