@@ -11,7 +11,9 @@ const _BATTLE_PLAYBACK := "parameters/StateMachine/Battle/playback"
 const _BLEND_DRAW := "parameters/StateMachine/DrawSword/blend_position"
 const _BLEND_IDLE := "parameters/StateMachine/Battle/MoveMachine/idle/blend_position"
 const _BLEND_RUN := "parameters/StateMachine/Battle/MoveMachine/run/blend_position"
-const _BLEND_ATTACK := "parameters/StateMachine/Battle/AttackMachine/attack_L/blend_position"
+const _BLEND_ATTACK_WINDUP := "parameters/StateMachine/Battle/AttackMachine/windup/blend_position"
+const _BLEND_ATTACK_ACTIVE := "parameters/StateMachine/Battle/AttackMachine/active/blend_position"
+const _BLEND_ATTACK_RECOVERY := "parameters/StateMachine/Battle/AttackMachine/recovery/blend_position"
 const _BLEND_ROLL := "parameters/StateMachine/Battle/RollMachine/roll/blend_position"
 const _BLEND_SHEATH := "parameters/StateMachine/SheathSword/blend_position"
 ## 战斗态行走速度相对 `Player.move_speed` 的倍率；翻滚不乘这个系数。
@@ -164,9 +166,12 @@ func _down_side_blend() -> Vector2:
 	return Direction8.to_blend_position(Direction8.to_down_diagonal(_last_facing_x))
 
 
-## 只写 Battle 攻击朝向。
+## 只写 Battle 攻击三段（预备 / 有效 / 后摇）朝向，整段锁定同一方向。
 func _set_attack_blend(player: Player, direction: Vector2) -> void:
-	player.animation_tree.set(_BLEND_ATTACK, _move_blend_from_direction(direction))
+	var d := _move_blend_from_direction(direction)
+	player.animation_tree.set(_BLEND_ATTACK_WINDUP, d)
+	player.animation_tree.set(_BLEND_ATTACK_ACTIVE, d)
+	player.animation_tree.set(_BLEND_ATTACK_RECOVERY, d)
 
 
 ## 只写 Battle 翻滚朝向。

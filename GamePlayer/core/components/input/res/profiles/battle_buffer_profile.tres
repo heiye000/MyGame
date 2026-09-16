@@ -6,6 +6,7 @@
 [sub_resource type="Resource" id="Entry_attack"]
 script = ExtResource("1_jd6mn")
 action_type = 1
+buffer_frames = 84
 
 [sub_resource type="Resource" id="Entry_roll"]
 script = ExtResource("1_jd6mn")
