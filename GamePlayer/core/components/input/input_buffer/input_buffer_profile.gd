@@ -9,7 +9,7 @@ extends Resource
 
 
 ## 按动作类型找对应配置，找不到返回 null。
-func get_entry(action_type: PlayerActionType.Type) -> InputBufferProfileEntry:
+func get_entry(action_type: PlayerActionType.ActionType) -> InputBufferProfileEntry:
 	for entry: InputBufferProfileEntry in entries:
 		if entry.action_type == action_type:
 			return entry

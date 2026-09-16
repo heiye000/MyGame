@@ -53,7 +53,7 @@ globs: **/*
 @export var buffer_frames: int = 15
 
 ## 预输入被用掉时发出，可做音效或特效。
-signal consumed(action_type: PlayerActionType.Type)
+signal consumed(action_type: PlayerActionType.ActionType)
 
 ## 从输入系统读取本帧按键，该记进缓冲的就记下来。
 func capture_from_guide() -> void:

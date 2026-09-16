@@ -16,7 +16,7 @@ enum GateMode {
 }
 
 ## 对应哪个玩家动作。
-@export var action_type: PlayerActionType.Type
+@export var action_type: PlayerActionType.ActionType
 ## 用哪种缓冲策略。
 @export var policy: BufferPolicy = BufferPolicy.BUFFERABLE
 ## 精确输入时用哪种窗口模式。

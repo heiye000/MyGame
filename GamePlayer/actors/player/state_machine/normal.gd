@@ -25,8 +25,8 @@ func _enter() -> void:
 	var player := agent as Player
 	if player == null:
 		return
-	player.input_buffer.clear(PlayerActionType.Type.ATTACK_L)
-	player.input_buffer.clear(PlayerActionType.Type.ROLL)
+	player.input_buffer.clear(PlayerActionType.ActionType.ATTACK_L)
+	player.input_buffer.clear(PlayerActionType.ActionType.ROLL)
 	player.animation_tree.set(_BLEND_SHEATH, _sheath_blend_from_direction(player.last_direction))
 	_set_move_blend(player, player.last_direction)
 	_bind_draw_sword()
@@ -40,8 +40,8 @@ func _exit() -> void:
 func _update(_delta: float) -> void:
 	var player := agent as Player
 	# 探索里按到攻击/翻滚也不留预输入，避免拔剑后立刻出招。
-	player.input_buffer.clear(PlayerActionType.Type.ATTACK_L)
-	player.input_buffer.clear(PlayerActionType.Type.ROLL)
+	player.input_buffer.clear(PlayerActionType.ActionType.ATTACK_L)
+	player.input_buffer.clear(PlayerActionType.ActionType.ROLL)
 
 	var top: AnimationNodeStateMachinePlayback = player.animation_tree.get(_TOP_PLAYBACK)
 	var top_node := top.get_current_node() if top else &"Normal"
@@ -73,7 +73,7 @@ func _on_draw_sword() -> void:
 
 ## 只在本态活跃时听拔剑。
 func _bind_draw_sword() -> void:
-	var action := PlayerActionType.get_action(PlayerActionType.Type.DRAW_SWORD)
+	var action := PlayerActionType.get_action(PlayerActionType.ActionType.DRAW_SWORD)
 	if action == null:
 		push_error("PlayerNormal: 未找到 DRAW_SWORD 的 GUIDE 行动资源。")
 		return
@@ -83,7 +83,7 @@ func _bind_draw_sword() -> void:
 
 ## 离态后不再听拔剑。
 func _unbind_draw_sword() -> void:
-	var action := PlayerActionType.get_action(PlayerActionType.Type.DRAW_SWORD)
+	var action := PlayerActionType.get_action(PlayerActionType.ActionType.DRAW_SWORD)
 	if action and action.just_triggered.is_connected(_on_draw_sword):
 		action.just_triggered.disconnect(_on_draw_sword)
 

@@ -37,7 +37,7 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 func _process_attack_machine(player: Player, move_direction: Vector2) -> void:
 	if _last_anim_node != &"AttackMachine":
 		# 真正开招时才消费，避免动画树同帧多次求值把缓冲提前用掉。
-		player.input_buffer.consume_buffered(PlayerActionType.Type.ATTACK_L)
+		player.input_buffer.consume_buffered(PlayerActionType.ActionType.ATTACK_L)
 		_locked_action_dir = _resolve_action_direction(player, move_direction)
 		_last_anim_node = &"AttackMachine"
 
@@ -48,7 +48,7 @@ func _process_attack_machine(player: Player, move_direction: Vector2) -> void:
 
 func _process_roll_machine(player: Player, move_direction: Vector2) -> void:
 	if _last_anim_node != &"RollMachine":
-		player.input_buffer.consume_buffered(PlayerActionType.Type.ROLL)
+		player.input_buffer.consume_buffered(PlayerActionType.ActionType.ROLL)
 		_locked_action_dir = _resolve_action_direction(player, move_direction)
 		_last_anim_node = &"RollMachine"
 

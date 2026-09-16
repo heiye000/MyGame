@@ -13,11 +13,11 @@ extends Node
 		# deferred：等 Inspector 赋值完成后再刷，避免警告图标不更新。
 		call_deferred("update_configuration_warnings")
 ## 成功记下了一次预输入。
-signal captured(action_type: PlayerActionType.Type)
+signal captured(action_type: PlayerActionType.ActionType)
 ## 预输入被用掉了，动作真正触发。
-signal consumed(action_type: PlayerActionType.Type)
+signal consumed(action_type: PlayerActionType.ActionType)
 ## 预输入放太久过期了，没来得及用。
-signal expired(action_type: PlayerActionType.Type)
+signal expired(action_type: PlayerActionType.ActionType)
 
 ## 精确输入（弹反之类）的判定窗口管理器。
 var precision_gate: PrecisionInputGate = PrecisionInputGate.new()
@@ -118,7 +118,7 @@ func _physics_process(_delta: float) -> void:
 
 
 ## GUIDE 按键触发回调，按 profile 策略记入缓冲。
-func _on_guide_just_triggered(action_type: PlayerActionType.Type) -> void:
+func _on_guide_just_triggered(action_type: PlayerActionType.ActionType) -> void:
 	var entry := profile.get_entry(action_type) if profile else null
 	if entry:
 		_capture_entry(entry)
@@ -154,12 +154,12 @@ func _capture_entry(entry: InputBufferProfileEntry) -> void:
 
 
 ## 这个动作有没有还没过期的预输入。
-func has_buffered(action_type: PlayerActionType.Type) -> bool:
+func has_buffered(action_type: PlayerActionType.ActionType) -> bool:
 	return _get_remaining_frames(action_type) > 0
 
 
 ## 用掉这个动作的预输入，成功返回 true。
-func consume_buffered(action_type: PlayerActionType.Type) -> bool:
+func consume_buffered(action_type: PlayerActionType.ActionType) -> bool:
 	if not has_buffered(action_type):
 		return false
 	_slots.erase(action_type)
@@ -168,13 +168,13 @@ func consume_buffered(action_type: PlayerActionType.Type) -> bool:
 
 
 ## 清掉某个动作的所有预输入和精确输入窗口。
-func clear(action_type: PlayerActionType.Type) -> void:
+func clear(action_type: PlayerActionType.ActionType) -> void:
 	_slots.erase(action_type)
 	precision_gate.close(action_type)
 
 
 ## 在精确输入窗口内尝试消费（弹反成功时调用）。
-func try_consume_precision(action_type: PlayerActionType.Type) -> bool:
+func try_consume_precision(action_type: PlayerActionType.ActionType) -> bool:
 	var entry := profile.get_entry(action_type) if profile else null
 	if entry == null or entry.policy != InputBufferProfileEntry.BufferPolicy.WINDOW_GATED:
 		return false
@@ -201,12 +201,12 @@ func try_consume_precision(action_type: PlayerActionType.Type) -> bool:
 
 
 ## 还剩多少物理帧可以消费这个预输入。
-func get_remaining_frames(action_type: PlayerActionType.Type) -> int:
+func get_remaining_frames(action_type: PlayerActionType.ActionType) -> int:
 	return _get_remaining_frames(action_type)
 
 
 ## 还剩多少秒可以消费，方便调试面板显示。
-func get_remaining_sec(action_type: PlayerActionType.Type) -> float:
+func get_remaining_sec(action_type: PlayerActionType.ActionType) -> float:
 	var frames := _get_remaining_frames(action_type)
 	if frames < 0:
 		return -1.0
@@ -244,12 +244,12 @@ func get_debug_snapshot() -> Dictionary:
 
 
 ## 写入预输入槽位，值为过期物理帧号。
-func _store_slot(action_type: PlayerActionType.Type, buffer_frames: int) -> void:
+func _store_slot(action_type: PlayerActionType.ActionType, buffer_frames: int) -> void:
 	_slots[action_type] = Engine.get_physics_frames() + buffer_frames
 
 
 ## 查某个动作还剩多少物理帧可消费，没有则返回 -1。
-func _get_remaining_frames(action_type: PlayerActionType.Type) -> int:
+func _get_remaining_frames(action_type: PlayerActionType.ActionType) -> int:
 	var expire_frame: Variant = _slots.get(action_type)
 	if expire_frame == null:
 		return -1
@@ -267,21 +267,21 @@ func _tick_expired() -> void:
 
 
 ## 精确输入消费成功后，清掉槽位和预输入窗口残留。
-func _clear_precision_state(action_type: PlayerActionType.Type) -> void:
+func _clear_precision_state(action_type: PlayerActionType.ActionType) -> void:
 	_slots.erase(action_type)
 	precision_gate.consume_pre_input(action_type)
 
 
 ## 动作枚举转调试面板用的短标签。
-func _action_label(action_type: PlayerActionType.Type) -> String:
+func _action_label(action_type: PlayerActionType.ActionType) -> String:
 	match action_type:
-		PlayerActionType.Type.MOVE:
+		PlayerActionType.ActionType.MOVE:
 			return "MOVE"
-		PlayerActionType.Type.ATTACK_L:
+		PlayerActionType.ActionType.ATTACK_L:
 			return "ATTACK_L"
-		PlayerActionType.Type.ROLL:
+		PlayerActionType.ActionType.ROLL:
 			return "ROLL"
-		PlayerActionType.Type.DRAW_SWORD:
+		PlayerActionType.ActionType.DRAW_SWORD:
 			return "DRAW_SWORD"
 		_:
 			return str(action_type)

@@ -28,7 +28,7 @@ func _physics_process(_delta: float) -> void:
 
 ## 供 AnimationTree transition 表达式调用的输入查询方法。
 func get_move_direction() -> Vector2:
-	var move_action = PlayerActionType.get_action(PlayerActionType.Type.MOVE)
+	var move_action = PlayerActionType.get_action(PlayerActionType.ActionType.MOVE)
 	return move_action.value_axis_2d
 
 
@@ -49,10 +49,10 @@ func is_attacking() -> bool:
 		return false
 	if _battle_node_at_frame_start == &"AttackMachine":
 		return false
-	var attack_action = PlayerActionType.get_action(PlayerActionType.Type.ATTACK_L)
+	var attack_action = PlayerActionType.get_action(PlayerActionType.ActionType.ATTACK_L)
 	if attack_action.is_triggered():
 		return true
-	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.Type.ATTACK_L):
+	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.ActionType.ATTACK_L):
 		return true
 	return false
 
@@ -63,9 +63,9 @@ func is_rolling() -> bool:
 		return false
 	if _battle_node_at_frame_start == &"RollMachine":
 		return false
-	var roll_action = PlayerActionType.get_action(PlayerActionType.Type.ROLL)
+	var roll_action = PlayerActionType.get_action(PlayerActionType.ActionType.ROLL)
 	if roll_action.is_triggered():
 		return true
-	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.Type.ROLL):
+	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.ActionType.ROLL):
 		return true
 	return false
