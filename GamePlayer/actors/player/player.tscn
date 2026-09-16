@@ -3346,4 +3346,3 @@ script = ExtResource("9_ejd4k")
 
 [node name="Battle" type="LimboState" parent="LimboHSM" unique_id=1639716538]
 script = ExtResource("12_battle")
-move_speed_scale = 0.75

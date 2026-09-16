@@ -1,21 +1,26 @@
 class_name PlayerActionType
 extends RefCounted
 
-## 玩家行动枚举。新增行动时只需在此添加枚举值与对应资源路径。
-enum Type {
-	MOVE, 	#移动
-	ATTACK_L, #攻击-左
-	ROLL, #翻滚
-	DRAW_SWORD, #拔剑、收剑
+## 玩家行动枚举。新增行动时：先在 Loader 登记资源，再在这里加枚举和对照。
+enum ActionType {
+	MOVE, # 移动
+	ATTACK_L, # 攻击-左
+	ROLL, # 翻滚
+	DRAW_SWORD, # 拔剑、收剑
 }
 
-const _ACTIONS: Dictionary = {
-	Type.MOVE: preload("res://core/components/input/res/actions/move.tres"),
-	Type.ATTACK_L: preload("res://core/components/input/res/actions/attack_l.tres"),
-	Type.ROLL: preload("res://core/components/input/res/actions/roll.tres"),
-	Type.DRAW_SWORD: preload("res://core/components/input/res/actions/draw_sword.tres"),
+## 行动所对应的资源是哪个
+const _ACTION_IDS: Dictionary = {
+	ActionType.MOVE: Loader.Id.ACTION_MOVE,
+	ActionType.ATTACK_L: Loader.Id.ACTION_ATTACK_L,
+	ActionType.ROLL: Loader.Id.ACTION_ROLL,
+	ActionType.DRAW_SWORD: Loader.Id.ACTION_DRAW_SWORD,
 }
 
-#获取动作配置
-static func get_action(type: Type) -> GUIDEAction:
-	return _ACTIONS.get(type) as GUIDEAction
+
+## 取出该行动对应的 GUIDE 动作配置。
+static func get_action(type: ActionType) -> GUIDEAction:
+	if not _ACTION_IDS.has(type):
+		push_error("PlayerActionType: 未找到行动 %s。" % type)
+		return null
+	return Loader.get_resource(_ACTION_IDS[type]) as GUIDEAction

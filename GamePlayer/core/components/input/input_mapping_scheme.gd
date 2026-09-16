@@ -1,20 +1,24 @@
 class_name InputMappingScheme
 extends RefCounted
 
-## 输入映射方案枚举。新增方案时只需在此添加枚举值与对应资源路径。
+## 输入映射方案枚举。新增方案时：先在 Loader 登记资源，再在这里加枚举和对照。
 enum Type {
 	KEYBOARD_MOUSE,
 }
 
-const _CONTEXTS: Dictionary = {
-	Type.KEYBOARD_MOUSE: preload("res://core/components/input/res/contexts/keyboard_mouse.tres"),
+## 输入映射方案所对应的资源是哪个
+const _CONTEXT_IDS: Dictionary = {
+	Type.KEYBOARD_MOUSE: Loader.Id.MAPPING_KEYBOARD_MOUSE,
 }
 
 static var _current: Type = Type.KEYBOARD_MOUSE
 
 
+## 取出指定方案的 GUIDE 映射上下文。
 static func get_context(type: Type) -> GUIDEMappingContext:
-	return _CONTEXTS.get(type) as GUIDEMappingContext
+	if not _CONTEXT_IDS.has(type):
+		return null
+	return Loader.get_resource(_CONTEXT_IDS[type]) as GUIDEMappingContext
 
 
 static func get_current() -> Type:
