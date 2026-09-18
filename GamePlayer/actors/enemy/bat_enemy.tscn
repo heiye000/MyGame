@@ -89,6 +89,9 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
 radius = 5.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_evu83"]
+radius = 7.0
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uy4op"]
 animation = &"bat_idle_left"
 
@@ -126,29 +129,41 @@ script = ExtResource("1_uy4op")
 libraries/ = SubResource("AnimationLibrary_1wwot")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1680467126]
-collision_layer = 4
-collision_mask = 7
+collision_layer = 2
+collision_mask = 3
 motion_mode = 1
 
 [node name="YSortable2D" type="Node" parent="CharacterBody2D" unique_id=414500005]
 script = ExtResource("4_ysort")
-sort_offset = Vector2(0, 1)
+sort_offset = Vector2(0, 2.6666667)
 metadata/_custom_type_script = "uid://dq7ysort2d001"
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=1266535788]
+scale = Vector2(4, 2.6666667)
 texture = ExtResource("2_66cd7")
 hframes = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=2044472990]
+scale = Vector2(4, 2.6666667)
 shape = SubResource("CircleShape2D_wvhbo")
 
 [node name="Sprite2D_Shadow" type="Sprite2D" parent="CharacterBody2D" unique_id=516056906]
-position = Vector2(0, 2)
+position = Vector2(0, 5.3333335)
+scale = Vector2(4, 2.6666667)
 texture = ExtResource("4_edaxr")
 
 [node name="RayCast2D" type="RayCast2D" parent="CharacterBody2D" unique_id=484588361]
-target_position = Vector2(8, 0)
+target_position = Vector2(32, 0)
 collision_mask = 3
+
+[node name="Hurtbox" type="Area2D" parent="CharacterBody2D" unique_id=4033414]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hurtbox" unique_id=1766921191]
+scale = Vector2(4, 2.6666667)
+shape = SubResource("CircleShape2D_evu83")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1066704360]
 tree_root = SubResource("AnimationNodeBlendTree_1p06m")

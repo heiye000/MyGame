@@ -4,9 +4,6 @@
       "**/*.gd.uid": true,
       "**/*.import": true,
       "**/*.pyc": true,
-      ".cursor/*": true,
-      "addons/*": true,
-      "GamePlayer/addons/*": true  
     },
     "search.exclude": {
       "**/*.gd.uid": true,

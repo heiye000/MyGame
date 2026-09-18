@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Godot Static Prop Pipeline
 
-把「静态物品 PNG → 独立 `.tscn` 场景」固化为固定流程。参考实现：`demo1/scenes/world/ground_deco/scene/Grass.tscn`（可破坏草丛）。
+把「实现：`demo1/scenes/world/ground_deco/scene/Gras静态物品 PNG → 独立 `.tscn` 场景」固化为固定流程。参考s.tscn`（可破坏草丛）。
 
 ## 目标场景树（对齐 Grass）
 

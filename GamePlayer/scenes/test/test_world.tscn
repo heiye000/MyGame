@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cwuigf7vs7x6q" path="res://actors/decor/forest/bush.tscn" id="3_qsf0h"]
 [ext_resource type="PackedScene" uid="uid://c2tkawiaoedwj" path="res://core/components/camera/world_camera.tscn" id="4_k3yvu"]
 [ext_resource type="PackedScene" uid="uid://1bxykxatatgk" path="res://actors/player/player.tscn" id="5_70kyo"]
+[ext_resource type="PackedScene" uid="uid://dnixsstmatax1" path="res://actors/enemy/bat_enemy.tscn" id="6_ydknf"]
 
 [node name="TestWorld" type="Node2D" unique_id=1845482878]
 
@@ -22,3 +23,6 @@ world_camera = NodePath("../WorldCamera")
 
 [node name="WorldCamera" parent="." unique_id=197043680 node_paths=PackedStringArray("target") instance=ExtResource("4_k3yvu")]
 target = NodePath("../Player")
+
+[node name="BatEnemy" parent="." unique_id=1563602180 instance=ExtResource("6_ydknf")]
+position = Vector2(38, 25)
