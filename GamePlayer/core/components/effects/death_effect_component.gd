@@ -12,7 +12,7 @@ extends Node
 ## 死亡动画库，里面可以有多条。
 @export var sprite_frames: SpriteFrames
 ## 这次播哪一条，必须和 sprite_frames 里的动画名一致。
-@export var animation: StringName = &"puff"
+@export var animation: StringName = &"test_death"
 ## 死亡音效，可空。
 @export var death_sound: AudioStream
 ## 用来量大小的精灵；空着会在 host 下找第一个非影子 Sprite2D。

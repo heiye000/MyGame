@@ -181,7 +181,6 @@ metadata/_custom_type_script = "uid://cngw6dw4ikq40"
 [node name="DeathEffectComponent" type="Node" parent="CharacterBody2D" unique_id=133416159]
 script = ExtResource("7_osqh6")
 sprite_frames = ExtResource("8_i626p")
-animation = &"death1"
 death_sound = ExtResource("9_0xjry")
 metadata/_custom_type_script = "uid://bye037tbljpgt"
 

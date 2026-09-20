@@ -44,6 +44,11 @@ region = Rect2(288, 0, 32, 32)
 
 [resource]
 animations = [{
+"frames": [],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c2xvc")
@@ -76,11 +81,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_km5he")
 }],
 "loop": 0,
-"name": &"death1",
+"name": &"test_death",
 "speed": 15.0
-}, {
-"frames": [],
-"loop": 0,
-"name": &"default",
-"speed": 5.0
 }]

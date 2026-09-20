@@ -10,7 +10,7 @@ extends Node
 ## 受击动画库，里面可以有多条。
 @export var sprite_frames: SpriteFrames
 ## 这次播哪一条，必须和 sprite_frames 里的动画名一致。
-@export var animation: StringName = &"hit1"
+@export var animation: StringName = &"test_hit"
 ## 用来量大小的精灵；空着会在 host 下找第一个非影子 Sprite2D。
 @export var visual: Node2D
 ## 相对实体显示尺寸；火花默认半个身子大。
