@@ -22,13 +22,14 @@ func _ready() -> void:
 	print("HealthComponent 就绪: ", current_health, "/", max_health, "  宿主=", get_parent().name)
 
 
-## 按 DamageInfo 扣血；已经死了就忽略。
+## 按发出方 Stats 扣血；已经死了就忽略。
 func apply_damage(info: DamageInfo) -> void:
 	if is_dead:
 		return
-	var amount := 1
-	if info != null:
-		amount = maxi(info.amount, 0)
+	if info == null or info.stats == null:
+		push_warning("HealthComponent 收到空伤害数据：%s" % get_path())
+		return
+	var amount := maxi(info.stats.attack, 0)
 	current_health = maxi(current_health - amount, 0)
 	print("扣血 ", amount, "  剩余 ", current_health, "/", max_health)
 	damaged.emit(current_health, info)

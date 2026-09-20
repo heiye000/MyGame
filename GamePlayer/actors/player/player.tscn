@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://ph6sfewjoua7" path="res://assets/sprites/player/runing_up.png" id="11_k67x5"]
 [ext_resource type="Texture2D" uid="uid://crchrdc6ulh77" path="res://assets/sprites/player/runing_down.png" id="11_rundn"]
 [ext_resource type="Script" uid="uid://dbseg02n15n8k" path="res://actors/player/state_machine/battle.gd" id="12_battle"]
+[ext_resource type="Script" uid="uid://b3qxfeguubhc8" path="res://core/components/combat/stats_component.gd" id="21_ctwkf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foot"]
 size = Vector2(12, 8)
@@ -3775,3 +3776,7 @@ script = ExtResource("9_ejd4k")
 
 [node name="Battle" type="LimboState" parent="LimboHSM" unique_id=1639716538]
 script = ExtResource("12_battle")
+
+[node name="StatsComponent" type="Node" parent="." unique_id=1412764853]
+script = ExtResource("21_ctwkf")
+metadata/_custom_type_script = "uid://b3qxfeguubhc8"

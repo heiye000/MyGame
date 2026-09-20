@@ -1,21 +1,18 @@
-## 伤害信息组件
 class_name DamageInfo
 extends RefCounted
 
-## 这一击要扣多少血。
-var amount: int = 1
-
-## 攻击者是谁。
+## 发出方当时的整份属性；结算时按需取 attack / 以后的防御等。
+var stats: StatsComponent
+## 谁打出来的。
 var source: Node2D
-
-## 命中的判定盒， 同一刀不能判定多次
+## 哪一口判定盒打中的。
 var hitbox: Area2D
 
 
-## 打中时现拼一份伤害数据
-static func make(amount: int, source: Node2D, hitbox: Area2D) -> DamageInfo:
+## 命中时只传发出方 Stats，避免每加一个战斗数字就改 make 签名。
+static func make(stats: StatsComponent, source: Node2D, hitbox: Area2D) -> DamageInfo:
 	var info := DamageInfo.new()
-	info.amount = amount
+	info.stats = stats
 	info.source = source
 	info.hitbox = hitbox
 	return info
