@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://rniel0oo2vc5" path="res://assets/sprites/player/draw_sword.png" id="8_rt46e"]
 [ext_resource type="Texture2D" uid="uid://yirerbai5uch" path="res://assets/sprites/player/battle_walking_leftdown.png" id="9_0wchr"]
 [ext_resource type="Script" uid="uid://b7sfb2l3gywbc" path="res://actors/player/state_machine/normal.gd" id="9_ejd4k"]
+[ext_resource type="AudioStream" uid="uid://cass01w2lgl5r" path="res://assets/audio/swipe.wav" id="9_icg72"]
 [ext_resource type="Texture2D" uid="uid://def5b2qkc0egl" path="res://assets/sprites/player/running_leftdown.png" id="9_ssdk0"]
 [ext_resource type="Texture2D" uid="uid://djy3k3kgpxpek" path="res://assets/sprites/player/running_leftup.png" id="10_leftup"]
 [ext_resource type="Texture2D" uid="uid://ph6sfewjoua7" path="res://assets/sprites/player/runing_up.png" id="11_k67x5"]
@@ -3732,6 +3733,7 @@ collision_mask = 8
 monitoring = false
 monitorable = false
 script = ExtResource("8_otn2r")
+swing_sound = ExtResource("9_icg72")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox" unique_id=351902161]
 

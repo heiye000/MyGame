@@ -7,9 +7,13 @@ extends Area2D
 var _hit_ids_this_swing: Dictionary = {}
 ## 上一帧是不是已经开着刀，用来检测「刚挥出」这一下。
 var _was_active: bool = false
-## 缓存发出方属性，避免每次命中都往上爬树。
 
+## 缓存发出方属性，避免每次命中都往上爬树。
 var _stats: StatsComponent
+
+## 刀刚挥出时播；砍空也响。
+@export var swing_sound: AudioStream
+
 
 
 func _ready() -> void:
@@ -38,9 +42,10 @@ func _find_stats() -> StatsComponent:
 ## 每物理帧跟动画对齐：有面就开检测，空了就关。
 func _physics_process(_delta: float) -> void:
 	var has_hit_shape := collision_polygon.polygon.size() >= 3
-	# 刀刚挥出来：新的一刀开始，旧名单清掉。
+	# 刀刚挥出来：新的一刀开始，旧名单清掉，播挥砍声。
 	if has_hit_shape and not _was_active:
 		_hit_ids_this_swing.clear()
+		_play_swing_sound()
 	_was_active = has_hit_shape
 	collision_polygon.disabled = not has_hit_shape
 	monitoring = has_hit_shape
@@ -61,3 +66,15 @@ func _on_area_entered(area: Area2D) -> void:
 	var source := _stats.get_parent() as Node2D
 	var info := DamageInfo.make(_stats, source, self)
 	hurtbox.receive_hit(info)
+
+
+## 挥砍声挂在世界根上，避免跟 Hitbox 开关搅在一起。
+func _play_swing_sound() -> void:
+	if swing_sound == null:
+		return
+	var audio := AudioStreamPlayer.new()
+	audio.stream = swing_sound
+	# 播完自己删，不必占玩家节点。
+	audio.finished.connect(audio.queue_free)
+	get_tree().root.add_child(audio)
+	audio.play()

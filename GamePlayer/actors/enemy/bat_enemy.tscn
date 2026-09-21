@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://ok276j5wifui" path="res://assets/audio/enemy_die.wav" id="9_0xjry"]
 [ext_resource type="Script" uid="uid://cxtahkvj6h6dc" path="res://core/components/effects/hit_effect_component.gd" id="10_eof6d"]
 [ext_resource type="SpriteFrames" uid="uid://crhualoi1uj8j" path="res://assets/sprites/effects/hit_effects.tres" id="11_vf7q0"]
+[ext_resource type="AudioStream" uid="uid://c7jgnvuv4r6df" path="res://assets/audio/hit.wav" id="12_vf7q0"]
 
 [sub_resource type="Animation" id="Animation_hll62"]
 length = 0.001
@@ -187,6 +188,7 @@ metadata/_custom_type_script = "uid://bye037tbljpgt"
 [node name="HitEffectComponent" type="Node" parent="CharacterBody2D" unique_id=1649746984]
 script = ExtResource("10_eof6d")
 sprite_frames = ExtResource("11_vf7q0")
+hit_sound = ExtResource("12_vf7q0")
 metadata/_custom_type_script = "uid://cxtahkvj6h6dc"
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1066704360]

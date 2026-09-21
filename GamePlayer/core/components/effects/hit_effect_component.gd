@@ -15,6 +15,8 @@ extends Node
 @export var visual: Node2D
 ## 相对实体显示尺寸；火花默认半个身子大。
 @export var size_multiplier: float = 0.5
+## 打中时的音效，可空。
+@export var hit_sound: AudioStream
 
 
 @export_group("播放调试")
@@ -48,7 +50,7 @@ func _on_damaged(_remaining: int, _info: DamageInfo) -> void:
 		sprite_frames,
 		animation,
 		size_multiplier,
-		null,
+		hit_sound,
 		get_path(),
 		spawn_offset,
 		fx_z_index
