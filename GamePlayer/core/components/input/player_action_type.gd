@@ -7,6 +7,8 @@ enum ActionType {
 	ATTACK_L, # 攻击-左
 	ROLL, # 翻滚
 	DRAW_SWORD, # 拔剑、收剑
+	LOCK_SWITCH, # 软锁甩鼠标切目标
+	LOCK_HARD, # 硬锁定
 }
 
 ## 行动所对应的资源是哪个
@@ -15,6 +17,8 @@ const _ACTION_IDS: Dictionary = {
 	ActionType.ATTACK_L: Loader.Id.ACTION_ATTACK_L,
 	ActionType.ROLL: Loader.Id.ACTION_ROLL,
 	ActionType.DRAW_SWORD: Loader.Id.ACTION_DRAW_SWORD,
+	ActionType.LOCK_SWITCH: Loader.Id.ACTION_LOCK_SWITCH,
+	ActionType.LOCK_HARD: Loader.Id.ACTION_LOCK_HARD,
 }
 
 

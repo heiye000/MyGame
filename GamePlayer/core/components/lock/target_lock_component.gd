@@ -8,6 +8,19 @@ enum Mode { NONE, SOFT, HARD }
 ## 软锁探测半径（像素）；要和子节点圆的 radius 一致。
 @export var lock_radius: float = 96.0
 
+## 硬锁断开距离（像素）。要比软锁探测半径大 不然会在软锁圈里硬锁丢掉目标。
+@export var hard_break_radius: float = 300.0
+
+## 鼠标位移超过这么多像素才算甩动（避免微动乱切）。
+@export var switch_deadzone: float = 2
+## 鼠标移动方向左右各x度是切换目标的范围，1-0度  0.7-45度 0.5-60度 0.25-75度 0-90度。
+@export var switch_dot_min: float = 0.7
+
+## 两次切换的最短间隔（秒）。
+@export var switch_cooldown: float = 0.2
+## 还要等多久才能再切。
+var _switch_cooldown_left: float = 0.0
+
 ## 模式变化时发出，给标记/朝向听。
 signal mode_changed(mode: Mode)
 ## 当前目标换了时发出；new_target 可能是 null。
@@ -36,11 +49,91 @@ func _ready() -> void:
 	_spawn_marker()
 	target_changed.connect(_on_target_changed)
 	mode_changed.connect(_on_mode_changed)
+	
+	#硬锁定处理
+	_bind_lock_target()
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	# 更新锁定图标
 	_update_marker()
+	# 维持硬锁定处理
+	_maintain_hard_lock()
+	# 处理软锁甩鼠标切目标
+	_poll_lock_switch(delta)
 
+## 硬锁目标死了、被删了、或超出断开距离，就清空。不改锁旁边的敌人。
+func _maintain_hard_lock() -> void:
+	if mode != Mode.HARD:
+		return
+	if _hard_target_ok():
+		return
+	_apply_lock(null, Mode.NONE)
+
+
+## 硬锁还该不该留着。
+func _hard_target_ok() -> bool:
+	if current_target == null or not is_instance_valid(current_target):
+		return false
+	if not current_target.is_alive():
+		return false
+	var host := current_target.get_host()
+	if host == null or not is_instance_valid(host):
+		return false
+	var player := get_parent() as Node2D
+	if player == null:
+		return false
+	var limit := hard_break_radius * hard_break_radius
+	return player.global_position.distance_squared_to(host.global_position) <= limit
+
+## 软锁时读鼠标位移，朝甩动方向换目标；硬锁不处理。
+func _poll_lock_switch(delta: float) -> void:
+	if _switch_cooldown_left > 0.0:
+		_switch_cooldown_left = maxf(_switch_cooldown_left - delta, 0.0)
+	if mode != Mode.SOFT or not has_target():
+		return
+	if _switch_cooldown_left > 0.0:
+		return
+	var action := PlayerActionType.get_action(PlayerActionType.ActionType.LOCK_SWITCH)
+	if action == null:
+		return
+	var flick := action.value_axis_2d
+	if flick.length() < switch_deadzone:
+		return
+	# 在甩动锥形里挑最对齐的那个
+	var next := _find_switch_candidate(flick.normalized())
+	if next == null:
+		return
+	_switch_cooldown_left = switch_cooldown
+	_apply_lock(next, Mode.SOFT)
+
+
+## 从当前目标出发，在甩动锥形里挑最对齐的那个。
+func _find_switch_candidate(flick: Vector2) -> LockableTarget:
+	var from_host := current_target.get_host()
+	if from_host == null:
+		return null
+	var from := from_host.global_position
+	var best: LockableTarget
+	var best_score := -INF
+	for lockable in _in_range:
+		if lockable == current_target:
+			continue
+		if not is_instance_valid(lockable) or not lockable.is_alive():
+			continue
+		var host := lockable.get_host()
+		if host == null:
+			continue
+		var to := host.global_position - from
+		if to.length_squared() < 1.0:
+			continue
+		var score := flick.dot(to.normalized())
+		if score < switch_dot_min:
+			continue
+		if score > best_score:
+			best_score = score
+			best = lockable
+	return best
 
 ## 从 Loader 取出标记场景，生成后不跟玩家一起平移。
 func _spawn_marker() -> void:
@@ -179,3 +272,35 @@ func _apply_lock(new_target: LockableTarget, new_mode: Mode) -> void:
 ##现在有没有锁着的人。
 func has_target() -> bool:
 	return current_target != null and is_instance_valid(current_target)
+
+
+## 从 from 指向当前锁定点；没目标或重叠时返回 ZERO。
+func get_aim_direction(from: Vector2) -> Vector2:
+	if not has_target():
+		return Vector2.ZERO
+	var to := current_target.get_lock_point() - from
+	if to.length_squared() < 0.0001:
+		return Vector2.ZERO
+	return to.normalized()
+
+
+## 听硬锁按键。探索和战斗共用，所以绑在组件上。
+func _bind_lock_target() -> void:
+	var action := PlayerActionType.get_action(PlayerActionType.ActionType.LOCK_HARD)
+	if action == null:
+		push_error("TargetLockComponent: 未找到 LOCK_HARD")
+		return
+	if not action.just_triggered.is_connected(_on_lock_target):
+		action.just_triggered.connect(_on_lock_target)
+
+
+## 有目标时：软锁升硬锁，硬锁退回软锁。没目标就忽略。
+func _on_lock_target() -> void:
+	if not has_target():
+		return
+	if mode == Mode.HARD:
+		_apply_lock(current_target, Mode.SOFT)
+		# 退回软锁后按圈内情况重算，人已经离开就丢掉。
+		_refresh_soft_lock()
+	else:
+		_apply_lock(current_target, Mode.HARD)

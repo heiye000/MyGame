@@ -11,6 +11,8 @@ enum Id {
 	ACTION_DRAW_SWORD, # 拔剑 / 收剑
 	MAPPING_KEYBOARD_MOUSE, # 键盘鼠标映射方案
 	SCENE_LOCK_MARKER, # 锁定标记场景
+	ACTION_LOCK_SWITCH, # 软锁甩鼠标切目标
+	ACTION_LOCK_HARD, # 硬锁定
 }
 
 const _RESOURCES: Dictionary = {
@@ -20,6 +22,8 @@ const _RESOURCES: Dictionary = {
 	Id.ACTION_DRAW_SWORD: preload("res://core/components/input/res/actions/draw_sword.tres"),
 	Id.MAPPING_KEYBOARD_MOUSE: preload("res://core/components/input/res/contexts/keyboard_mouse.tres"),
 	Id.SCENE_LOCK_MARKER: preload("res://core/components/lock/lock_marker.tscn"),
+	Id.ACTION_LOCK_SWITCH: preload("res://core/components/input/res/actions/lock_switch.tres"),
+	Id.ACTION_LOCK_HARD: preload("res://core/components/input/res/actions/lock_hard.tres"),
 }
 
 

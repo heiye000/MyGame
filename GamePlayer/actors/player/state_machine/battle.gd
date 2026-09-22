@@ -42,7 +42,7 @@ func _enter() -> void:
 	if player == null:
 		return
 	_last_anim_node = &""
-	_remember_facing(player.last_direction)
+	_remember_facing(_battle_visual_facing(player, player.last_direction))
 	player.animation_tree.set(_BLEND_DRAW, _down_side_blend())
 	_set_move_blend(player, player.last_direction)
 	_bind_draw_sword()
@@ -90,6 +90,27 @@ func _process_draw_sword(player: Player) -> void:
 	player.move_and_slide()
 
 
+## 战斗面向：有锁就朝目标，没锁用 fallback（WASD 或上次朝向）。
+func _battle_visual_facing(player: Player, fallback: Vector2) -> Vector2:
+	var lock := player.target_lock
+	if lock != null and lock.has_target():
+		var aim := lock.get_aim_direction(player.global_position)
+		if aim != Vector2.ZERO:
+			return aim
+	return fallback
+
+
+## 翻滚只用移动输入，不吃锁定。
+func _resolve_roll_direction(player: Player, move_direction: Vector2) -> Vector2:
+	if move_direction != Vector2.ZERO:
+		player.last_direction = move_direction
+		_remember_facing(move_direction)
+	else:
+		_remember_facing(player.last_direction)
+	var d8 := Direction8.to_down_diagonal(_last_facing_x)
+	_displayed_facing = Direction8.to_vector(d8)
+	return _displayed_facing
+
 ## 八方向位移，动画只落到左下/右下。
 func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 	if _last_anim_node != &"MoveMachine":
@@ -98,7 +119,8 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 	if move_direction != Vector2.ZERO:
 		player.last_direction = move_direction
 
-	_set_move_blend(player, player.last_direction)
+	var facing := _battle_visual_facing(player, player.last_direction)
+	_set_move_blend(player, facing)
 	player.velocity = move_direction * player.move_speed * move_speed_scale
 	player.move_and_slide()
 
@@ -120,7 +142,7 @@ func _process_attack_machine(player: Player, move_direction: Vector2) -> void:
 func _process_roll_machine(player: Player, move_direction: Vector2) -> void:
 	if _last_anim_node != &"RollMachine":
 		player.input_buffer.consume_buffered(PlayerActionType.ActionType.ROLL)
-		_locked_action_dir = _resolve_action_direction(player, move_direction)
+		_locked_action_dir = _resolve_roll_direction(player, move_direction)
 		_last_anim_node = &"RollMachine"
 
 	_set_roll_blend(player, _locked_action_dir)
@@ -128,13 +150,13 @@ func _process_roll_machine(player: Player, move_direction: Vector2) -> void:
 	player.move_and_slide()
 
 
-## 有移动输入用当前方向，否则用上次朝向；锁成左下/右下。
+## 开招朝向：有锁朝目标，没锁才用 WASD / 上次朝向。
 func _resolve_action_direction(player: Player, move_direction: Vector2) -> Vector2:
+	var fallback := move_direction if move_direction != Vector2.ZERO else player.last_direction
+	var facing := _battle_visual_facing(player, fallback)
 	if move_direction != Vector2.ZERO:
 		player.last_direction = move_direction
-		_remember_facing(move_direction)
-	else:
-		_remember_facing(player.last_direction)
+	_remember_facing(facing)
 	var d8 := Direction8.to_down_diagonal(_last_facing_x)
 	_displayed_facing = Direction8.to_vector(d8)
 	return _displayed_facing
