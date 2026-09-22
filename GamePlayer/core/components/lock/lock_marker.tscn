@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b1835jnupwdym"]
+
+[ext_resource type="Texture2D" uid="uid://c8qea1y2rk7ia" path="res://assets/sprites/show_ui/lock.png" id="1_r61xd"]
+
+[node name="LockMarker" type="Sprite2D" unique_id=576488418]
+visibility_layer = 1024
+z_index = 110
+z_as_relative = false
+texture = ExtResource("1_r61xd")
+hframes = 2

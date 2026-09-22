@@ -10,6 +10,7 @@ enum Id {
 	ACTION_ROLL, # 玩家翻滚
 	ACTION_DRAW_SWORD, # 拔剑 / 收剑
 	MAPPING_KEYBOARD_MOUSE, # 键盘鼠标映射方案
+	SCENE_LOCK_MARKER, # 锁定标记场景
 }
 
 const _RESOURCES: Dictionary = {
@@ -18,6 +19,7 @@ const _RESOURCES: Dictionary = {
 	Id.ACTION_ROLL: preload("res://core/components/input/res/actions/roll.tres"),
 	Id.ACTION_DRAW_SWORD: preload("res://core/components/input/res/actions/draw_sword.tres"),
 	Id.MAPPING_KEYBOARD_MOUSE: preload("res://core/components/input/res/contexts/keyboard_mouse.tres"),
+	Id.SCENE_LOCK_MARKER: preload("res://core/components/lock/lock_marker.tscn"),
 }
 
 

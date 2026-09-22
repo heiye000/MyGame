@@ -21,6 +21,8 @@ var character: CharacterBody2D:
 
 ## 世界相机
 @export var world_camera: WorldCamera
+## 锁定组件
+@onready var target_lock: TargetLockComponent = $TargetLockComponent
 
 ## 移动速度（像素/秒）；规范基准约 74，可在 Inspector 微调滑步感。
 @export var move_speed: float = 74.0
@@ -28,6 +30,7 @@ var character: CharacterBody2D:
 const ROLL_SPEED_MULTIPLIER: float = 2.0
 ## 停止移动后仍保持的朝向；移动动画已有 left/right/up/down 与斜下/斜上。
 var last_direction: Vector2 = Vector2.DOWN
+
 
 
 func _ready() -> void:

@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://cxtahkvj6h6dc" path="res://core/components/effects/hit_effect_component.gd" id="10_eof6d"]
 [ext_resource type="SpriteFrames" uid="uid://crhualoi1uj8j" path="res://assets/sprites/effects/hit_effects.tres" id="11_vf7q0"]
 [ext_resource type="AudioStream" uid="uid://c7jgnvuv4r6df" path="res://assets/audio/hit.wav" id="12_vf7q0"]
+[ext_resource type="Script" uid="uid://bn8ue5d6ts1sm" path="res://core/components/lock/lockable_target.gd" id="13_pv2he"]
 
 [sub_resource type="Animation" id="Animation_hll62"]
 length = 0.001
@@ -190,6 +191,10 @@ script = ExtResource("10_eof6d")
 sprite_frames = ExtResource("11_vf7q0")
 hit_sound = ExtResource("12_vf7q0")
 metadata/_custom_type_script = "uid://cxtahkvj6h6dc"
+
+[node name="LockableTarget" type="Node" parent="CharacterBody2D" unique_id=274656787]
+script = ExtResource("13_pv2he")
+metadata/_custom_type_script = "uid://bn8ue5d6ts1sm"
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1066704360]
 tree_root = SubResource("AnimationNodeBlendTree_1p06m")

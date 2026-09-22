@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://crchrdc6ulh77" path="res://assets/sprites/player/runing_down.png" id="11_rundn"]
 [ext_resource type="Script" uid="uid://dbseg02n15n8k" path="res://actors/player/state_machine/battle.gd" id="12_battle"]
 [ext_resource type="Script" uid="uid://b3qxfeguubhc8" path="res://core/components/combat/stats_component.gd" id="21_ctwkf"]
+[ext_resource type="Script" uid="uid://dehj3swhsj4fj" path="res://core/components/lock/target_lock_component.gd" id="23_lj3dd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foot"]
 size = Vector2(12, 8)
@@ -3685,6 +3686,9 @@ nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_74qvg")
 nodes/StateMachine/position = Vector2(340, 180)
 node_connections = [&"output", 0, &"StateMachine"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_icg72"]
+radius = 96.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1364196162 groups=["Player"]]
 collision_layer = 2
 motion_mode = 1
@@ -3782,3 +3786,12 @@ script = ExtResource("12_battle")
 [node name="StatsComponent" type="Node" parent="." unique_id=1412764853]
 script = ExtResource("21_ctwkf")
 metadata/_custom_type_script = "uid://b3qxfeguubhc8"
+
+[node name="TargetLockComponent" type="Area2D" parent="." unique_id=137029209]
+collision_layer = 256
+collision_mask = 2
+monitorable = false
+script = ExtResource("23_lj3dd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TargetLockComponent" unique_id=578275306]
+shape = SubResource("CircleShape2D_icg72")

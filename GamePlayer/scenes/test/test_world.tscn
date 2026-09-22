@@ -25,4 +25,7 @@ world_camera = NodePath("../WorldCamera")
 target = NodePath("../Player")
 
 [node name="BatEnemy" parent="." unique_id=1563602180 instance=ExtResource("6_ydknf")]
-position = Vector2(38, 25)
+position = Vector2(124, -17)
+
+[node name="BatEnemy2" parent="." unique_id=1565990922 instance=ExtResource("6_ydknf")]
+position = Vector2(124, -72)
