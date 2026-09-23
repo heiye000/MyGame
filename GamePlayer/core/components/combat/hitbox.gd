@@ -14,6 +14,11 @@ var _stats: StatsComponent
 ## 刀刚挥出时播；砍空也响。
 @export var swing_sound: AudioStream
 
+## 这刀可以被格挡。关掉就是打不破的攻击。
+@export var can_be_blocked: bool = true
+## 这刀可以被精确弹反。关掉则对方就算弹反成功也接不住。
+@export var can_be_perfect_parried: bool = true
+
 
 
 func _ready() -> void:

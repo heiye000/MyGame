@@ -8,11 +8,19 @@ var source: Node2D
 ## 哪一口判定盒打中的。
 var hitbox: Area2D
 
+## 防守方能否格挡这刀。
+var can_be_blocked: bool = true
+## 防守方能否精确弹反这刀。
+var can_be_perfect_parried: bool = true
 
-## 命中时只传发出方 Stats，避免每加一个战斗数字就改 make 签名。
+
 static func make(stats: StatsComponent, source: Node2D, hitbox: Area2D) -> DamageInfo:
 	var info := DamageInfo.new()
 	info.stats = stats
 	info.source = source
 	info.hitbox = hitbox
+	var attack := hitbox as Hitbox
+	if attack != null:
+		info.can_be_blocked = attack.can_be_blocked
+		info.can_be_perfect_parried = attack.can_be_perfect_parried
 	return info

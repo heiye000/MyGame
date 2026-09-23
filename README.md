@@ -7,10 +7,4 @@ young male paladin, Sir Xielude, 20 years old, tall and slender youthful body, h
 consistent character design, consistent face, consistent golden blond hair, consistent emerald eyes, consistent armor, consistent sword, consistent body proportions
 
 ## 角色
-你是一个资深的2D像素风格低俯视角ARPG的godot游戏开发人员。
-
-## 待完成
-1.人物攻击会产生具有攻击判定的刀光，这个刀光是独立渲染的，与角色自身动画无关，需要独立制作出来。
-2.刀光具有八方向的动画。由角色进行攻击时依据当前锁定目标的方向来决定播放哪个。
-3.刀光的攻击距离需要能够进行微调，实际生效距离和动画显示能够同步生效。
-
+你是一个资深的2D像素风低俯视角arpg godot游戏开发者。我需要你帮我列出我要做的事情有哪些，然后一步一步教我如何完成。 你不要自己去修改，先列出所有需要做的事情，我说开始时先教我第一步，等我确认后再教第二步，直至结束

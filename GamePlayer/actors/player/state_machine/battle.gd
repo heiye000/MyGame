@@ -16,9 +16,10 @@ const _BLEND_ATTACK_ACTIVE := "parameters/StateMachine/Battle/AttackMachine/acti
 const _BLEND_ATTACK_RECOVERY := "parameters/StateMachine/Battle/AttackMachine/recovery/blend_position"
 const _BLEND_ROLL := "parameters/StateMachine/Battle/RollMachine/roll/blend_position"
 const _BLEND_SHEATH := "parameters/StateMachine/SheathSword/blend_position"
+const _ATTACK_PLAYBACK := "parameters/StateMachine/Battle/AttackMachine/playback"
+
 ## 战斗态行走速度相对 `Player.move_speed` 的倍率；翻滚不乘这个系数。
 @export var move_speed_scale: float = 0.5
-
 ## 上一帧战斗子图节点，用来判断刚进入哪段动作。
 var _last_anim_node: StringName = &""
 ## 进入攻击/翻滚时锁定的朝向，整段动作内不再随 WASD 每帧改。
@@ -27,6 +28,11 @@ var _locked_action_dir: Vector2 = Vector2.DOWN
 var _last_facing_x: float = -1.0
 ## 当前正在播的动画朝向（世界坐标）；收剑时写回 last_direction，避免探索态被拧到正交方向。
 var _displayed_facing: Vector2 = Vector2.DOWN
+
+## 这一刀刀光用的八向，进 AttackMachine 时写死。
+var _slash_dir: Direction8.Dir = Direction8.Dir.DOWN
+## 这一刀的刀光是否已经挥出。
+var _slash_sent: bool = false
 
 
 ## 初始化时登记「战斗 → 探索」，输入监听仍等进态再绑。
@@ -125,13 +131,23 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 	player.move_and_slide()
 
 
-## 开招：锁朝向、消费攻击预输入，原地出招。
 func _process_attack_machine(player: Player, move_direction: Vector2) -> void:
 	if _last_anim_node != &"AttackMachine":
-		# 真正开招时才消费，避免动画树同帧多次求值把缓冲提前用掉。
+		# 消费攻击预输入
 		player.input_buffer.consume_buffered(PlayerActionType.ActionType.ATTACK_L)
+		var fallback := move_direction if move_direction != Vector2.ZERO else player.last_direction
+		var aim := _battle_visual_facing(player, fallback)
+		_slash_dir = Direction8.from_vector(aim)
+		_slash_sent = false
 		_locked_action_dir = _resolve_action_direction(player, move_direction)
 		_last_anim_node = &"AttackMachine"
+
+	var attack_playback: AnimationNodeStateMachinePlayback = player.animation_tree.get(_ATTACK_PLAYBACK)
+	var phase := attack_playback.get_current_node() if attack_playback else &""
+	if phase == &"active" and not _slash_sent:
+		_slash_sent = true
+		if player.attack_caster != null:
+			player.attack_caster.slash(_slash_dir)
 
 	_set_attack_blend(player, _locked_action_dir)
 	player.velocity = Vector2.ZERO

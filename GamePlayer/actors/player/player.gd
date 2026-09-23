@@ -31,6 +31,8 @@ const ROLL_SPEED_MULTIPLIER: float = 2.0
 ## 停止移动后仍保持的朝向；移动动画已有 left/right/up/down 与斜下/斜上。
 var last_direction: Vector2 = Vector2.DOWN
 
+# 攻击刀光释放器
+@onready var attack_caster: AttackCaster = $AttackCaster
 
 
 func _ready() -> void:
