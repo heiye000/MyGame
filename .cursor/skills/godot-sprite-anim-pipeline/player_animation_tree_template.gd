@@ -1,35 +1,58 @@
 ## godot-sprite-anim-pipeline / Step 3 模板：AnimationTree 输入查询
-## 挂到场景的 AnimationTree 节点。供 transition 表达式调用（advance_expression_base_node = "."）。
-## 新增触发动作时：在此加 is_*()（只查 has_buffered，不消费；含同帧门闩），并在 manifest transitions / machines.from_move_expr 引用。
+## 基准：GamePlayer/actors/player/player_animation_tree.gd。
+## 挂在玩家根的 AnimationTree 上。advance_expression_base_node = "."。
+## 顶层节点是 Normal / DrawSword / Battle / SheathSword。攻击和翻滚只在 Battle 子图里问。
+## is_*() 只查 is_triggered() 或 has_buffered()，禁止 consume。本帧已在对应子机则返回 false。
 class_name PlayerAnimationTree extends AnimationTree
 
-## 玩家身上的预输入组件；子节点 _ready 早于父 @onready，用节点路径取。
+## 玩家身上的预输入组件，recovery 期间按下的键从这里查询。
 var _input_buffer: InputBuffer
-## 本帧开始时的根状态机节点；挡住 Oneshot 结束同帧立刻再进（防 looped transitions 告警）。
-var _root_node_at_frame_start: StringName = &"MoveMachine"
+## 本帧开始时的顶层节点（Normal / DrawSword / Battle / SheathSword）。
+var _root_node_at_frame_start: StringName = &"Normal"
+## 本帧开始时 Battle 子图节点；不在战斗子图时为空。
+var _battle_node_at_frame_start: StringName = &""
 
 
 func _ready() -> void:
 	var player := get_parent() as Player
 	if player:
+		# 子节点 _ready 早于父节点 @onready，不能直接读 player.input_buffer。
 		_input_buffer = player.get_node_or_null("InputBuffer") as InputBuffer
 
 
 func _physics_process(_delta: float) -> void:
-	var playback: AnimationNodeStateMachinePlayback = get("parameters/StateMachine/playback")
-	if playback:
-		_root_node_at_frame_start = playback.get_current_node()
+	var top: AnimationNodeStateMachinePlayback = get("parameters/StateMachine/playback")
+	if top:
+		_root_node_at_frame_start = top.get_current_node()
+	_battle_node_at_frame_start = &""
+	if _root_node_at_frame_start == &"Battle":
+		var battle_playback: AnimationNodeStateMachinePlayback = get("parameters/StateMachine/Battle/playback")
+		if battle_playback:
+			_battle_node_at_frame_start = battle_playback.get_current_node()
 
 
+## 供 AnimationTree transition 表达式调用的输入查询方法。
 func get_move_direction() -> Vector2:
 	var move_action = PlayerActionType.get_action(PlayerActionType.ActionType.MOVE)
 	return move_action.value_axis_2d
 
 
-## Pressed 触发须用 is_triggered()；再 OR has_buffered。禁止在此 consume。
-## 本帧已在对应 Oneshot 子机时返回 false，避免 Attack/Roll→Move→再进 同帧回环告警。
+## 顶层：Limbo 在战斗态时，动画树从 Normal 切到 DrawSword，播完再进 Battle。
+func is_battle() -> bool:
+	var player := get_parent() as Player
+	return player != null and player.is_battle_mode()
+
+
+## 顶层：Limbo 在探索态时，动画树从 Battle 切到收剑，播完再回 Normal。
+func is_normal() -> bool:
+	return not is_battle()
+
+
+## 只给 Battle 子图用；只查询不消费。本帧已在攻击态时返回 false，避免同帧回环告警。
 func is_attacking() -> bool:
-	if _root_node_at_frame_start == &"AttackMachine":
+	if _root_node_at_frame_start != &"Battle":
+		return false
+	if _battle_node_at_frame_start == &"AttackMachine":
 		return false
 	var attack_action = PlayerActionType.get_action(PlayerActionType.ActionType.ATTACK_L)
 	if attack_action.is_triggered():
@@ -39,8 +62,11 @@ func is_attacking() -> bool:
 	return false
 
 
+## 只给 Battle 子图用；只查询不消费。本帧已在翻滚态时返回 false，避免同帧回环告警。
 func is_rolling() -> bool:
-	if _root_node_at_frame_start == &"RollMachine":
+	if _root_node_at_frame_start != &"Battle":
+		return false
+	if _battle_node_at_frame_start == &"RollMachine":
 		return false
 	var roll_action = PlayerActionType.get_action(PlayerActionType.ActionType.ROLL)
 	if roll_action.is_triggered():
@@ -48,15 +74,3 @@ func is_rolling() -> bool:
 	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.ActionType.ROLL):
 		return true
 	return false
-
-
-# 新增可缓冲动作示例（取消注释并改枚举名 / 子机名）：
-# func is_dodging() -> bool:
-# 	if _root_node_at_frame_start == &"DodgeMachine":
-# 		return false
-# 	var dodge_action = PlayerActionType.get_action(PlayerActionType.ActionType.DODGE)
-# 	if dodge_action.is_triggered():
-# 		return true
-# 	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.ActionType.DODGE):
-# 		return true
-# 	return false

@@ -11,7 +11,7 @@
 | 字段 | 类型 | 说明 |
 |------|------|------|
 | `sprite_sheet` | String | 精灵图资源路径，如 `res://assets/player/player.png` |
-| `sprite_node` | String | 被驱动的 Sprite 相对 Player 根的路径，当前为 `CharacterBody2D/Sprite2D` |
+| `sprite_node` | String | 相对场景根的精灵路径。玩家根是身体，填 `Sprite2D`。敌人身体是子节点时填 `CharacterBody2D/Sprite2D` |
 | `anim_player` | String | AnimationPlayer 节点名，默认 `AnimationPlayer` |
 | `anim_tree` | String | AnimationTree 节点名，默认 `AnimationTree` |
 | `grid.hframes` | int | 精灵图横向帧数（= `Sprite2D.hframes`） |
@@ -66,8 +66,8 @@
 | 字段 | 说明 |
 |------|------|
 | `hsm_node` | 默认 `LimboHSM` |
-| `initial_mode` | 默认 `NormalBattle`（相对 HSM 的子节点名） |
-| `mode_script` | 模式态脚本路径，如 `res://scenes/player/state_machine/NormalBattle.gd` |
+| `initial_mode` | 玩家默认 `Normal`。不要再写 `NormalBattle` |
+| `modes` | `Normal` → `state_machine/normal.gd`，`Battle` → `state_machine/battle.gd`。过渡在两个脚本的 `_setup` 里，不在 `player.gd` |
 
 ### input_buffer（Step0 / Step3 可选）
 
@@ -91,7 +91,7 @@
 
 > 攻击/翻滚等常规接招只调 `buffer_frames`。窗口短于「预按时所在动作」剩余时长时，表现为「能预按攻击、难预按同动作连段」——先加帧数，不是改捕获逻辑。
 
-## 完整示例（对齐 demo1/scenes/player 现状）
+## 完整示例（新建扁平行动体；不要拿去覆盖玩家场景）
 
 ```json
 {
@@ -170,8 +170,11 @@
   },
   "limbo": {
     "hsm_node": "LimboHSM",
-    "initial_mode": "NormalBattle",
-    "mode_script": "res://scenes/player/state_machine/NormalBattle.gd"
+    "initial_mode": "Normal",
+    "modes": {
+      "Normal": "res://actors/player/state_machine/normal.gd",
+      "Battle": "res://actors/player/state_machine/battle.gd"
+    }
   },
   "input_buffer": {
     "node": "InputBuffer",

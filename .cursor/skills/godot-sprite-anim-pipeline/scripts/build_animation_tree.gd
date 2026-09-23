@@ -1,7 +1,9 @@
 # === godot-sprite-anim-pipeline / Step 2: 生成 AnimationTree 状态机 ===
 # 这不是可挂载脚本，而是给 execute_editor_script 用的代码片段。
 # 用法：把下方 CFG 用用户清单填好，整段作为 execute_editor_script 的 code 执行。
-# 前置：Step1 已生成动画；场景含 AnimationTree 与 AnimationPlayer（均为 Player 根直属）。
+# 前置：Step1 已生成动画；场景含 AnimationTree 与 AnimationPlayer（均为场景根直属）。
+# 只用于新建的扁平行动体。禁止对 GamePlayer/actors/player/player.tscn 执行，它会换掉整棵树。
+# 玩家图是 Normal / DrawSword / Battle / SheathSword，由 limbo_battle_template 驱动。
 # 拓扑：BlendTree -> StateMachine -> CFG.machines（Move + 若干 oneshot）。
 # 表达式基准：AnimationTree 自身（PlayerAnimationTree），不是 Player。
 # 注意：本片段必须是线性语句，不可定义 func（execute_editor_script 限制）。

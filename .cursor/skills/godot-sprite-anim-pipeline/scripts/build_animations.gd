@@ -2,10 +2,12 @@
 # 这不是可挂载脚本，而是给 execute_editor_script 用的代码片段。
 # 用法：把下方 MANIFEST 用用户清单填好，整段作为 execute_editor_script 的 code 执行。
 # 前置：目标场景已在编辑器打开，含 Sprite2D 与 AnimationPlayer。
-# 说明：build_animations 只关心切帧；方向 blend / 状态机在 Step2；行动模式在 Step3（Limbo）。
+# 玩家 sprite_node 用 "Sprite2D"。嵌套身体的敌人用 "CharacterBody2D/Sprite2D"。
+# 只写精灵帧和镜像 flip_h。不要写 Hitbox 多边形。已有玩家 battle_attach_up_* 不要覆盖。
+# 方向 blend / 状态机在 Step2；玩家 Limbo 在 Step3，模板是 limbo_normal / limbo_battle。
 
 var MANIFEST := {
-	"sprite_node": "CharacterBody2D/Sprite2D",
+	"sprite_node": "Sprite2D",
 	"anim_player": "AnimationPlayer",
 	"fps": 10.0,
 	"mirror": {"left": "right"},
