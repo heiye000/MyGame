@@ -3,8 +3,8 @@ extends Node
 
 ## 挥出去的刀光场景，例如 attack_left_1.tscn。
 @export var slash_scene: PackedScene
-## 前移速度，像素/秒。为 0 则停在出手点。
-@export var advance_speed: float = 24.0
+## 前移速度，像素/秒。默认停在出手点，要往前飞再改大。
+@export var advance_speed: float = 0
 ## 相对脚底的出手点，正 Y 向下。
 @export var spawn_offset: Vector2 = Vector2.ZERO
 ## 伤害盒所在层。玩家用第 5 层 PlayerHitbox。
