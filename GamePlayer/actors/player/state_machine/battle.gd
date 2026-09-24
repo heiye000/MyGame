@@ -1,4 +1,4 @@
-## 战斗模式：位移仍八向，动画只播左下/右下；攻击/翻滚只走 Battle 子图。
+## 战斗模式：位移仍八向，动画只播左下/右下；攻击只走 Battle 子图。
 class_name PlayerBattle
 extends LimboState
 
@@ -6,7 +6,7 @@ extends LimboState
 const EVENT_DRAW_SWORD: StringName = &"draw_sword"
 ## 顶层动画状态机回放（Normal / Battle）。
 const _TOP_PLAYBACK := "parameters/StateMachine/playback"
-## 战斗子图回放（MoveMachine / AttackMachine / RollMachine）。
+## 战斗子图回放（MoveMachine / AttackMachine）。
 const _BATTLE_PLAYBACK := "parameters/StateMachine/Battle/playback"
 const _BLEND_DRAW := "parameters/StateMachine/DrawSword/blend_position"
 const _BLEND_IDLE := "parameters/StateMachine/Battle/MoveMachine/idle/blend_position"
@@ -14,15 +14,14 @@ const _BLEND_RUN := "parameters/StateMachine/Battle/MoveMachine/run/blend_positi
 const _BLEND_ATTACK_WINDUP := "parameters/StateMachine/Battle/AttackMachine/windup/blend_position"
 const _BLEND_ATTACK_ACTIVE := "parameters/StateMachine/Battle/AttackMachine/active/blend_position"
 const _BLEND_ATTACK_RECOVERY := "parameters/StateMachine/Battle/AttackMachine/recovery/blend_position"
-const _BLEND_ROLL := "parameters/StateMachine/Battle/RollMachine/roll/blend_position"
 const _BLEND_SHEATH := "parameters/StateMachine/SheathSword/blend_position"
 const _ATTACK_PLAYBACK := "parameters/StateMachine/Battle/AttackMachine/playback"
 
-## 战斗态行走速度相对 `Player.move_speed` 的倍率；翻滚不乘这个系数。
+## 战斗态行走速度相对 `Player.move_speed` 的倍率。
 @export var move_speed_scale: float = 0.5
 ## 上一帧战斗子图节点，用来判断刚进入哪段动作。
 var _last_anim_node: StringName = &""
-## 进入攻击/翻滚时锁定的朝向，整段动作内不再随 WASD 每帧改。
+## 进入攻击时锁定的朝向，整段动作内不再随 WASD 每帧改。
 var _locked_action_dir: Vector2 = Vector2.DOWN
 ## 上次左右朝向；战斗动画只有左下/右下，按这个符号折。
 var _last_facing_x: float = -1.0
@@ -54,11 +53,13 @@ func _enter() -> void:
 	_bind_draw_sword()
 
 
-## 离态时把当前动画朝向交给探索态，再解开收剑监听。
+## 离态时把当前动画朝向交给探索态，丢掉战斗里没放掉的预输入，再解开收剑监听。
 func _exit() -> void:
 	var player := agent as Player
 	if player:
 		player.last_direction = _displayed_facing
+		if player.input_buffer:
+			player.input_buffer.clear_all()
 	_unbind_draw_sword()
 
 
@@ -81,8 +82,6 @@ func _update(_delta: float) -> void:
 			_process_move_machine(player, move_direction)
 		"AttackMachine":
 			_process_attack_machine(player, move_direction)
-		"RollMachine":
-			_process_roll_machine(player, move_direction)
 
 
 ## 顶层拔剑 oneshot：锁在开拔朝向，原地播完再进 Battle idle。
@@ -105,17 +104,6 @@ func _battle_visual_facing(player: Player, fallback: Vector2) -> Vector2:
 			return aim
 	return fallback
 
-
-## 翻滚只用移动输入，不吃锁定。
-func _resolve_roll_direction(player: Player, move_direction: Vector2) -> Vector2:
-	if move_direction != Vector2.ZERO:
-		player.last_direction = move_direction
-		_remember_facing(move_direction)
-	else:
-		_remember_facing(player.last_direction)
-	var d8 := Direction8.to_down_diagonal(_last_facing_x)
-	_displayed_facing = Direction8.to_vector(d8)
-	return _displayed_facing
 
 ## 八方向位移，动画只落到左下/右下。
 func _process_move_machine(player: Player, move_direction: Vector2) -> void:
@@ -151,18 +139,6 @@ func _process_attack_machine(player: Player, move_direction: Vector2) -> void:
 
 	_set_attack_blend(player, _locked_action_dir)
 	player.velocity = Vector2.ZERO
-	player.move_and_slide()
-
-
-## 翻滚：锁朝向、消费翻滚预输入，按锁定方向冲出去。
-func _process_roll_machine(player: Player, move_direction: Vector2) -> void:
-	if _last_anim_node != &"RollMachine":
-		player.input_buffer.consume_buffered(PlayerActionType.ActionType.ROLL)
-		_locked_action_dir = _resolve_roll_direction(player, move_direction)
-		_last_anim_node = &"RollMachine"
-
-	_set_roll_blend(player, _locked_action_dir)
-	player.velocity = _locked_action_dir * player.move_speed * Player.ROLL_SPEED_MULTIPLIER
 	player.move_and_slide()
 
 
@@ -210,11 +186,6 @@ func _set_attack_blend(player: Player, direction: Vector2) -> void:
 	player.animation_tree.set(_BLEND_ATTACK_WINDUP, d)
 	player.animation_tree.set(_BLEND_ATTACK_ACTIVE, d)
 	player.animation_tree.set(_BLEND_ATTACK_RECOVERY, d)
-
-
-## 只写 Battle 翻滚朝向。
-func _set_roll_blend(player: Player, direction: Vector2) -> void:
-	player.animation_tree.set(_BLEND_ROLL, _move_blend_from_direction(direction))
 
 
 ## 战斗态按下收剑：仅 MoveMachine 可切，先写收剑朝向再回探索。

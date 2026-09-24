@@ -117,8 +117,11 @@ func _physics_process(_delta: float) -> void:
 		_overlay.refresh()
 
 
-## GUIDE 按键触发回调，按 profile 策略记入缓冲。
+## GUIDE 按键触发回调。只有 Limbo 战斗态才记入缓冲，探索和收剑直接丢掉。
 func _on_guide_just_triggered(action_type: PlayerActionType.ActionType) -> void:
+	var player := get_parent() as Player
+	if player == null or not player.is_battle_mode():
+		return
 	var entry := profile.get_entry(action_type) if profile else null
 	if entry:
 		_capture_entry(entry)
@@ -171,6 +174,15 @@ func consume_buffered(action_type: PlayerActionType.ActionType) -> bool:
 func clear(action_type: PlayerActionType.ActionType) -> void:
 	_slots.erase(action_type)
 	precision_gate.close(action_type)
+
+
+## 离开战斗时丢掉 Profile 里全部预输入，避免收剑后再拔剑补出上一轮的攻击。
+func clear_all() -> void:
+	if profile == null:
+		_slots.clear()
+		return
+	for entry: InputBufferProfileEntry in profile.entries:
+		clear(entry.action_type)
 
 
 ## 在精确输入窗口内尝试消费（弹反成功时调用）。
@@ -279,8 +291,6 @@ func _action_label(action_type: PlayerActionType.ActionType) -> String:
 			return "MOVE"
 		PlayerActionType.ActionType.ATTACK_L:
 			return "ATTACK_L"
-		PlayerActionType.ActionType.ROLL:
-			return "ROLL"
 		PlayerActionType.ActionType.DRAW_SWORD:
 			return "DRAW_SWORD"
 		_:

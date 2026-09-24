@@ -5,7 +5,7 @@ var character: CharacterBody2D:
 	get:
 		return self
 
-## 预输入组件，记住 recovery 期间提前按下的攻击/翻滚。
+## 预输入组件，记住攻击后摇期间提前按下的攻击。
 @onready var input_buffer: InputBuffer = $InputBuffer
 @onready var animation_tree: PlayerAnimationTree = $AnimationTree
 @onready var state_machine: LimboHSM = $LimboHSM
@@ -26,8 +26,6 @@ var character: CharacterBody2D:
 
 ## 移动速度（像素/秒）；规范基准约 74，可在 Inspector 微调滑步感。
 @export var move_speed: float = 74.0
-## 翻滚速度相对移动速度的倍率：翻滚位移速度 = move_speed * 该倍率
-const ROLL_SPEED_MULTIPLIER: float = 2.0
 ## 停止移动后仍保持的朝向；移动动画已有 left/right/up/down 与斜下/斜上。
 var last_direction: Vector2 = Vector2.DOWN
 
@@ -55,6 +53,6 @@ func _init_state_machine() -> void:
 	state_machine.set_active(true)
 
 
-## 当前是不是战斗模式；探索态里攻击/翻滚过渡表达式会问这个。
+## 当前是不是战斗模式；拔剑/收剑的过渡表达式会问这个。
 func is_battle_mode() -> bool:
 	return battle != null and battle.is_active()

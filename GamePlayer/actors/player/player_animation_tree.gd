@@ -55,17 +55,3 @@ func is_attacking() -> bool:
 	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.ActionType.ATTACK_L):
 		return true
 	return false
-
-
-## 只给 Battle 子图用；只查询不消费。本帧已在翻滚态时返回 false，避免同帧回环告警。
-func is_rolling() -> bool:
-	if _root_node_at_frame_start != &"Battle":
-		return false
-	if _battle_node_at_frame_start == &"RollMachine":
-		return false
-	var roll_action = PlayerActionType.get_action(PlayerActionType.ActionType.ROLL)
-	if roll_action.is_triggered():
-		return true
-	if _input_buffer and _input_buffer.has_buffered(PlayerActionType.ActionType.ROLL):
-		return true
-	return false

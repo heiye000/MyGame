@@ -7,7 +7,6 @@ extends Object
 enum Id {
 	ACTION_MOVE, # 玩家移动
 	ACTION_ATTACK_L, # 玩家轻攻击
-	ACTION_ROLL, # 玩家翻滚
 	ACTION_DRAW_SWORD, # 拔剑 / 收剑
 	MAPPING_KEYBOARD_MOUSE, # 键盘鼠标映射方案
 	SCENE_LOCK_MARKER, # 锁定标记场景
@@ -18,7 +17,6 @@ enum Id {
 const _RESOURCES: Dictionary = {
 	Id.ACTION_MOVE: preload("res://core/components/input/res/actions/move.tres"),
 	Id.ACTION_ATTACK_L: preload("res://core/components/input/res/actions/attack_l.tres"),
-	Id.ACTION_ROLL: preload("res://core/components/input/res/actions/roll.tres"),
 	Id.ACTION_DRAW_SWORD: preload("res://core/components/input/res/actions/draw_sword.tres"),
 	Id.MAPPING_KEYBOARD_MOUSE: preload("res://core/components/input/res/contexts/keyboard_mouse.tres"),
 	Id.SCENE_LOCK_MARKER: preload("res://core/components/lock/lock_marker.tscn"),

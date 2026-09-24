@@ -3333,7 +3333,6 @@ advance_expression = "is_attacking() == true"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mnwg7"]
 advance_mode = 2
-advance_expression = "is_rolling() == true"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2cxsc"]
 switch_mode = 2
@@ -3351,9 +3350,7 @@ states/AttackMachine/node = SubResource("AnimationNodeStateMachine_52j8m")
 states/AttackMachine/position = Vector2(761, 256)
 states/MoveMachine/node = SubResource("AnimationNodeStateMachine_c1klp")
 states/MoveMachine/position = Vector2(611, 78)
-states/RollMachine/node = SubResource("AnimationNodeStateMachine_m1hv5")
-states/RollMachine/position = Vector2(286, 284)
-transitions = ["MoveMachine", "AttackMachine", SubResource("AnimationNodeStateMachineTransition_wn017"), "MoveMachine", "RollMachine", SubResource("AnimationNodeStateMachineTransition_mnwg7"), "AttackMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_2cxsc"), "RollMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_0lnjk"), "Start", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_rt46e")]
+transitions = ["MoveMachine", "AttackMachine", SubResource("AnimationNodeStateMachineTransition_wn017"), "AttackMachine", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_2cxsc"), "Start", "MoveMachine", SubResource("AnimationNodeStateMachineTransition_rt46e")]
 graph_offset = Vector2(114.13839, 0)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0wchr"]
@@ -3685,7 +3682,6 @@ parameters/StateMachine/Battle/AttackMachine/recovery/blend_position = Vector2(-
 parameters/StateMachine/Battle/AttackMachine/windup/blend_position = Vector2(-0.7, -0.7)
 parameters/StateMachine/Battle/MoveMachine/idle/blend_position = Vector2(-0.7, -0.7)
 parameters/StateMachine/Battle/MoveMachine/run/blend_position = Vector2(-0.7, -0.7)
-parameters/StateMachine/Battle/RollMachine/roll/blend_position = Vector2(-0.7, -0.7)
 parameters/StateMachine/DrawSword/blend_position = Vector2(-0.7, -0.7)
 parameters/StateMachine/Normal/idle/blend_position = Vector2(-1, 0)
 parameters/StateMachine/Normal/run/blend_position = Vector2(-1, 0)

@@ -8,11 +8,6 @@ script = ExtResource("1_jd6mn")
 action_type = 1
 buffer_frames = 66
 
-[sub_resource type="Resource" id="Entry_roll"]
-script = ExtResource("1_jd6mn")
-action_type = 2
-buffer_frames = 25
-
 [resource]
 script = ExtResource("2_bjhey")
-entries = Array[ExtResource("1_jd6mn")]([SubResource("Entry_attack"), SubResource("Entry_roll")])
+entries = Array[ExtResource("1_jd6mn")]([SubResource("Entry_attack")])
