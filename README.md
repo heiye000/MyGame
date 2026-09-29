@@ -7,8 +7,8 @@ The ratio of head to body is 1 to 4, and the aspect ratio of the figure is appro
 
 
 ## 概念图约束词
-头和身体的比例采用1比4 , 人物的长宽比大约3比1, 生成的图片背景透明,人物需要拥有 上/下/左/左上/左下 5种朝向的三视图
-The ratio of head to body is 1 to 4, and the aspect ratio of the figure is approximately 3 to 1.transparent background.
+头和身体的比例采用1比4 , 人物的长宽比是2比1, 生成的图片背景透明,人物需要拥有 上/下/左/左上/左下 5种朝向的三视图
+The ratio of head to body is 1 to 4, and the aspect ratio of the figure is approximately 2 to 1.transparent background.
 
 
 ## 记录概念图到像素图的流程
