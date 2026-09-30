@@ -1,11 +1,20 @@
 
 ## 对于角色的统一描述词
-Fixed low 3/4 top-down ARPG perspective, approximately 50–55° camera elevation, slightly behind the character, clear rear view with visible back, shoulders and upper body depth, moderate vertical foreshortening, consistent character proportions and ground projection. Keep the camera completely fixed across all animation frames and all character actions.
+Young male holy knight / paladin, full-body 2D pixel art ARPG character, around 20 years old, fair skin, emerald green eyes, fluffy layered golden-blond hair, tousled bangs, youthful handsome face.
 
- Never rotate, tilt, zoom, or change the camera perspective. Never turn the character into a pure side view or front view. young male paladin, Sir Xielude, 20 years old, tall and slender youthful body, handsome and noble young face, radiant golden blond hair, short golden blond hair, clear emerald green eyes, crystal-clear jade-like eyes, gentle sincere expression, naturally warm and friendly appearancea young holy knight from the Cloud Church, traditional chivalric spirit, upright and righteous, kind-hearted, trustworthy, polite and respectful, calm and disciplined, inexperienced but exceptionally talented , consistent face, consistent golden blond hair, consistent emerald eyes.
-The ratio of head to body is 1 to 4, and the aspect ratio of the figure is approximately 3 to 1.transparent background.
+Compact JRPG proportions, exactly 4 heads tall, head-to-body ratio 1:4, overall character height-to-width ratio about 2:1. Slightly enlarged head, compact sturdy body, readable silhouette, not realistic proportions, not extreme chibi.
 
+Elegant medieval silver-white plate armor with subtle gold trim: rounded layered pauldrons, chestplate, gauntlets, thigh armor, knee guards, greaves and armored boots. Dark charcoal under-armor visible between joints. Dark navy-blue split tabard with gold edging and a simple golden holy cross emblem. Brown leather belts with gold buckles.
 
+No sword, no scabbard, no shield, no weapon.
+
+Low 3/4 top-down ARPG perspective, 50–55° camera elevation looking downward. Visible top surfaces of hair, shoulders and pauldrons, moderate vertical foreshortening, upright readable silhouette, not pure overhead.
+
+Neutral standing idle pose, feet slightly apart, arms relaxed.
+
+Crisp classic pixel art, clean pixel clusters, hard edges, no anti-aliasing, no smooth gradients, minimal dithering. Strict limited palette, maximum 4 shades per major hue/material for shadow, midtone, light and highlight. Consistent upper-left lighting.
+
+Full body visible, centered, isolated, transparent alpha background, no floor, shadow, scenery, text or UI.
 ## 概念图约束词
 头和身体的比例采用1比4 , 人物的长宽比是2比1, 生成的图片背景透明,人物需要拥有 上/下/左/左上/左下 5种朝向的三视图
 The ratio of head to body is 1 to 4, and the aspect ratio of the figure is approximately 2 to 1.transparent background.
