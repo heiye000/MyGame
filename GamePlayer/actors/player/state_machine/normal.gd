@@ -8,7 +8,6 @@ const EVENT_DRAW_SWORD: StringName = &"draw_sword"
 const _TOP_PLAYBACK := "parameters/StateMachine/playback"
 ## 探索态自己的朝向参数，不碰战斗子图。
 const _BLEND_IDLE := "parameters/StateMachine/Normal/idle/blend_position"
-const _BLEND_RUN_START := "parameters/StateMachine/Normal/run_start/blend_position"
 const _BLEND_RUN := "parameters/StateMachine/Normal/run/blend_position"
 const _BLEND_SHEATH := "parameters/StateMachine/SheathSword/blend_position"
 
@@ -88,11 +87,10 @@ func _move_blend_from_direction(direction: Vector2) -> Vector2:
 	return Direction8.to_blend_position(d8)
 
 
-## 只写 Normal 子图的 idle / 起步 / 跑步朝向。
+## 只写 Normal 子图的 idle / 跑步朝向。
 func _set_move_blend(player: Player, direction: Vector2) -> void:
 	var d := _move_blend_from_direction(direction)
 	player.animation_tree.set(_BLEND_IDLE, d)
-	player.animation_tree.set(_BLEND_RUN_START, d)
 	player.animation_tree.set(_BLEND_RUN, d)
 
 

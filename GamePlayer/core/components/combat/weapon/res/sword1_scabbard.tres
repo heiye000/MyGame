@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponPartData" format=3 uid="uid://blirh5pjugacn"]
+
+[ext_resource type="Script" uid="uid://br65jaep2o3b4" path="res://core/components/combat/weapon/weapon_pose_mount.gd" id="1_pose"]
+[ext_resource type="Script" uid="uid://cil0o1i2ly2bc" path="res://core/components/combat/weapon/weapon_part_data.gd" id="2_part"]
+
+[sub_resource type="Resource" id="Pose_normal"]
+script = ExtResource("1_pose")
+pose = &"normal"
+
+[resource]
+script = ExtResource("2_part")
+part_id = &"scabbard"
+frame = 1
+offset = Vector2(25, 0)
+pose_mounts = Array[ExtResource("1_pose")]([SubResource("Pose_normal")])
+metadata/_custom_type_script = "uid://cil0o1i2ly2bc"

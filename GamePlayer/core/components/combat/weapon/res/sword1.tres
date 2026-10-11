@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="WeaponVisualData" format=3 uid="uid://cwpoif434gfin"]
+
+[ext_resource type="Script" uid="uid://cil0o1i2ly2bc" path="res://core/components/combat/weapon/weapon_part_data.gd" id="1_part"]
+[ext_resource type="Script" uid="uid://v0fgfob02iof" path="res://core/components/combat/weapon/weapon_visual_data.gd" id="2_visual"]
+[ext_resource type="Texture2D" uid="uid://dgdpyx04fdsos" path="res://assets/sprites/weapon/sword1.png" id="3_tex"]
+[ext_resource type="Resource" uid="uid://yn1p1t8lx624" path="res://core/components/combat/weapon/res/sword1_blade.tres" id="4_blade"]
+[ext_resource type="Resource" uid="uid://blirh5pjugacn" path="res://core/components/combat/weapon/res/sword1_scabbard.tres" id="5_scabbard"]
+
+[resource]
+script = ExtResource("2_visual")
+texture = ExtResource("3_tex")
+hframes = 2
+parts = Array[ExtResource("1_part")]([ExtResource("4_blade"), ExtResource("5_scabbard")])
+metadata/_custom_type_script = "uid://v0fgfob02iof"
