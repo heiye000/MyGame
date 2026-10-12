@@ -26,7 +26,9 @@
 [ext_resource type="Script" uid="uid://dhhpvwqgruq3c" path="res://core/components/combat/weapon/weapon_loadout.gd" id="25_qct7d"]
 [ext_resource type="PackedScene" uid="uid://lqswmtbnqfn" path="res://core/components/combat/attack/attack_left_1.tscn" id="25_yeioo"]
 [ext_resource type="Resource" uid="uid://cwpoif434gfin" path="res://core/components/combat/weapon/res/sword1.tres" id="26_2vokq"]
-[ext_resource type="Script" uid="uid://br01oouy7e3xg" path="res://core/components/combat/weapon/weapon_cover_rect.gd" id="27_2vokq"]
+[ext_resource type="Script" uid="uid://cf477setf4x6a" path="res://core/components/sprite_mask/sprite_mask_rect.gd" id="27_2vokq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tpopl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foot"]
 size = Vector2(12, 8)
@@ -134,18 +136,6 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [1.3962634]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("Marker2D/CoverRect:rect")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Rect2(-8, -8, 24, 24)]
 }
 
 [sub_resource type="Animation" id="Animation_et2yc"]
@@ -1185,7 +1175,7 @@ tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [2]
 }
 
 [sub_resource type="Animation" id="Animation_k67x5"]
@@ -1486,18 +1476,6 @@ tracks/9/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector2(0.5, 0.5)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("Marker2D/CoverRect:rect")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Rect2(-1.6871662, -5.8563156, 17.390574, 8.463636)]
 }
 
 [sub_resource type="Animation" id="Animation_0wchr"]
@@ -3103,6 +3081,7 @@ transitions = ["Start", "Normal", SubResource("AnimationNodeStateMachineTransiti
 graph_offset = Vector2(80, -12)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_8yk5o"]
+graph_offset = Vector2(-86.65292, 168.82645)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_74qvg")
 nodes/StateMachine/position = Vector2(340, 180)
 node_connections = [&"output", 0, &"StateMachine"]
@@ -3130,6 +3109,7 @@ scale = Vector2(2.775, 2.0624993)
 texture = ExtResource("5_20koh")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=927512133]
+material = SubResource("ShaderMaterial_tpopl")
 texture = ExtResource("6_hiosj")
 hframes = 15
 
@@ -3148,7 +3128,7 @@ collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1237167757]
-position = Vector2(0, -6)
+position = Vector2(-1, -6)
 shape = SubResource("RectangleShape2D_hurtbox")
 disabled = true
 
@@ -3189,7 +3169,7 @@ parameters/StateMachine/Battle/AttackMachine/windup/blend_position = Vector2(-0.
 parameters/StateMachine/Battle/MoveMachine/idle/blend_position = Vector2(-0.7, -0.7)
 parameters/StateMachine/Battle/MoveMachine/run/blend_position = Vector2(-0.7, -0.7)
 parameters/StateMachine/DrawSword/blend_position = Vector2(-0.7, -0.7)
-parameters/StateMachine/Normal/idle/blend_position = Vector2(-0.0035005808, 0.607306)
+parameters/StateMachine/Normal/idle/blend_position = Vector2(-0.0058342814, -0.35159814)
 parameters/StateMachine/Normal/run/blend_position = Vector2(-1, 0)
 parameters/StateMachine/SheathSword/blend_position = Vector2(-0.7, -0.7)
 script = ExtResource("8_8qjgm")
@@ -3213,7 +3193,6 @@ monitorable = false
 script = ExtResource("23_lj3dd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TargetLockComponent" unique_id=578275306]
-visible = false
 shape = SubResource("CircleShape2D_icg72")
 
 [node name="AttackCaster" type="Node" parent="." unique_id=1513538817]
@@ -3232,7 +3211,7 @@ occlusion = 2
 script = ExtResource("25_qct7d")
 weapon = ExtResource("26_2vokq")
 
-[node name="CoverRect" type="VisibleOnScreenNotifier2D" parent="Marker2D" unique_id=1194685542]
-position = Vector2(11.2121725, -3.2073643)
-rect = Rect2(-8, -8, 24, 24)
+[node name="SpriteCover" type="ReferenceRect" parent="." unique_id=1252047930]
+visible = false
+mouse_filter = 2
 script = ExtResource("27_2vokq")
