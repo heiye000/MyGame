@@ -1,28 +1,3 @@
-
-## 对于角色的统一描述词
-Young male fantasy adventurer / light paladin, around 20 years old, slim and well-proportioned body, youthful appearance with a subtle warrior-like presence, fair natural skin, delicate and gentle facial features, calm, kind, reliable and slightly noble expression.
-Bright golden blond short hair, fluffy and layered hairstyle, naturally tousled hair with several slightly raised strands, soft bangs spreading across the forehead. Warm golden-yellow base color, pale blond and light yellow highlights, darker golden-brown shadows for clear pixel-art volume and separation.
-He wears a lightweight fantasy knight outfit dominated by white, light gray and silver-gray tones. A white long-sleeved inner garment is combined with subtle light silver-gray armor elements around the shoulders, upper torso and limbs. The armor should remain light and elegant rather than bulky or heavily plated, giving him the appearance of a young paladin, swordsman or heroic fantasy adventurer.
-Small golden decorative accents appear around the outfit edges and armor details. Dark gray and charcoal pixels are used selectively for outlines, seams and visual separation.
-A warm brown to dark-brown leather belt wraps around the waist, accompanied by small leather straps or accessories. The brown leather elements create contrast against the predominantly white clothing.
-White or very light gray trousers, with subtle gray protective pieces or straps around the legs. Lightweight dark-brown or black-brown adventurer boots, avoiding oversized heavy metal boots.
-Core color palette: golden blond hair, white clothing, pale silver-gray armor, warm dark-brown leather, charcoal-gray outlines, subtle golden accents.
-Clean fantasy pixel-art character design, bright but controlled colors, readable silhouette, strong separation between major color areas, limited pixel shading, carefully placed highlights and shadows, no realistic textures, no excessive ornamentation, game-ready ARPG sprite aesthetic.
-
-Low 3/4 top-down ARPG perspective, 50–55° camera elevation looking downward. Visible top surfaces of hair, shoulders and pauldrons, moderate vertical foreshortening, upright readable silhouette, not pure overhead.
-
-## 概念图约束词
-头和身体的比例采用1比4 , 人物的长宽比是2比1, 生成的图片背景透明,人物需要拥有 上/下/左/左上/左下 5种朝向的三视图
-The ratio of head to body is 1 to 4, and the aspect ratio of the figure is approximately 2 to 1.transparent background.
-
-
-## 记录概念图到像素图的流程
-1.GPT尝试生成概念图,需要使用上面的概念图约束生成
-2.将概念图中的人物正面图单独提取出来,并将统一将人物高度缩放至256, 需要锁定宽高比
-3.pixelLab采用Image to pixel art 转化为更加符合像素风的图,并保持高度为136
-4.通过rotate旋转8方向,然后生成characters
-5.通过animation给人物增加一些基础的动画(比如idle,running)
-
 ## 角色
 你是一个资深的2D像素风低俯视角arpg godot游戏开发者。我需要你帮我列出我要做的事情有哪些，然后一步一步教我如何完成。 你不要自己去修改，先列出所有需要做的事情，我说开始时先教我第一步，等我确认后再教第二步，直至结束
 
