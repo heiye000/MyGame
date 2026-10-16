@@ -5,7 +5,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 1.aseprite": {
     "frame": { "x": 76, "y": 0, "w": 76, "h": 76 },
@@ -61,7 +61,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 8.aseprite": {
     "frame": { "x": 608, "y": 0, "w": 76, "h": 76 },
@@ -117,7 +117,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 15.aseprite": {
     "frame": { "x": 1140, "y": 0, "w": 76, "h": 76 },
@@ -173,7 +173,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 22.aseprite": {
     "frame": { "x": 1672, "y": 0, "w": 76, "h": 76 },
@@ -229,7 +229,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 29.aseprite": {
     "frame": { "x": 2204, "y": 0, "w": 76, "h": 76 },
@@ -277,7 +277,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 35.aseprite": {
     "frame": { "x": 2660, "y": 0, "w": 76, "h": 76 },
@@ -285,7 +285,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 36.aseprite": {
     "frame": { "x": 2736, "y": 0, "w": 76, "h": 76 },
@@ -341,7 +341,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 43.aseprite": {
     "frame": { "x": 3268, "y": 0, "w": 76, "h": 76 },
@@ -397,7 +397,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 76, "h": 76 },
     "sourceSize": { "w": 76, "h": 76 },
-    "duration": 100
+    "duration": 120
    },
    "idle_run 50.aseprite": {
     "frame": { "x": 3800, "y": 0, "w": 76, "h": 76 },
