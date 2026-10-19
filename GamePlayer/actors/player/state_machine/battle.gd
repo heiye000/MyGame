@@ -1,4 +1,4 @@
-## 战斗模式：位移仍八向，动画只播左下/右下；攻击只走 Battle 子图。
+## 战斗模式：位移仍八向。待机播八向；行走、攻击、拔剑和收剑仍只播左下/右下。
 class_name PlayerBattle
 extends LimboState
 
@@ -23,9 +23,9 @@ const _ATTACK_PLAYBACK := "parameters/StateMachine/Battle/AttackMachine/playback
 var _last_anim_node: StringName = &""
 ## 进入攻击时锁定的朝向，整段动作内不再随 WASD 每帧改。
 var _locked_action_dir: Vector2 = Vector2.DOWN
-## 上次左右朝向；战斗动画只有左下/右下，按这个符号折。
+## 上次左右朝向；行走和攻击只有左下/右下，按这个符号折。
 var _last_facing_x: float = -1.0
-## 当前正在播的动画朝向（世界坐标）；收剑时写回 last_direction，避免探索态被拧到正交方向。
+## 当前画面朝向（世界坐标）。收剑时写回 last_direction，让探索态接着这个方向。
 var _displayed_facing: Vector2 = Vector2.DOWN
 
 ## 这一刀刀光用的八向，进 AttackMachine 时写死。
@@ -105,7 +105,7 @@ func _battle_visual_facing(player: Player, fallback: Vector2) -> Vector2:
 	return fallback
 
 
-## 八方向位移，动画只落到左下/右下。
+## 八方向位移。待机按真实朝向播，行走动画仍落到左下/右下。
 func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 	if _last_anim_node != &"MoveMachine":
 		_last_anim_node = &"MoveMachine"
@@ -114,7 +114,7 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 		player.last_direction = move_direction
 
 	var facing := _battle_visual_facing(player, player.last_direction)
-	_set_move_blend(player, facing)
+	_set_move_blend(player, facing, move_direction != Vector2.ZERO)
 	player.velocity = move_direction * player.move_speed * move_speed_scale
 	player.move_and_slide()
 
@@ -160,7 +160,7 @@ func _remember_facing(direction: Vector2) -> void:
 		_last_facing_x = signf(direction.x)
 
 
-## 战斗态所有 BlendSpace：只写左下/右下。
+## 攻击、拔剑、收剑仍只写左下/右下。
 func _move_blend_from_direction(direction: Vector2) -> Vector2:
 	_remember_facing(direction)
 	var d8 := Direction8.to_down_diagonal(_last_facing_x)
@@ -168,14 +168,20 @@ func _move_blend_from_direction(direction: Vector2) -> Vector2:
 	return Direction8.to_blend_position(d8)
 
 
-## 只写 Battle/MoveMachine 的 idle / 持剑行走朝向。
-func _set_move_blend(player: Player, direction: Vector2) -> void:
-	var d := _move_blend_from_direction(direction)
-	player.animation_tree.set(_BLEND_IDLE, d)
-	player.animation_tree.set(_BLEND_RUN, d)
+## 待机写八向；持剑行走仍只写左下/右下。moving 为真时，记下来的画面朝向跟行走走。
+func _set_move_blend(player: Player, direction: Vector2, moving: bool = false) -> void:
+	_remember_facing(direction)
+	var idle_dir := Direction8.from_vector(direction)
+	player.animation_tree.set(_BLEND_IDLE, Direction8.to_blend_position(idle_dir))
+	var run_dir := Direction8.to_down_diagonal(_last_facing_x)
+	player.animation_tree.set(_BLEND_RUN, Direction8.to_blend_position(run_dir))
+	if moving:
+		_displayed_facing = Direction8.to_vector(run_dir)
+	else:
+		_displayed_facing = Direction8.to_vector(idle_dir)
 
 
-## 拔剑 / 战斗 idle / 收剑共用的左右下斜向 blend。
+## 拔剑和收剑共用的左右下斜向 blend。
 func _down_side_blend() -> Vector2:
 	return Direction8.to_blend_position(Direction8.to_down_diagonal(_last_facing_x))
 
