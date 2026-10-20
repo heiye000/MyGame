@@ -1,4 +1,4 @@
-## 战斗模式：位移仍八向。待机播八向；行走、攻击、拔剑和收剑仍只播左下/右下。
+## 战斗模式：位移仍八向。待机和持剑跑播八向；攻击、拔剑和收剑仍只播左下/右下。
 class_name PlayerBattle
 extends LimboState
 
@@ -23,7 +23,7 @@ const _ATTACK_PLAYBACK := "parameters/StateMachine/Battle/AttackMachine/playback
 var _last_anim_node: StringName = &""
 ## 进入攻击时锁定的朝向，整段动作内不再随 WASD 每帧改。
 var _locked_action_dir: Vector2 = Vector2.DOWN
-## 上次左右朝向；行走和攻击只有左下/右下，按这个符号折。
+## 上次左右朝向。攻击、拔剑、收剑折成左下/右下时用这个符号。
 var _last_facing_x: float = -1.0
 ## 当前画面朝向（世界坐标）。收剑时写回 last_direction，让探索态接着这个方向。
 var _displayed_facing: Vector2 = Vector2.DOWN
@@ -105,7 +105,7 @@ func _battle_visual_facing(player: Player, fallback: Vector2) -> Vector2:
 	return fallback
 
 
-## 八方向位移。待机按真实朝向播，行走动画仍落到左下/右下。
+## 八方向位移。待机和持剑跑都按真实朝向播。
 func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 	if _last_anim_node != &"MoveMachine":
 		_last_anim_node = &"MoveMachine"
@@ -114,7 +114,7 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 		player.last_direction = move_direction
 
 	var facing := _battle_visual_facing(player, player.last_direction)
-	_set_move_blend(player, facing, move_direction != Vector2.ZERO)
+	_set_move_blend(player, facing)
 	player.velocity = move_direction * player.move_speed * move_speed_scale
 	player.move_and_slide()
 
@@ -168,17 +168,14 @@ func _move_blend_from_direction(direction: Vector2) -> Vector2:
 	return Direction8.to_blend_position(d8)
 
 
-## 待机写八向；持剑行走仍只写左下/右下。moving 为真时，记下来的画面朝向跟行走走。
-func _set_move_blend(player: Player, direction: Vector2, moving: bool = false) -> void:
+## 待机和持剑跑都按真实八向写 blend。
+func _set_move_blend(player: Player, direction: Vector2) -> void:
 	_remember_facing(direction)
-	var idle_dir := Direction8.from_vector(direction)
-	player.animation_tree.set(_BLEND_IDLE, Direction8.to_blend_position(idle_dir))
-	var run_dir := Direction8.to_down_diagonal(_last_facing_x)
-	player.animation_tree.set(_BLEND_RUN, Direction8.to_blend_position(run_dir))
-	if moving:
-		_displayed_facing = Direction8.to_vector(run_dir)
-	else:
-		_displayed_facing = Direction8.to_vector(idle_dir)
+	var d8 := Direction8.from_vector(direction)
+	var blend := Direction8.to_blend_position(d8)
+	player.animation_tree.set(_BLEND_IDLE, blend)
+	player.animation_tree.set(_BLEND_RUN, blend)
+	_displayed_facing = Direction8.to_vector(d8)
 
 
 ## 拔剑和收剑共用的左右下斜向 blend。
