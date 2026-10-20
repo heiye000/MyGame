@@ -49,7 +49,7 @@ func _update(_delta: float) -> void:
 		player.last_direction = move_direction
 
 	_set_move_blend(player, player.last_direction)
-	player.velocity = move_direction * player.move_speed
+	player.velocity = move_direction * player.stats.move_speed
 	player.move_and_slide()
 
 

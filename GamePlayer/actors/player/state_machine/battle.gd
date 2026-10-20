@@ -17,8 +17,6 @@ const _BLEND_ATTACK_RECOVERY := "parameters/StateMachine/Battle/AttackMachine/re
 const _BLEND_SHEATH := "parameters/StateMachine/SheathSword/blend_position"
 const _ATTACK_PLAYBACK := "parameters/StateMachine/Battle/AttackMachine/playback"
 
-## 战斗态行走速度相对 `Player.move_speed` 的倍率。
-@export var move_speed_scale: float = 0.5
 ## 上一帧战斗子图节点，用来判断刚进入哪段动作。
 var _last_anim_node: StringName = &""
 ## 进入攻击时锁定的朝向，整段动作内不再随 WASD 每帧改。
@@ -47,7 +45,7 @@ func _enter() -> void:
 	if player == null:
 		return
 	_last_anim_node = &""
-	_remember_facing(_battle_visual_facing(player, player.last_direction))
+	_remember_facing(player.last_direction)
 	player.animation_tree.set(_BLEND_DRAW, _down_side_blend())
 	_set_move_blend(player, player.last_direction)
 	_bind_draw_sword()
@@ -95,7 +93,7 @@ func _process_draw_sword(player: Player) -> void:
 	player.move_and_slide()
 
 
-## 战斗面向：有锁就朝目标，没锁用 fallback（WASD 或上次朝向）。
+## 攻击朝向：有锁就朝目标，没锁用 fallback（开招时的 WASD 或上次朝向）。移动和待机不走这里。
 func _battle_visual_facing(player: Player, fallback: Vector2) -> Vector2:
 	var lock := player.target_lock
 	if lock != null and lock.has_target():
@@ -113,9 +111,9 @@ func _process_move_machine(player: Player, move_direction: Vector2) -> void:
 	if move_direction != Vector2.ZERO:
 		player.last_direction = move_direction
 
-	var facing := _battle_visual_facing(player, player.last_direction)
-	_set_move_blend(player, facing)
-	player.velocity = move_direction * player.move_speed * move_speed_scale
+	# 锁定只影响攻击。待机和持剑跑始终跟移动方向，站住时保持上次移动朝向。
+	_set_move_blend(player, player.last_direction)
+	player.velocity = move_direction * player.stats.move_speed * player.stats.battle_move_speed_scale
 	player.move_and_slide()
 
 

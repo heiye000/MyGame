@@ -23,9 +23,9 @@ var character: CharacterBody2D:
 @export var world_camera: WorldCamera
 ## 锁定组件
 @onready var target_lock: TargetLockComponent = $TargetLockComponent
+## 共用属性：移速、攻击等。改数字改这个组件，不改玩家脚本。
+@onready var stats: StatsComponent = $StatsComponent
 
-## 移动速度（像素/秒）；规范基准约 74，可在 Inspector 微调滑步感。
-@export var move_speed: float = 74.0
 ## 停止移动后仍保持的朝向；移动动画已有 left/right/up/down 与斜下/斜上。
 var last_direction: Vector2 = Vector2.DOWN
 
