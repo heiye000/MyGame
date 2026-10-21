@@ -51,8 +51,6 @@ AnimationPlayer 里已经有的待机、走跑、翻滚、拔剑、攻击等，�
 
 ### 角色动作提示词模板 
 角色动作提示词模板
-All directional terms are relative to the character’s current facing direction.
-“Forward” means toward the current facing direction, “backward” means the opposite direction, and left/right refer to the character’s own left/right.
 
 A pixel ARPG battle animation pose,
 a 【character type】 wielding a 【weapon】 performing 【action name】,
