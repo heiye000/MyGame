@@ -5,7 +5,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 1.aseprite": {
     "frame": { "x": 128, "y": 0, "w": 128, "h": 128 },
@@ -13,7 +13,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 2.aseprite": {
     "frame": { "x": 256, "y": 0, "w": 128, "h": 128 },
@@ -21,7 +21,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 3.aseprite": {
     "frame": { "x": 384, "y": 0, "w": 128, "h": 128 },
@@ -29,7 +29,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 4.aseprite": {
     "frame": { "x": 512, "y": 0, "w": 128, "h": 128 },
@@ -37,7 +37,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 5.aseprite": {
     "frame": { "x": 640, "y": 0, "w": 128, "h": 128 },
@@ -45,7 +45,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 6.aseprite": {
     "frame": { "x": 768, "y": 0, "w": 128, "h": 128 },
@@ -53,7 +53,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 7.aseprite": {
     "frame": { "x": 896, "y": 0, "w": 128, "h": 128 },
@@ -61,7 +61,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 8.aseprite": {
     "frame": { "x": 1024, "y": 0, "w": 128, "h": 128 },
@@ -69,7 +69,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 9.aseprite": {
     "frame": { "x": 1152, "y": 0, "w": 128, "h": 128 },
@@ -77,7 +77,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 10.aseprite": {
     "frame": { "x": 1280, "y": 0, "w": 128, "h": 128 },
@@ -85,7 +85,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 11.aseprite": {
     "frame": { "x": 1408, "y": 0, "w": 128, "h": 128 },
@@ -93,7 +93,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 12.aseprite": {
     "frame": { "x": 1536, "y": 0, "w": 128, "h": 128 },
@@ -101,7 +101,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 13.aseprite": {
     "frame": { "x": 1664, "y": 0, "w": 128, "h": 128 },
@@ -109,7 +109,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 14.aseprite": {
     "frame": { "x": 1792, "y": 0, "w": 128, "h": 128 },
@@ -117,7 +117,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 15.aseprite": {
     "frame": { "x": 1920, "y": 0, "w": 128, "h": 128 },
@@ -125,7 +125,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 16.aseprite": {
     "frame": { "x": 2048, "y": 0, "w": 128, "h": 128 },
@@ -133,7 +133,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 17.aseprite": {
     "frame": { "x": 2176, "y": 0, "w": 128, "h": 128 },
@@ -141,7 +141,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 18.aseprite": {
     "frame": { "x": 2304, "y": 0, "w": 128, "h": 128 },
@@ -149,7 +149,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 19.aseprite": {
     "frame": { "x": 2432, "y": 0, "w": 128, "h": 128 },
@@ -157,7 +157,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 20.aseprite": {
     "frame": { "x": 2560, "y": 0, "w": 128, "h": 128 },
@@ -165,7 +165,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 21.aseprite": {
     "frame": { "x": 2688, "y": 0, "w": 128, "h": 128 },
@@ -173,7 +173,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 22.aseprite": {
     "frame": { "x": 2816, "y": 0, "w": 128, "h": 128 },
@@ -181,7 +181,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 23.aseprite": {
     "frame": { "x": 2944, "y": 0, "w": 128, "h": 128 },
@@ -189,7 +189,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 24.aseprite": {
     "frame": { "x": 3072, "y": 0, "w": 128, "h": 128 },
@@ -197,7 +197,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 25.aseprite": {
     "frame": { "x": 3200, "y": 0, "w": 128, "h": 128 },
@@ -205,7 +205,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 26.aseprite": {
     "frame": { "x": 3328, "y": 0, "w": 128, "h": 128 },
@@ -213,7 +213,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 27.aseprite": {
     "frame": { "x": 3456, "y": 0, "w": 128, "h": 128 },
@@ -221,7 +221,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 28.aseprite": {
     "frame": { "x": 3584, "y": 0, "w": 128, "h": 128 },
@@ -229,7 +229,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 29.aseprite": {
     "frame": { "x": 3712, "y": 0, "w": 128, "h": 128 },
@@ -237,7 +237,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 30.aseprite": {
     "frame": { "x": 3840, "y": 0, "w": 128, "h": 128 },
@@ -245,7 +245,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 31.aseprite": {
     "frame": { "x": 3968, "y": 0, "w": 128, "h": 128 },
@@ -253,7 +253,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 32.aseprite": {
     "frame": { "x": 4096, "y": 0, "w": 128, "h": 128 },
@@ -261,7 +261,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 33.aseprite": {
     "frame": { "x": 4224, "y": 0, "w": 128, "h": 128 },
@@ -269,7 +269,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    },
    "battle_idle 34.aseprite": {
     "frame": { "x": 4352, "y": 0, "w": 128, "h": 128 },
@@ -277,31 +277,15 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
-   },
-   "battle_idle 35.aseprite": {
-    "frame": { "x": 4480, "y": 0, "w": 128, "h": 128 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
-    "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
-   },
-   "battle_idle 36.aseprite": {
-    "frame": { "x": 4608, "y": 0, "w": 128, "h": 128 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 128 },
-    "sourceSize": { "w": 128, "h": 128 },
-    "duration": 100
+    "duration": 120
    }
  },
  "meta": {
   "app": "https://www.aseprite.org/",
-  "version": "1.3.17.2-dev",
+  "version": "1.x-dev",
   "image": "battle_idle.png",
   "format": "RGBA8888",
-  "size": { "w": 4736, "h": 128 },
+  "size": { "w": 4480, "h": 128 },
   "scale": "1",
   "frameTags": [
    { "name": "idle_right", "from": 0, "to": 0, "direction": "forward", "color": "#000000ff" },
@@ -309,11 +293,11 @@
    { "name": "idle_up", "from": 7, "to": 7, "direction": "forward", "color": "#000000ff" },
    { "name": "run_up", "from": 8, "to": 13, "direction": "forward", "color": "#000000ff" },
    { "name": "idle_down", "from": 14, "to": 14, "direction": "forward", "color": "#000000ff" },
-   { "name": "run_down", "from": 15, "to": 21, "direction": "forward", "color": "#000000ff" },
-   { "name": "idle_leftup", "from": 22, "to": 22, "direction": "forward", "color": "#000000ff" },
-   { "name": "run_leftup", "from": 23, "to": 28, "direction": "forward", "color": "#000000ff" },
-   { "name": "idle_rightdown", "from": 29, "to": 29, "direction": "forward", "color": "#000000ff" },
-   { "name": "run_rightdown", "from": 30, "to": 36, "direction": "forward", "color": "#000000ff" }
+   { "name": "run_down", "from": 15, "to": 20, "direction": "forward", "color": "#000000ff" },
+   { "name": "idle_leftup", "from": 21, "to": 21, "direction": "forward", "color": "#000000ff" },
+   { "name": "run_leftup", "from": 22, "to": 27, "direction": "forward", "color": "#000000ff" },
+   { "name": "idle_rightdown", "from": 28, "to": 28, "direction": "forward", "color": "#000000ff" },
+   { "name": "run_rightdown", "from": 29, "to": 34, "direction": "forward", "color": "#000000ff" }
   ],
   "layers": [
    { "name": "layer1", "opacity": 255, "blendMode": "normal" }
