@@ -52,17 +52,17 @@ AnimationPlayer 里已经有的待机、走跑、翻滚、拔剑、攻击等，�
 ### 角色动作提示词模板 
 角色动作提示词模板
 
-A pixel ARPG battle animation pose,
-a 【character type】 wielding a 【weapon】 performing 【action name】,
-starting from 【starting pose relative to the current facing direction】,
-transitioning into 【motion process relative to the current facing direction】,
-captured at the moment of 【impact / swing / strike / landing】,
-body weight 【leaning toward the current facing direction / leaning opposite the current facing direction / lowered / airborne】,
-arms 【arm pose】,
-legs 【leg pose relative to the current facing direction】,
-weapon motion arc 【vertical slash / character-relative horizontal slash / character-relative diagonal slash / thrust toward the current facing direction / spinning slash】,
-emphasizing 【power / speed / explosive force / sharpness / aggression】,
-clear action silhouette, strong readability, exaggerated combat pose,
+A pixel ARPG battle animation pose,  
+a 【character type】 wielding a 【weapon】 performing 【action name】,  
+starting from 【starting pose described in screen coordinates】,  
+transitioning into 【motion process described in screen coordinates】,  
+captured at the moment of 【impact / swing / strike / landing】,  
+body weight 【leaning toward screen up / down / left / right / lowered / airborne】,  
+arms 【arm pose】,  
+legs 【leg pose described in screen coordinates】,  
+weapon motion arc 【vertical slash from screen up to down / horizontal slash from screen left to right / diagonal slash from screen upper-right to lower-left / thrust toward screen up / spinning slash clockwise or counterclockwise】,  
+emphasizing 【power / speed / explosive force / sharpness / aggression】,  
+clear action silhouette, strong readability, exaggerated combat pose,  
 suitable for pixel-style ARPG sprite animation.
 
 动作描述规则调整
@@ -96,54 +96,15 @@ suitable for pixel-style ARPG sprite animation.
    高速、爆发、力量感、压迫感、敏捷、凌厉、果断、凶猛、干净利落，不需要方向转换。
 
 
-最实用的“套壳格式”
-你以后可以直接复制这个壳，然后替换里面的内容：
-All directions are relative to the character’s current facing direction.
-
-像素ARPG战斗动作，
-【角色】使用【武器】做出【动作名称】，
-起手【相对于当前朝向的起手姿态】，
-随后【相对于当前朝向的动作过程】，
-定格在【关键动作瞬间】，
-身体【相对于当前朝向的重心状态】，
-手臂【手臂姿态】，
-双腿【相对于当前朝向的腿部姿态】，
-武器轨迹【以角色自身方向为基准的攻击轨迹】，
-强调【力量感 / 速度感 / 爆发感】，
-整体气质【凌厉 / 果断 / 凶猛 / 迅捷】，
-轮廓清晰，动作夸张明确，适合像素ARPG角色动画表现。
-
-示例:
-按你刚才那个“唐竹下劈”做示范
-中文版
-
-所有方向均以角色当前朝向为基准。
-
-像素ARPG战斗动作，
-角色双手持剑做出唐竹式下劈，
-起手双手高举长剑过头顶，身体略微朝当前面向相反方向后仰蓄力，
-随后迅速朝当前面向方向踏步，并将长剑从头顶上方朝身体下方猛烈劈落，
-定格在下劈命中的瞬间，
-身体重心明显朝当前面向方向压出，
-双臂全力向下挥砍，
-一条腿朝当前面向方向踏出，另一条腿留在相反方向稳定支撑，
-武器轨迹为从头顶上方朝身体下方的笔直竖劈，
-强调爆发感、力量感和压迫感，
-整体气质凌厉果断，
-轮廓清晰，动作夸张明确，适合像素ARPG战斗动画表现。
-
-英文关键词版
-All directions are relative to the character’s current facing direction.
-
-pixel ARPG battle pose, two-handed sword overhead slash,
-sword raised high above the head, slight wind-up opposite the current facing direction,
-stepping toward the current facing direction into a powerful overhead downward strike,
-captured at the impact moment,
-body weight driven toward the current facing direction,
-both arms driving the blade downward,
-one leg toward the current facing direction and the other opposite for stability,
-clear vertical slash from above the head downward,
-strong power, explosive force, intense pressure,
-sharp and decisive combat pose,
-clear silhouette, readable sprite action,
-suitable for pixel action RPG animation
+像素 ARPG 战斗动作，  
+【角色】使用【武器】做出【动作名称】，  
+起手【以屏幕坐标描述的起手姿态】，  
+随后【以屏幕坐标描述的动作过程】，  
+定格在【命中瞬间 / 挥击瞬间 / 斩击瞬间 / 落地瞬间】，  
+身体重心【朝屏幕上方 / 下方 / 左侧 / 右侧倾斜，或身体下沉 / 腾空】，  
+手臂【手臂姿态】，  
+双腿【以屏幕坐标描述的腿部姿态】，  
+武器轨迹【从屏幕上方向下方竖直劈砍 / 从屏幕左侧向右侧水平横斩 / 从屏幕右上方向左下方斜劈 / 朝屏幕上方突刺 / 顺时针或逆时针回旋斩击】，  
+强调【力量感 / 速度感 / 爆发感 / 锐利感 / 压迫感】，  
+整体气质【凌厉 / 果断 / 凶猛 / 迅捷】，  
+轮廓清晰，动作夸张明确，适合像素 ARPG 角色动画表现。
