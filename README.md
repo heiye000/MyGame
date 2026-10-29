@@ -54,16 +54,29 @@ AnimationPlayer 里已经有的待机、走跑、翻滚、拔剑、攻击等，�
 
 A pixel ARPG battle animation pose,  
 a 【character type】 wielding a 【weapon】 performing 【action name】,  
-starting from 【starting pose described in screen coordinates】,  
-transitioning into 【motion process described in screen coordinates】,  
+starting from 【starting pose】,  
+transitioning into 【motion process】,  
 captured at the moment of 【impact / swing / strike / landing】,  
-body weight 【leaning toward screen up / down / left / right / lowered / airborne】,  
+body weight 【leaning forward / backward / sideways / lowered / airborne】,  
 arms 【arm pose】,  
-legs 【leg pose described in screen coordinates】,  
-weapon motion arc 【vertical slash from screen up to down / horizontal slash from screen left to right / diagonal slash from screen upper-right to lower-left / thrust toward screen up / spinning slash clockwise or counterclockwise】,  
+legs 【leg pose】,  
+weapon motion arc 【vertical slash downward / horizontal slash from left to right / diagonal slash from upper-right to lower-left / upward thrust / clockwise or counterclockwise spinning slash】,  
 emphasizing 【power / speed / explosive force / sharpness / aggression】,  
-clear action silhouette, strong readability, exaggerated combat pose,  
-suitable for pixel-style ARPG sprite animation.
+overall style 【fierce / decisive / brutal / swift】,  
+clear action silhouette, strong readability, exaggerated combat pose, suitable for pixel-style ARPG sprite animation.
+
+像素 ARPG 战斗动作，  
+【角色】使用【武器】做出【动作名称】，  
+起手【起始姿态】，  
+随后【动作过程】，  
+定格在【命中瞬间 / 挥击瞬间 / 斩击瞬间 / 落地瞬间】，  
+身体重心【向前 / 向后 / 向侧面倾斜，或身体下沉 / 腾空】，  
+手臂【手臂姿态】，  
+双腿【腿部姿态】，  
+武器轨迹【竖直向下劈砍 / 从左向右水平横斩 / 从右上方向左下方斜劈 / 向上突刺 / 顺时针或逆时针回旋斩击】，  
+强调【力量感 / 速度感 / 爆发感 / 锐利感 / 压迫感】，  
+整体气质【凌厉 / 果断 / 凶猛 / 迅捷】，  
+轮廓清晰，动作夸张明确，适合像素 ARPG 角色动画表现。
 
 动作描述规则调整
 1. 动作类型
@@ -96,15 +109,4 @@ suitable for pixel-style ARPG sprite animation.
    高速、爆发、力量感、压迫感、敏捷、凌厉、果断、凶猛、干净利落，不需要方向转换。
 
 
-像素 ARPG 战斗动作，  
-【角色】使用【武器】做出【动作名称】，  
-起手【以屏幕坐标描述的起手姿态】，  
-随后【以屏幕坐标描述的动作过程】，  
-定格在【命中瞬间 / 挥击瞬间 / 斩击瞬间 / 落地瞬间】，  
-身体重心【朝屏幕上方 / 下方 / 左侧 / 右侧倾斜，或身体下沉 / 腾空】，  
-手臂【手臂姿态】，  
-双腿【以屏幕坐标描述的腿部姿态】，  
-武器轨迹【从屏幕上方向下方竖直劈砍 / 从屏幕左侧向右侧水平横斩 / 从屏幕右上方向左下方斜劈 / 朝屏幕上方突刺 / 顺时针或逆时针回旋斩击】，  
-强调【力量感 / 速度感 / 爆发感 / 锐利感 / 压迫感】，  
-整体气质【凌厉 / 果断 / 凶猛 / 迅捷】，  
-轮廓清晰，动作夸张明确，适合像素 ARPG 角色动画表现。
+
